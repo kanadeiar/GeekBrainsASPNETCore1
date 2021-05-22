@@ -15,6 +15,8 @@ namespace WebStore.Models
         public DateTime EmploymentDate { get; set; }
         public int CountClildren { get; set; }
 
+        #region Тестовые данные
+
         public static List<Worker> GetWorkers => Enumerable.Range(1, 10).Select(p => new Worker
         {
             Id = p,
@@ -26,5 +28,7 @@ namespace WebStore.Models
             EmploymentDate = DateTime.Now.AddYears(- p).AddMonths(p),
             CountClildren = p,
         }).ToList();
+
+        #endregion
     }
 }
