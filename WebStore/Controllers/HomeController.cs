@@ -18,5 +18,9 @@ namespace WebStore.Controllers
         {
             return View();
         }
+        public IActionResult BlogSingle()
+        {
+            return View();
+        }
     }
 }
