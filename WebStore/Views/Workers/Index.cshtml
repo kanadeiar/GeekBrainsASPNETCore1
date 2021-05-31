@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<WebStore.Models.Worker>
 
+@{
+    ViewBag.Title = "Сотрудники магазина";
+}
+
 <div class="container">
-    <h1>Сотрудники магазина</h1>
+    <h1>@ViewBag.Title</h1>
     <hr />
-    <a href="/">Главная страница</a>
+    <a asp-controller="Home" asp-action="Index">Главная страница</a>
     <hr />
     <table>
         <thead>
@@ -25,7 +29,11 @@
                     <td>@worker.FirstName</td>
                     <td>@worker.Patronymic</td>
                     <td>@worker.Age</td>
-                    <td>@Html.ActionLink("Детали", "Details", new { Id = worker.Id })</td>
+                    <td>
+                        <a asp-controller="Workers" asp-action="Details" asp-route-id="@worker.Id">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

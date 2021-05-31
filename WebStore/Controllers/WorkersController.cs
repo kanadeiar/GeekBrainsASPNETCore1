@@ -16,7 +16,12 @@ namespace WebStore.Controllers
 
         public IActionResult Details(int id)
         {
-            return View(__Workers.First(w => w.Id == id));
+            var worker = __Workers.First(w => w.Id == id);
+
+            if (worker is null)
+                return NotFound();
+
+            return View(worker);
         }
     }
 }
