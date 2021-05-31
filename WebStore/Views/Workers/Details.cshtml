@@ -9,13 +9,26 @@
     <hr />
     <a asp-controller="Home" asp-action="Index">Главная страница</a> / <a asp-controller="Workers" asp-action="Index">Все сотрудники магазина</a>
     <hr />
-    <p>Идентификатор: @Model.Id</p>
-    <p>Фамилия: @Model.LastName</p>
-    <p>Имя: @Model.FirstName</p>
-    <p>Отчество: @Model.Patronymic</p>
-    <p>Возраст: @Model.Age лет</p>
-    <p>Дата рождения: @Model.Birthday</p>
-    <p>Дата трудоустройства: @Model.EmploymentDate</p>
-    <p>Количество детей: @Model.CountClildren штук</p>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.LastName)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.FirstName)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Patronymic)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Patronymic)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Age)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Age)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Birthday)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Birthday)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.EmploymentDate)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.EmploymentDate)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CountClildren)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.CountClildren)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Timestamp)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Timestamp)</dd>
+    </dl>
 </div>
 
