@@ -24,6 +24,7 @@
                 <th>День рождения</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,13 @@
                         <a asp-controller="Workers" asp-action="Edit" asp-route-id="@worker.Id">
                             <i class="fa fa-edit"></i>
                         </a>
+                    </td>
+                    <td>
+                        <form asp-controller="Workers" asp-action="DeleteConfirmed" asp-route-id="@worker.Id">
+                            <button type="submit">
+                                <i class="fa fa-trash-o text-danger"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             }

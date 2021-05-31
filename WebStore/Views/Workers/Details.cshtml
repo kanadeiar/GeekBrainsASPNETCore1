@@ -30,5 +30,11 @@
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Timestamp)</dt>
         <dd class="col-sm-10">@Html.DisplayFor(model => model.Timestamp)</dd>
     </dl>
+    
+    <div>
+        <a asp-action="Index">Назад к списку</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Редактирование</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Удаление</a>
+    </div>
 </div>
 
