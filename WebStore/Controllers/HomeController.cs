@@ -22,5 +22,18 @@ namespace WebStore.Controllers
         {
             return View();
         }
+
+
+
+
+
+        #region Вспомогательные
+
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }
