@@ -7,9 +7,13 @@
 <div class="container">
     <h1>@ViewBag.Title</h1>
     <hr />
-    <a asp-controller="Home" asp-action="Index">Главная страница</a>
+    <a asp-controller="Home" asp-action="Index">Главная страница</a> 
     <hr />
-    <table>
+    <p>
+        <a asp-action="Edit" class="btn btn-primary">Создать нового</a>
+    </p>
+    <hr />
+    <table class="table">
         <thead>
             <tr>
                 <th>№</th>
@@ -17,6 +21,8 @@
                 <th>Имя</th>
                 <th>Отчество</th>
                 <th>Возраст</th>
+                <th>День рождения</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -29,9 +35,15 @@
                     <td>@worker.FirstName</td>
                     <td>@worker.Patronymic</td>
                     <td>@worker.Age</td>
+                    <td>@worker.Birthday</td>
                     <td>
                         <a asp-controller="Workers" asp-action="Details" asp-route-id="@worker.Id">
                             <i class="fa fa-info"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Workers" asp-action="Edit" asp-route-id="@worker.Id">
+                            <i class="fa fa-edit"></i>
                         </a>
                     </td>
                 </tr>

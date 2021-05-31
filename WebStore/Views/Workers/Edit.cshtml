@@ -1,0 +1,64 @@
+﻿@model WebStore.Models.Worker
+
+@{
+    ViewBag.Title = $"Редактирование {Model.LastName} {Model.FirstName}";
+}
+
+<div class="container">
+
+    <h1>@ViewBag.Title</h1>
+    <hr />
+    <a asp-controller="Home" asp-action="Index">Главная страница</a> / <a asp-controller="Workers" asp-action="Index">Все сотрудники магазина</a>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Patronymic" class="control-label"></label>
+                    <input asp-for="Patronymic" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Birthday" class="control-label"></label>
+                    <input asp-for="Birthday" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmploymentDate" class="control-label"></label>
+                    <input asp-for="EmploymentDate" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CountClildren" class="control-label"></label>
+                    <input asp-for="CountClildren" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Timestamp" class="control-label"></label>
+                    <input asp-for="Timestamp" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index" class="btn btn-default">Назад к списку</a>
+    </div>
+</div>
+
