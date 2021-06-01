@@ -1,18 +1,29 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Интернет-магазин Geekbrains</title>
-</head>
-<body>
-    <h1>Интернет-магазин Geekbrains</h1>
-    <hr />
-    <a href="/Workers/">Сотрудники магазина</a>
-    <hr />
+﻿@{
+    ViewBag.Title = "Главная страница";
+}
 
+<partial name="Partial/_Slider"/>
 
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
 
-</body>
-</html>
+                <partial name="Partial/_LeftSidebar"/>
+
+            </div>
+
+            <div class="col-sm-9 padding-right">
+
+                <partial name="Partial/_FeaturedItems"/>
+
+                <partial name="Partial/_CategoryTab"/>
+
+                <partial name="Partial/_RecommendedItems"/>
+
+            </div>
+        </div>
+    </div>
+</section>
 
 

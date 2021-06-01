@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Вход";
+}
+
+<section id="form"><!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-1">
+                <div class="login-form"><!--login form-->
+                    <h2>Вход в аккаунт</h2>
+                    <form action="#">
+                        <input type="text" placeholder="Логин" />
+                        <input type="password" placeholder="Пароль" />
+                        <span>
+                            <input type="checkbox" class="checkbox"> 
+                            Запомнить меня
+                        </span>
+                        <button type="submit" class="btn btn-default">Вход</button>
+                    </form>
+                </div><!--/login form-->
+            </div>
+            <div class="col-sm-1">
+                <h2 class="or">OR</h2>
+            </div>
+            <div class="col-sm-4">
+                <div class="signup-form"><!--sign up form-->
+                    <h2>Регистрация нового пользователя</h2>
+                    <form action="#">
+                        <input type="text" placeholder="Логин"/>
+                        <input type="password" placeholder="Пароль"/>
+                        <input type="password" placeholder="Подтверждение пароля"/>
+                        <button type="submit" class="btn btn-default">Зарегистрироваться</button>
+                    </form>
+                </div><!--/sign up form-->
+            </div>
+        </div>
+    </div>
+</section><!--/form-->
