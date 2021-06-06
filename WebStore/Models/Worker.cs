@@ -17,7 +17,7 @@ namespace WebStore.Models
 
         #region Тестовые данные
 
-        public static List<Worker> GetWorkers => Enumerable.Range(1, 10).Select(p => new Worker
+        public static List<Worker> GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker
         {
             Id = p,
             FirstName = $"Иван_{p}",

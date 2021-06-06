@@ -1,22 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Interface;
 using WebStore.Models;
 
 namespace WebStore.Controllers
 {
     public class WorkersController : Controller
     {
-        private static readonly IList<Worker> __Workers = Worker.GetWorkers;
+        private readonly IWorkerData _Workers;
+
+        public WorkersController(IWorkerData workerData)
+        {
+            _Workers = workerData;
+        }
 
         public IActionResult Index()
         {
-            return View(__Workers);
+            return View(_Workers.GetAll());
         }
 
         public IActionResult Details(int id)
         {
-            var worker = __Workers.First(w => w.Id == id);
+            var worker = _Workers.Get(id);
 
             if (worker is null)
                 return NotFound();
@@ -28,8 +34,10 @@ namespace WebStore.Controllers
         {
             if (id is null)
                 return View(new Worker());
+            if (id <= 0) 
+                return BadRequest();
 
-            var worker = __Workers.FirstOrDefault(w => w.Id == id);
+            var worker = _Workers.Get((int)id);
             if (worker is null)
                 return NotFound();
 
@@ -49,7 +57,10 @@ namespace WebStore.Controllers
 
         [HttpPost]
         public IActionResult Edit(Worker model)
-        {
+        {            
+            if (model is null)
+                return BadRequest();
+
             var worker = new Worker
             {
                 Id = model.Id,
@@ -59,25 +70,26 @@ namespace WebStore.Controllers
                 Age = model.Age,
                 Birthday = model.Birthday,
                 EmploymentDate = model.EmploymentDate,
-                CountClildren = model.CountClildren,
+                            CountClildren = model.CountClildren,
             };
             if (worker.Id == 0)
-                __Workers.Add(worker);
+                _Workers.Add(worker);
             else
-                __Workers[__Workers.IndexOf(__Workers.FirstOrDefault(w => w.Id == worker.Id))] = worker;
+                _Workers.Update(worker);
 
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            if (id <= 0) return BadRequest();
+            if (id <= 0) 
+                return BadRequest();
 
-            var worker = __Workers.FirstOrDefault(w => w.Id == id);
+            var worker = _Workers.Get(id);
             if (worker is null)
                 return NotFound();
 
-            return View(new Worker
+            var model = new Worker
             {
                 Id = worker.Id,
                 FirstName = worker.FirstName,
@@ -87,13 +99,17 @@ namespace WebStore.Controllers
                 Birthday = worker.Birthday,
                 EmploymentDate = worker.EmploymentDate,
                 CountClildren = worker.CountClildren,
-            });
+            };
+            return View(model);
         }
         
         [HttpPost]
         public IActionResult DeleteConfirmed(int id)
         {
-            __Workers.RemoveAt(__Workers.IndexOf(__Workers.FirstOrDefault(w => w.Id == id)));
+            if (id <= 0) 
+                return BadRequest();
+            if (!_Workers.Delete(id))
+                return BadRequest();
 
             return RedirectToAction("Index");
         }
