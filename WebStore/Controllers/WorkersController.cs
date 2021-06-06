@@ -72,6 +72,12 @@ namespace WebStore.Controllers
         {            
             if (model is null)
                 return BadRequest();
+            if (model.FirstName == "Андрей")
+                ModelState.AddModelError(nameof(model.FirstName), "Андрей - плохое имя!");
+            if (model.LastName == "Иванов" && model.FirstName == "Иван" && model.Patronymic == "Иванович")
+                ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию имя и отчество Иванов Иван Иванович");
+            if (!ModelState.IsValid)
+                return View(model);
 
             var worker = new Worker
             {
