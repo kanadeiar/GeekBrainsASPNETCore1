@@ -10,4 +10,6 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio></ProjectExtensions>
+
 </Project>
