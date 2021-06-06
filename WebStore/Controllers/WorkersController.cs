@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interface;
 using WebStore.Models;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -27,21 +28,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            return View(worker);
-        }
-
-        public IActionResult Edit(int? id)
-        {
-            if (id is null)
-                return View(new Worker());
-            if (id <= 0) 
-                return BadRequest();
-
-            var worker = _Workers.Get((int)id);
-            if (worker is null)
-                return NotFound();
-
-            var model = new Worker
+            var model = new WorkerViewModel
             {
                 Id = worker.Id,
                 FirstName = worker.FirstName,
@@ -50,13 +37,38 @@ namespace WebStore.Controllers
                 Age = worker.Age,
                 Birthday = worker.Birthday,
                 EmploymentDate = worker.EmploymentDate,
-                CountClildren = worker.CountClildren,
+                CountChildren = worker.CountChildren,
+            };
+            return View(model);
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id is null)
+                return View(new WorkerViewModel());
+            if (id <= 0) 
+                return BadRequest();
+
+            var worker = _Workers.Get((int)id);
+            if (worker is null)
+                return NotFound();
+
+            var model = new WorkerViewModel
+            {
+                Id = worker.Id,
+                FirstName = worker.FirstName,
+                LastName = worker.LastName,
+                Patronymic = worker.Patronymic,
+                Age = worker.Age,
+                Birthday = worker.Birthday,
+                EmploymentDate = worker.EmploymentDate,
+                CountChildren = worker.CountChildren,
             };
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(Worker model)
+        public IActionResult Edit(WorkerViewModel model)
         {            
             if (model is null)
                 return BadRequest();
@@ -70,7 +82,7 @@ namespace WebStore.Controllers
                 Age = model.Age,
                 Birthday = model.Birthday,
                 EmploymentDate = model.EmploymentDate,
-                            CountClildren = model.CountClildren,
+                CountChildren = model.CountChildren,
             };
             if (worker.Id == 0)
                 _Workers.Add(worker);
@@ -89,7 +101,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            var model = new Worker
+            var model = new WorkerViewModel
             {
                 Id = worker.Id,
                 FirstName = worker.FirstName,
@@ -98,7 +110,7 @@ namespace WebStore.Controllers
                 Age = worker.Age,
                 Birthday = worker.Birthday,
                 EmploymentDate = worker.EmploymentDate,
-                CountClildren = worker.CountClildren,
+                CountChildren = worker.CountChildren,
             };
             return View(model);
         }

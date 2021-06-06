@@ -48,11 +48,9 @@
                         </a>
                     </td>
                     <td>
-                        <form asp-controller="Workers" asp-action="DeleteConfirmed" asp-route-id="@worker.Id">
-                            <button type="submit">
-                                <i class="fa fa-trash-o text-danger"></i>
-                            </button>
-                        </form>
+                        <a asp-controller="Workers" asp-action="Delete" asp-route-id="@worker.Id">
+                            <i class="fa fa-trash-o text-danger"></i>
+                        </a>
                     </td>
                 </tr>
             }

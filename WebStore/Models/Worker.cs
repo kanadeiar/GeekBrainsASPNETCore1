@@ -13,7 +13,7 @@ namespace WebStore.Models
         public int Age { get; set; }
         public DateTime Birthday { get; set; }
         public DateTime EmploymentDate { get; set; }
-        public int CountClildren { get; set; }
+        public int CountChildren { get; set; }
 
         #region Тестовые данные
 
@@ -26,7 +26,7 @@ namespace WebStore.Models
             Age = p + 20,
             Birthday = new DateTime(1980 + p, 1, 1),
             EmploymentDate = DateTime.Now.AddYears(- p).AddMonths(p),
-            CountClildren = p,
+            CountChildren = p,
         }).ToList();
 
         #endregion

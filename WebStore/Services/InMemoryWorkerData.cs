@@ -42,7 +42,7 @@ namespace WebStore.Services
             item.Patronymic = worker.Patronymic;
             item.Age = worker.Age;
             item.Birthday = worker.Birthday;
-            item.CountClildren = worker.CountClildren;
+            item.CountChildren = worker.CountChildren;
             item.EmploymentDate = worker.EmploymentDate;
         }
 
