@@ -1,4 +1,6 @@
-﻿@{
+﻿@model WebStore.ViewModels.CatalogViewModel
+
+@{
     ViewBag.Title = "Каталог товаров";
 }
 
@@ -10,7 +12,7 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturedItemsPartial" />
+                <partial name="Partial/_FeaturedItemsPartial" model="Model.Products"/>
             </div>
         </div>
     </div>
