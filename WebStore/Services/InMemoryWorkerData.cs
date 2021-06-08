@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Data;
 using WebStore.Infrastructure.Interface;
 using WebStore.Models;
 
@@ -10,10 +11,15 @@ namespace WebStore.Services
     /// <summary> Хранилище в оперативной памяти </summary>
     public class InMemoryWorkerData : IWorkerData
     {
-        private readonly ICollection<Worker> _Workers = Worker.GetTestWorkers;
+        private readonly TestData _testData;
+
+        private readonly ICollection<Worker> _Workers;
         private int maxId;
-        public InMemoryWorkerData()
+
+        public InMemoryWorkerData(TestData testData)
         {
+            _testData = testData;
+            _Workers = _testData.GetTestWorkers;
             maxId = _Workers.Max(w => w.Id);
         }
 

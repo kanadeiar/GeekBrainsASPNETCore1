@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Data;
 using WebStore.Infrastructure.Interface;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
@@ -20,6 +21,8 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<TestData>();
+
             services.AddSingleton<IWorkerData, InMemoryWorkerData>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
