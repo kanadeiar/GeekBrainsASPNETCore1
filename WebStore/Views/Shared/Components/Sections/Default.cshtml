@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebStore.ViewModels.SectionViewModel>
+
+<h2>Категории</h2>
+
+<div class="panel-group category-products" id="accordian">
+    <!--category-products-->
+    @foreach (var parent in Model)
+    {
+        if (parent.Children.Count > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordian" href="#@parent.GetHashCode()">
+                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                            @parent.Name
+                        </a>
+                    </h4>
+                </div>
+                <div id="@parent.GetHashCode()" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var child in parent.Children)
+                            {
+                                <li>
+                                    <a href="#">@child.Name</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#">@parent.Name</a>
+                    </h4>
+                </div>
+            </div>
+        }
+    }
+
+</div><!--/category-products-->
