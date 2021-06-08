@@ -11,15 +11,12 @@ namespace WebStore.Services
     /// <summary> Хранилище в оперативной памяти </summary>
     public class InMemoryWorkerData : IWorkerData
     {
-        private readonly TestData _testData;
-
-        private readonly ICollection<Worker> _Workers;
+        private readonly List<Worker> _Workers;
         private int maxId;
 
         public InMemoryWorkerData(TestData testData)
         {
-            _testData = testData;
-            _Workers = _testData.GetTestWorkers;
+            _Workers = testData.GetTestWorkers.ToList();
             maxId = _Workers.Max(w => w.Id);
         }
 

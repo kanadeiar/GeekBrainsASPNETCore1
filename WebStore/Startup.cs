@@ -9,6 +9,7 @@ using WebStore.Data;
 using WebStore.Infrastructure.Interface;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
+using WebStore.Services.Interfaces;
 
 namespace WebStore
 {
@@ -24,6 +25,7 @@ namespace WebStore
             services.AddSingleton<TestData>();
 
             services.AddSingleton<IWorkerData, InMemoryWorkerData>();
+            services.AddSingleton<IProductData, InMemoryProductData>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
