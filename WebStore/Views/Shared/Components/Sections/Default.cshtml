@@ -22,9 +22,10 @@
                         <ul>
                             @foreach (var child in parent.Children)
                             {
-                                <li>
-                                    <a href="#">@child.Name</a>
-                                </li>
+                            <li>
+                                <span class="pull-right">(4)</span>
+                                <a href="#">@child.Name</a>
+                            </li>
                             }
                         </ul>
                     </div>
@@ -36,7 +37,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a href="#">@parent.Name</a>
+                        <a href="#">
+                            <span class="pull-right">(4)</span>
+                            @parent.Name
+                        </a>
                     </h4>
                 </div>
             </div>
