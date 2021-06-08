@@ -23,8 +23,10 @@
                             @foreach (var child in parent.Children)
                             {
                             <li>
-                                <span class="pull-right">(4)</span>
-                                <a href="#">@child.Name</a>
+                                <a asp-controller="Catalog" asp-action="Index" asp-route-sectionId="@child.Id">
+                                    <span class="pull-right">(4)</span>
+                                    @child.Name
+                                </a>
                             </li>
                             }
                         </ul>
@@ -37,7 +39,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a href="#">
+                        <a asp-controller="Catalog" asp-action="Index" asp-route-sectionId="@parent.Id">
                             <span class="pull-right">(4)</span>
                             @parent.Name
                         </a>
