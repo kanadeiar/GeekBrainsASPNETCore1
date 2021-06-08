@@ -23,6 +23,9 @@ namespace WebStore.Controllers
 
         public IActionResult Details(int id)
         {
+            if (id <= 0) 
+                return BadRequest();
+
             var worker = _Workers.Get(id);
 
             if (worker is null)
