@@ -2,9 +2,11 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Dal.Context;
 using WebStore.Data;
 using WebStore.Infrastructure.Interface;
 using WebStore.Infrastructure.Middleware;
@@ -22,6 +24,9 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebStoreContext>(options => options
+                .UseSqlServer(Configuration.GetConnectionString("Default"), o => o.EnableRetryOnFailure()));
+
             services.AddSingleton<TestData>();
 
             services.AddSingleton<IWorkerData, InMemoryWorkerData>();
