@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStore.Dal.Context;
+using WebStore.Dal.DataInit;
 using WebStore.Data;
 using WebStore.Infrastructure.Interface;
 using WebStore.Infrastructure.Middleware;
@@ -25,17 +26,22 @@ namespace WebStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<WebStoreContext>(options => options
-                .UseSqlServer(Configuration.GetConnectionString("Default"), o => o.EnableRetryOnFailure()));
+                .UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddTransient<WebStoreDataInit>();
 
             services.AddSingleton<TestData>();
 
             services.AddSingleton<IWorkerData, InMemoryWorkerData>();
-            services.AddSingleton<IProductData, InMemoryProductData>();
+            //services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, DatabaseProductData>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
+            using (var scope = service.CreateScope())
+                scope.ServiceProvider.GetRequiredService<WebStoreDataInit>().RecreateDatabase().InitData();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
