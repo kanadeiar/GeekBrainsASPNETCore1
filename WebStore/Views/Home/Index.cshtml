@@ -1,25 +1,40 @@
-﻿@{
+﻿@using WebStore.Services.Interfaces
+@using WebStore.ViewModels
+@inject IProductData ProductData
+@{
+    var products = ProductData
+        .GetProducts()
+        .Take(6)
+        .Select(p => new ProductViewModel
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Price = p.Price,
+            ImageUrl = p.ImageUrl,
+        });
+}
+@{
     ViewBag.Title = "Главная страница";
 }
 
-<partial name="Partial/_SliderPartial"/>
+<partial name="Partial/_SliderPartial" />
 
 <section>
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
 
-                <partial name="Partial/_LeftSidebarPartial"/>
+                <partial name="Partial/_LeftSidebarPartial" />
 
             </div>
 
             <div class="col-sm-9 padding-right">
 
-                <partial name="Partial/_FeaturedItemsPartial"/>
+                <partial name="Partial/_FeaturedItemsPartial" model="products" />
 
-                <partial name="Partial/_CategoryTabPartial"/>
+                <partial name="Partial/_CategoryTabPartial" />
 
-                <partial name="Partial/_RecommendedItemsPartial"/>
+                <partial name="Partial/_RecommendedItemsPartial" />
 
             </div>
         </div>
