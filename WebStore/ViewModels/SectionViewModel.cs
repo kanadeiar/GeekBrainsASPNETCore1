@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WebStore.ViewModels
 {
@@ -12,5 +9,6 @@ namespace WebStore.ViewModels
         public int Order { get; set; }
         public SectionViewModel Parent { get; set; }
         public List<SectionViewModel> Children { get; set; } = new();
+        public int CountProduct { get; set; }
     }
 }

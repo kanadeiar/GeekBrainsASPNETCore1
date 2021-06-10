@@ -21,8 +21,9 @@ namespace WebStore.Services
         }
 
         public IEnumerable<Section> GetSections() => _Sections;
-
+        public IEnumerable<Section> GetSectionsWithProducts() => GetSections();
         public IEnumerable<Brand> GetBrands() => _Brands;
+        public IEnumerable<Brand> GetBrandsWithProducts() => GetBrands();
 
         public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
         {

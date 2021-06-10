@@ -17,10 +17,11 @@ namespace WebStore.Components
         }
         public IViewComponentResult Invoke()
         {
-            var brandsViews = _productData.GetBrands().OrderBy(b => b.Order).Select(b => new BrandViewModel
+            var brandsViews = _productData.GetBrandsWithProducts().OrderBy(b => b.Order).Select(b => new BrandViewModel
             {
                 Id = b.Id,
                 Name = b.Name,
+                CountProduct = b.Products.Count,
             });
             return View(brandsViews);
         }

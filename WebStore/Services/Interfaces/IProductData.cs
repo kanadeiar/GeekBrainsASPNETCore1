@@ -12,5 +12,8 @@ namespace WebStore.Services.Interfaces
         public IEnumerable<Brand> GetBrands();
         /// <summary> Все товары с фильтрацией по категориям и/или брендам </summary>
         public IEnumerable<Product> GetProducts(ProductFilter productFilter = null);
+
+        IEnumerable<Section> GetSectionsWithProducts();
+        IEnumerable<Brand> GetBrandsWithProducts();
     }
 }

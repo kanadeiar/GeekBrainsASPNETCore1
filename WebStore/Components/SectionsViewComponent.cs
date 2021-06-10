@@ -18,14 +18,15 @@ namespace WebStore.Components
 
         public IViewComponentResult Invoke()
         {
-            var all = _productData.GetSections();
+            var all = _productData.GetSectionsWithProducts();
 
             var parents = all.Where(p => p.ParentId == null);
             var patentsViews = parents.Select(p => new SectionViewModel
             {
                 Id = p.Id,
                 Name = p.Name,
-                Order = p.Order
+                Order = p.Order,
+                CountProduct = p.Products.Count,
             }).ToList();
 
             foreach (var patentsView in patentsViews)
@@ -39,6 +40,7 @@ namespace WebStore.Components
                         Name = child.Name,
                         Order = child.Order,
                         Parent = patentsView,
+                        CountProduct = child.Products.Count,
                     });
                 }
                 patentsView.Children.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
