@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebStore.Infrastructure.Interface;
 using WebStore.Models;
 using WebStore.ViewModels;
@@ -10,10 +11,12 @@ namespace WebStore.Controllers
     public class WorkersController : Controller
     {
         private readonly IWorkerData _Workers;
+        private readonly ILogger<WorkersController> _logger;
 
-        public WorkersController(IWorkerData workerData)
+        public WorkersController(IWorkerData workerData, ILogger<WorkersController> logger)
         {
             _Workers = workerData;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -81,6 +84,7 @@ namespace WebStore.Controllers
                 ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию имя и отчество Иванов Иван Иванович");
             if (!ModelState.IsValid)
                 return View(model);
+            _logger.LogDebug($"Начало редактирования сотрудника id={model.Id}");
 
             var worker = new Worker
             {
@@ -97,6 +101,7 @@ namespace WebStore.Controllers
                 _Workers.Add(worker);
             else
                 _Workers.Update(worker);
+            _logger.LogDebug($"Редактирование сотрудника id={model.Id} завершено");
 
             return RedirectToAction("Index");
         }
@@ -129,8 +134,11 @@ namespace WebStore.Controllers
         {
             if (id <= 0) 
                 return BadRequest();
+            _logger.LogDebug($"Начало удаления сотрудника id={id}");
+
             if (!_Workers.Delete(id))
                 return BadRequest();
+            _logger.LogDebug($"Окончание успешного удаления сотрудника id={id}");
 
             return RedirectToAction("Index");
         }

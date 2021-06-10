@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,23 +25,34 @@ namespace WebStore.Dal.DataInit
         public WebStoreDataInit RecreateDatabase()
         {
             _context.Database.EnsureDeleted();
+            _logger.LogInformation($"{DateTime.Now} Удаление БД выполнено");
             _context.Database.Migrate();
+            _logger.LogInformation($"{DateTime.Now} Миграция БД выполнена");
             return this;
         }
         /// <summary> Заполнение начальными данными </summary>
         public WebStoreDataInit InitData()
         {
+            var timer = Stopwatch.StartNew();
             if (_context.Database.GetPendingMigrations().Any())
+            {
                 _context.Database.Migrate();
+                _logger.LogInformation($"{DateTime.Now} Миграция БД выполнена, время: {timer.Elapsed.TotalSeconds} сек.");
+            }
+            else
+            {
+                _logger.LogInformation($"{DateTime.Now} Миграция БД не требуется");
+            }
             try
             {
                 InitProducts(_context);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Ошибка при инициализации данных базы данных");
+                _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации данных базы данных");
                 throw;
             }
+            _logger.LogInformation($"{DateTime.Now} Инициализация БД выполнена, время: {timer.Elapsed.TotalSeconds} сек.");
             return this;
         }
 
@@ -89,6 +101,7 @@ namespace WebStore.Dal.DataInit
             });
             context.Products.AddRange(products);
             context.SaveChanges();
+            _logger.LogInformation($"{DateTime.Now} Инициализация продуктов, категорий и брендов выполнена успешно");
         }
 
         #endregion
