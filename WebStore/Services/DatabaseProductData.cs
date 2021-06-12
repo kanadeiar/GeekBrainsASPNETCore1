@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Filters;
+using WebStore.Domain.Infrastructure.Interfaces;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
@@ -24,7 +25,7 @@ namespace WebStore.Services
         public IEnumerable<Brand> GetBrands() => _context.Brands;
         public IEnumerable<Brand> GetBrandsWithProducts() => _context.Brands.Include(b => b.Products);
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public IEnumerable<Product> GetProducts(IProductFilter productFilter = null)
         {
             IQueryable<Product> query = _context.Products;
             if (productFilter?.Ids?.Length > 0)

@@ -1,6 +1,8 @@
-﻿namespace WebStore.Domain.Infrastructure.Filters
+﻿using WebStore.Domain.Infrastructure.Interfaces;
+
+namespace WebStore.Domain.Infrastructure.Filters
 {
-    public class ProductFilter
+    public class ProductFilter : IProductFilter
     {
         public int? SectionId { get; set; }
         public int? BrandId { get; set; }

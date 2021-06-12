@@ -15,7 +15,7 @@ namespace WebStore.Controllers
         }
         public IActionResult Index(int? brandId, int? sectionId)
         {
-            var filter = new ProductFilter
+            var filter = new ProductFilter()
             {
                 SectionId = sectionId,
                 BrandId = brandId,

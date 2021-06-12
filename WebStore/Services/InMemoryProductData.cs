@@ -2,7 +2,7 @@
 using System.Linq;
 using WebStore.Data;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Filters;
+using WebStore.Domain.Infrastructure.Interfaces;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
@@ -25,7 +25,7 @@ namespace WebStore.Services
         public IEnumerable<Brand> GetBrands() => _Brands;
         public IEnumerable<Brand> GetBrandsWithProducts() => GetBrands();
 
-        public IEnumerable<Product> GetProducts(ProductFilter productFilter = null)
+        public IEnumerable<Product> GetProducts(IProductFilter productFilter = null)
         {
             IEnumerable<Product> query = _Products;
             if (productFilter?.SectionId is { } sectionId)
