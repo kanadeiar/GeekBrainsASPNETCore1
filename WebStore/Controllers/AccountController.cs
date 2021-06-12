@@ -111,8 +111,9 @@ namespace WebStore.Controllers
 
         #endregion
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
