@@ -1,6 +1,6 @@
-﻿namespace WebStore.ViewInterfaces
+﻿namespace WebStore.WebModels
 {
-    public class ProductInterface
+    public class ProductWebModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

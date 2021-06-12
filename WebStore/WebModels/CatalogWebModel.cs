@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace WebStore.ViewInterfaces
+namespace WebStore.WebModels
 {
-    public class CatalogInterface
+    public class CatalogWebModel
     {
         public int? SectionId { get; set; }
         public int? BrandId { get; set; }
-        public IEnumerable<ProductInterface> Products { get; set; }
+        public IEnumerable<ProductWebModel> Products { get; set; }
     }
 }

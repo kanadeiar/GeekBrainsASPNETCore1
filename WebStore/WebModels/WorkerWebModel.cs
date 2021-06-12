@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebStore.ViewInterfaces
+namespace WebStore.WebModels
 {
-    public class WorkerInterface 
+    public class WorkerWebModel 
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }

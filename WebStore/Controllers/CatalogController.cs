@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Services.Interfaces;
-using WebStore.ViewInterfaces;
+using WebStore.WebModels;
 
 namespace WebStore.Controllers
 {
@@ -23,11 +23,11 @@ namespace WebStore.Controllers
 
             var products = _productData.GetProducts(filter);
 
-            var catalogView = new CatalogInterface
+            var catalogView = new CatalogWebModel
             {
                 SectionId = sectionId,
                 BrandId = brandId,
-                Products = products.Select(p => new ProductInterface
+                Products = products.Select(p => new ProductWebModel
                 {
                     Id = p.Id,
                     Name = p.Name,
