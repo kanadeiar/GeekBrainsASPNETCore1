@@ -10,6 +10,7 @@ namespace WebStore.Dal.Context
         public DbSet<Section> Sections { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Worker> Workers { get; set; }
         public WebStoreContext(DbContextOptions<WebStoreContext> options) : base(options)
         {
         }

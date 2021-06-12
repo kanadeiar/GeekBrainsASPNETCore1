@@ -70,6 +70,15 @@ namespace WebStore.Dal.DataInit
                 _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации БД системы Identity");
                 throw;
             }
+            try
+            {
+                InitWorkers(_context);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{DateTime.Now} Ошибка инициализации начальных данных работников");
+                throw;
+            }
             _logger.LogInformation($"{DateTime.Now} Инициализация БД выполнена, время: {timer.Elapsed.TotalSeconds} сек.");
             return this;
         }
@@ -169,6 +178,34 @@ namespace WebStore.Dal.DataInit
 
         #endregion
 
+        #region Инициализация базы данных начальными данными о сотрудниках
+
+        private void InitWorkers(WebStoreContext context)
+        {
+            var workers = _GetTestWorkers.Select(w => new Worker
+            {
+                LastName = w.LastName,
+                FirstName = w.FirstName,
+                Patronymic = w.Patronymic,
+                Age = w.Age,
+                Birthday = w.Birthday,
+                CountChildren = w.CountChildren,
+                EmploymentDate = w.EmploymentDate,
+            });
+
+            using (_context.Database.BeginTransaction())
+            {
+                context.Workers.AddRange(workers);
+
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
+
+                _logger.LogInformation($"{DateTime.Now} Инициализация работников, начальных данных работников прошла успешно");
+            }
+        }
+
+        #endregion
+
         #region Ценные тестовые данные
 
         private IEnumerable<Section> _getSections = new[]
@@ -253,6 +290,17 @@ namespace WebStore.Dal.DataInit
             new Product { Id = 35, Name = "Джинсы женские три", Price = 1025, ImageUrl = "product11.jpg", Order = 34, SectionId = 23, BrandId = 3 },
             new Product { Id = 36, Name = "Летний костюм три", Price = 1025, ImageUrl = "product12.jpg", Order = 35, SectionId = 23, BrandId = 3 },
         };
+        public IEnumerable<Worker> _GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker
+        {
+            Id = p,
+            FirstName = $"Иван_{p}",
+            LastName = $"Иванов_{p + 1}",
+            Patronymic = $"Иванович_{p + 2}",
+            Age = p + 20,
+            Birthday = new DateTime(1980 + p, 1, 1),
+            EmploymentDate = DateTime.Now.AddYears(- p).AddMonths(p),
+            CountChildren = p,
+        });
 
         #endregion
     }

@@ -71,9 +71,10 @@ namespace WebStore
 
             services.AddSingleton<TestData>();
 
-            services.AddSingleton<IWorkerData, InMemoryWorkerData>();
             //services.AddSingleton<IProductData, InMemoryProductData>();
             services.AddScoped<IProductData, DatabaseProductData>();
+            //services.AddSingleton<IWorkerData, InMemoryWorkerData>();
+            services.AddScoped<IWorkerData, DatabaseWorkerData>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
