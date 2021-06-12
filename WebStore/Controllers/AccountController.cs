@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -70,7 +71,7 @@ namespace WebStore.Controllers
 
             #region Лог
 
-            _logger.LogError($"Ошибки при регистрации пользователя {user.UserName} в систему: " +
+            _logger.LogError($"{DateTime.Now} Ошибки при регистрации пользователя {user.UserName} в систему: " +
                              $"{string.Join(",", errors)}");
 
             #endregion
@@ -104,6 +105,11 @@ namespace WebStore.Controllers
                 return LocalRedirect(model.ReturnUrl ?? "/");
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
+            #region Лог
+
+            _logger.LogError($"{DateTime.Now} Ошибка при входе пользователя {model.UserName}");
+
+            #endregion
 
             return View();
         }
@@ -119,6 +125,11 @@ namespace WebStore.Controllers
 
         public IActionResult AccessDenied()
         {
+            #region Лог
+
+            _logger.LogError($"{DateTime.Now} В доступе оказано");
+
+            #endregion
             return View();
         }
     }
