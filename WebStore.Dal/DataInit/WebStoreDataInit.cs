@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -229,18 +228,30 @@ namespace WebStore.Dal.DataInit
             new Product { Id = 10, Name = "Женские джинсы", Price = 1025, ImageUrl = "product10.jpg", Order = 9, SectionId = 25, BrandId = 3 },
             new Product { Id = 11, Name = "Джинсы женские", Price = 1025, ImageUrl = "product11.jpg", Order = 10, SectionId = 25, BrandId = 3 },
             new Product { Id = 12, Name = "Летний костюм", Price = 1025, ImageUrl = "product12.jpg", Order = 11, SectionId = 25, BrandId = 3 },
-            new Product { Id = 13, Name = "Белое платье", Price = 1025, ImageUrl = "product1.jpg", Order = 0, SectionId = 2, BrandId = 1 },
-            new Product { Id = 14, Name = "Розовое платье", Price = 1025, ImageUrl = "product2.jpg", Order = 1, SectionId = 2, BrandId = 1 },
-            new Product { Id = 15, Name = "Красное платье", Price = 1025, ImageUrl = "product3.jpg", Order = 2, SectionId = 2, BrandId = 1 },
-            new Product { Id = 16, Name = "Джинсы", Price = 1025, ImageUrl = "product4.jpg", Order = 3, SectionId = 2, BrandId = 1 },
-            new Product { Id = 17, Name = "Лёгкая майка", Price = 1025, ImageUrl = "product5.jpg", Order = 4, SectionId = 2, BrandId = 2 },
-            new Product { Id = 18, Name = "Лёгкое голубое поло", Price = 1025, ImageUrl = "product6.jpg", Order = 5, SectionId = 2, BrandId = 1 },
-            new Product { Id = 19, Name = "Платье белое", Price = 1025, ImageUrl = "product7.jpg", Order = 6, SectionId = 2, BrandId = 1 },
-            new Product { Id = 20, Name = "Костюм кролика", Price = 1025, ImageUrl = "product8.jpg", Order = 7, SectionId = 25, BrandId = 1 },
-            new Product { Id = 21, Name = "Красное китайское платье", Price = 1025, ImageUrl = "product9.jpg", Order = 8, SectionId = 25, BrandId = 1 },
-            new Product { Id = 22, Name = "Женские джинсы", Price = 1025, ImageUrl = "product10.jpg", Order = 9, SectionId = 25, BrandId = 3 },
-            new Product { Id = 23, Name = "Джинсы женские", Price = 1025, ImageUrl = "product11.jpg", Order = 10, SectionId = 25, BrandId = 3 },
-            new Product { Id = 24, Name = "Летний костюм", Price = 1025, ImageUrl = "product12.jpg", Order = 11, SectionId = 25, BrandId = 3 },
+            new Product { Id = 13, Name = "Белое платье два", Price = 1025, ImageUrl = "product1.jpg", Order = 12, SectionId = 3, BrandId = 1 },
+            new Product { Id = 14, Name = "Розовое платье два", Price = 1025, ImageUrl = "product2.jpg", Order = 13, SectionId = 3, BrandId = 1 },
+            new Product { Id = 15, Name = "Красное платье два", Price = 1025, ImageUrl = "product3.jpg", Order = 14, SectionId = 3, BrandId = 1 },
+            new Product { Id = 16, Name = "Джинсы два", Price = 1025, ImageUrl = "product4.jpg", Order = 15, SectionId = 3, BrandId = 1 },
+            new Product { Id = 17, Name = "Лёгкая майка два", Price = 1025, ImageUrl = "product5.jpg", Order = 16, SectionId = 3, BrandId = 2 },
+            new Product { Id = 18, Name = "Лёгкое голубое поло два", Price = 1025, ImageUrl = "product6.jpg", Order = 17, SectionId = 3, BrandId = 1 },
+            new Product { Id = 19, Name = "Платье белое два", Price = 1025, ImageUrl = "product7.jpg", Order = 18, SectionId = 3, BrandId = 1 },
+            new Product { Id = 20, Name = "Костюм кролика два", Price = 1025, ImageUrl = "product8.jpg", Order = 19, SectionId = 24, BrandId = 1 },
+            new Product { Id = 21, Name = "Красное китайское платье два", Price = 1025, ImageUrl = "product9.jpg", Order = 20, SectionId = 24, BrandId = 1 },
+            new Product { Id = 22, Name = "Женские джинсы два", Price = 1025, ImageUrl = "product10.jpg", Order = 21, SectionId = 24, BrandId = 3 },
+            new Product { Id = 23, Name = "Джинсы женские два", Price = 1025, ImageUrl = "product11.jpg", Order = 22, SectionId = 24, BrandId = 3 },
+            new Product { Id = 24, Name = "Летний костюм два", Price = 1025, ImageUrl = "product12.jpg", Order = 23, SectionId = 24, BrandId = 3 },
+            new Product { Id = 25, Name = "Белое платье три", Price = 1025, ImageUrl = "product1.jpg", Order = 24, SectionId = 4, BrandId = 1 },
+            new Product { Id = 26, Name = "Розовое платье три", Price = 1025, ImageUrl = "product2.jpg", Order = 25, SectionId = 4, BrandId = 1 },
+            new Product { Id = 27, Name = "Красное платье три", Price = 1025, ImageUrl = "product3.jpg", Order = 26, SectionId = 4, BrandId = 1 },
+            new Product { Id = 28, Name = "Джинсы три", Price = 1025, ImageUrl = "product4.jpg", Order = 27, SectionId = 4, BrandId = 1 },
+            new Product { Id = 29, Name = "Лёгкая майка три", Price = 1025, ImageUrl = "product5.jpg", Order = 28, SectionId = 4, BrandId = 2 },
+            new Product { Id = 30, Name = "Лёгкое голубое поло три", Price = 1025, ImageUrl = "product6.jpg", Order = 29, SectionId = 4, BrandId = 1 },
+            new Product { Id = 31, Name = "Платье белое три", Price = 1025, ImageUrl = "product7.jpg", Order = 30, SectionId = 4, BrandId = 1 },
+            new Product { Id = 32, Name = "Костюм кролика три", Price = 1025, ImageUrl = "product8.jpg", Order = 31, SectionId = 23, BrandId = 1 },
+            new Product { Id = 33, Name = "Красное китайское платье три", Price = 1025, ImageUrl = "product9.jpg", Order = 32, SectionId = 23, BrandId = 1 },
+            new Product { Id = 34, Name = "Женские джинсы три", Price = 1025, ImageUrl = "product10.jpg", Order = 33, SectionId = 23, BrandId = 3 },
+            new Product { Id = 35, Name = "Джинсы женские три", Price = 1025, ImageUrl = "product11.jpg", Order = 34, SectionId = 23, BrandId = 3 },
+            new Product { Id = 36, Name = "Летний костюм три", Price = 1025, ImageUrl = "product12.jpg", Order = 35, SectionId = 23, BrandId = 3 },
         };
 
         #endregion
