@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Identity;
 
 namespace WebStore.Dal.DataInit
 {
@@ -15,10 +17,18 @@ namespace WebStore.Dal.DataInit
     {
         private readonly Random _rnd = new Random();
         private readonly WebStoreContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ILogger<WebStoreDataInit> _logger;
-        public WebStoreDataInit(WebStoreContext context, ILogger<WebStoreDataInit> logger)
+        public WebStoreDataInit(
+            WebStoreContext context, 
+            UserManager<User> userManager,
+            RoleManager<Role> roleManager,
+            ILogger<WebStoreDataInit> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _logger = logger;
         }
         /// <summary> Пересоздание базы данных </summary>
@@ -52,11 +62,20 @@ namespace WebStore.Dal.DataInit
                 _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации данных базы данных");
                 throw;
             }
+            try
+            {
+                InitializeIdentityAsync().GetAwaiter().GetResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации БД системы Identity");
+                throw;
+            }
             _logger.LogInformation($"{DateTime.Now} Инициализация БД выполнена, время: {timer.Elapsed.TotalSeconds} сек.");
             return this;
         }
 
-        #region Инициализация базы данных начальными данными
+        #region Инициализация базы данных начальными тестовыми данными
 
         private void InitProducts(WebStoreContext context)
         {
@@ -102,6 +121,51 @@ namespace WebStore.Dal.DataInit
             context.Products.AddRange(products);
             context.SaveChanges();
             _logger.LogInformation($"{DateTime.Now} Инициализация продуктов, категорий и брендов выполнена успешно");
+        }
+
+        #endregion
+
+        #region Инициализация базы данных данными Identity
+
+        private async Task InitializeIdentityAsync()
+        {
+            async Task CheckRole(string RoleName)
+            {
+                if (!await _roleManager.RoleExistsAsync(RoleName))
+                {
+                    _logger.LogInformation("Роль {0} отсутствует. Создаю...", RoleName);
+                    await _roleManager.CreateAsync(new Role { Name = RoleName });
+                    _logger.LogInformation("Роль {0} создана успешно", RoleName);
+                }
+            }
+
+            await CheckRole(Role.Administrators);
+            await CheckRole(Role.Users);
+            await CheckRole(Role.Clients);
+
+            if (await _userManager.FindByNameAsync(User.Administrator) is null)
+            {
+                _logger.LogInformation($"Пользователь {User.Administrator} отсутствует, создаю ...");
+                var admin = new User
+                {
+                    UserName = User.Administrator,
+                };
+
+                var result = await _userManager.CreateAsync(admin, User.DefaultAdministratorPassword);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(admin, Role.Administrators);
+                    _logger.LogInformation($"{DateTime.Now} Пользователь {admin.UserName} успешно создан и наделен ролью {Role.Administrators}");
+                }
+                else
+                {
+                    var errors = result.Errors.Select(e => e.Description).ToArray();
+                    _logger.LogError("Учётная запись администратора не создана по причине: {0}", 
+                        string.Join(",", errors));
+                    throw new InvalidOperationException($"Ошибка при создании пользователя {admin.UserName}, список ошибок: {string.Join(",", errors)}");
+                }
+            }
+            _logger.LogInformation($"{DateTime.Now} Инициализация системы Identity в базе данных выполнено успешно");
         }
 
         #endregion

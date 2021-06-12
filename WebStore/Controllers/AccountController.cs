@@ -60,12 +60,16 @@ namespace WebStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
+            var errors = result.Errors.Select(e => e.Description).ToArray();
+            foreach (var error in errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+                
             #region Лог
 
             _logger.LogError($"Ошибки при регистрации пользователя {user.UserName} в систему: " +
-                             $"{string.Join(",", result.Errors.Select(e => e.Description))}");
+                             $"{string.Join(",", errors)}");
 
             #endregion
             return View(model);
