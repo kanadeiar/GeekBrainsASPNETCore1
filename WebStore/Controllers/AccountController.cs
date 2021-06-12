@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebStore.Domain.Identity;
+using WebStore.Domain.Identity.ErrorCodes;
 using WebStore.WebModels;
 
 namespace WebStore.Controllers
@@ -60,12 +62,12 @@ namespace WebStore.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var errors = result.Errors.Select(e => e.Description).ToArray();
+            var errors = result.Errors.Select(e => IdentityErrorCodes.GetDescription(e.Code)).ToArray();
             foreach (var error in errors)
             {
                 ModelState.AddModelError("", error);
             }
-                
+
             #region Лог
 
             _logger.LogError($"Ошибки при регистрации пользователя {user.UserName} в систему: " +
