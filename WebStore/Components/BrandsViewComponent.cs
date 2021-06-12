@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
+using WebStore.ViewInterfaces;
 
 namespace WebStore.Components
 {
@@ -14,7 +14,7 @@ namespace WebStore.Components
         }
         public IViewComponentResult Invoke()
         {
-            var brandsViews = _productData.GetBrandsWithProducts().OrderBy(b => b.Order).Select(b => new BrandViewModel
+            var brandsViews = _productData.GetBrandsWithProducts().OrderBy(b => b.Order).Select(b => new BrandInterface
             {
                 Id = b.Id,
                 Name = b.Name,

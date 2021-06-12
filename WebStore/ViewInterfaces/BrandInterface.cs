@@ -1,6 +1,6 @@
-﻿namespace WebStore.ViewModels
+﻿namespace WebStore.ViewInterfaces
 {
-    public class BrandViewModel
+    public class BrandInterface
     {
         public int Id { get; set; }
         public string Name { get; set; }

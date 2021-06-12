@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
+using WebStore.ViewInterfaces;
 
 namespace WebStore.Controllers
 {
@@ -32,7 +32,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            var model = new WorkerViewModel
+            var model = new WorkerInterface()
             {
                 Id = worker.Id,
                 FirstName = worker.FirstName,
@@ -49,7 +49,7 @@ namespace WebStore.Controllers
         public IActionResult Edit(int? id)
         {
             if (id is null)
-                return View(new WorkerViewModel());
+                return View(new WorkerInterface());
             if (id <= 0) 
                 return BadRequest();
 
@@ -57,7 +57,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            var model = new WorkerViewModel
+            var model = new WorkerInterface
             {
                 Id = worker.Id,
                 FirstName = worker.FirstName,
@@ -72,7 +72,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(WorkerViewModel model)
+        public IActionResult Edit(WorkerInterface model)
         {            
             if (model is null)
                 return BadRequest();
@@ -113,7 +113,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            var model = new WorkerViewModel
+            var model = new WorkerInterface
             {
                 Id = worker.Id,
                 FirstName = worker.FirstName,

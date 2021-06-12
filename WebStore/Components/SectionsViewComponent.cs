@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
+using WebStore.ViewInterfaces;
 
 namespace WebStore.Components
 {
@@ -21,7 +21,7 @@ namespace WebStore.Components
             var all = _productData.GetSectionsWithProducts();
 
             var parents = all.Where(p => p.ParentId == null);
-            var patentsViews = parents.Select(p => new SectionViewModel
+            var patentsViews = parents.Select(p => new SectionInterface
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -34,7 +34,7 @@ namespace WebStore.Components
                 var children = all.Where(c => c.ParentId == patentsView.Id);
                 foreach (var child in children)
                 {
-                    patentsView.Children.Add(new SectionViewModel
+                    patentsView.Children.Add(new SectionInterface
                     {
                         Id = child.Id,
                         Name = child.Name,

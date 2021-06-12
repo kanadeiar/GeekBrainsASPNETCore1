@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace WebStore.ViewModels
+namespace WebStore.ViewInterfaces
 {
-    public class SectionViewModel
+    public class SectionInterface
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int Order { get; set; }
-        public SectionViewModel Parent { get; set; }
-        public List<SectionViewModel> Children { get; set; } = new();
+        public SectionInterface Parent { get; set; }
+        public List<SectionInterface> Children { get; set; } = new();
         public int CountProduct { get; set; }
     }
 }

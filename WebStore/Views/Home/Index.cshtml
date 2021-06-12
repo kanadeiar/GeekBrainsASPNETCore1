@@ -1,11 +1,11 @@
 ﻿@using WebStore.Services.Interfaces
-@using WebStore.ViewModels
+@using WebStore.ViewInterfaces
 @inject IProductData ProductData
 @{
     var products = ProductData
         .GetProducts()
         .Take(6)
-        .Select(p => new ProductViewModel
+        .Select(p => new ProductInterface
         {
             Id = p.Id,
             Name = p.Name,
