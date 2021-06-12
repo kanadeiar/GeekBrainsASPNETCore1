@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebStore.Domain.Entities;
-using WebStore.Models;
 
 namespace WebStore.Data
 {

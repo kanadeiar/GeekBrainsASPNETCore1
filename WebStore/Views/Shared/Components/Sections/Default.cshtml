@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStore.ViewModels.SectionViewModel>
+﻿@model IEnumerable<WebStore.WebModels.SectionWebModel>
 
 <h2>Категории</h2>
 
@@ -24,7 +24,7 @@
                             {
                             <li>
                                 <a asp-controller="Catalog" asp-action="Index" asp-route-sectionId="@child.Id">
-                                    <span class="pull-right">(4)</span>
+                                    <span class="pull-right">(@child.CountProduct)</span>
                                     @child.Name
                                 </a>
                             </li>
@@ -40,7 +40,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a asp-controller="Catalog" asp-action="Index" asp-route-sectionId="@parent.Id">
-                            <span class="pull-right">(4)</span>
+                            <span class="pull-right">(@parent.CountProduct)</span>
                             @parent.Name
                         </a>
                     </h4>

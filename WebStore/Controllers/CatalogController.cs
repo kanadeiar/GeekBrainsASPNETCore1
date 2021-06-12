@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
+using WebStore.WebModels;
 
 namespace WebStore.Controllers
 {
@@ -15,7 +15,7 @@ namespace WebStore.Controllers
         }
         public IActionResult Index(int? brandId, int? sectionId)
         {
-            var filter = new ProductFilter
+            var filter = new ProductFilter()
             {
                 SectionId = sectionId,
                 BrandId = brandId,
@@ -23,11 +23,11 @@ namespace WebStore.Controllers
 
             var products = _productData.GetProducts(filter);
 
-            var catalogView = new CatalogViewModel
+            var catalogView = new CatalogWebModel
             {
                 SectionId = sectionId,
                 BrandId = brandId,
-                Products = products.Select(p => new ProductViewModel
+                Products = products.Select(p => new ProductWebModel
                 {
                     Id = p.Id,
                     Name = p.Name,

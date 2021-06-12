@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStore.ViewModels.BrandViewModel>
+﻿@model IEnumerable<WebStore.WebModels.BrandWebModel>
 
 <div class="brands_products">
     <!--brands_products-->
@@ -9,7 +9,7 @@
             {
                 <li>
                     <a asp-controller="Catalog" asp-action="Index" asp-route-brandId="@brand.Id">
-                        <span class="pull-right">(4)</span>
+                        <span class="pull-right">(@brand.CountProduct)</span>
                         @brand.Name
                     </a>
                 </li>

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Services.Interfaces;
-using WebStore.ViewModels;
+using WebStore.WebModels;
 
 namespace WebStore.Components
 {
@@ -17,10 +14,11 @@ namespace WebStore.Components
         }
         public IViewComponentResult Invoke()
         {
-            var brandsViews = _productData.GetBrands().OrderBy(b => b.Order).Select(b => new BrandViewModel
+            var brandsViews = _productData.GetBrandsWithProducts().OrderBy(b => b.Order).Select(b => new BrandWebModel
             {
                 Id = b.Id,
                 Name = b.Name,
+                CountProduct = b.Products.Count,
             });
             return View(brandsViews);
         }
