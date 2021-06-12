@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using WebStore.Data;
-using WebStore.Infrastructure.Interface;
 using WebStore.Models;
+using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {

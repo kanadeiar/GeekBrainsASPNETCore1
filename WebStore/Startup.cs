@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using WebStore.Dal.Context;
 using WebStore.Dal.DataInit;
 using WebStore.Data;
-using WebStore.Infrastructure.Interface;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Services;
 using WebStore.Services.Interfaces;
