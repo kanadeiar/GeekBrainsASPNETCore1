@@ -81,10 +81,33 @@ namespace WebStore.Controllers
 
         #region Вход в систему
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl) => View(new LoginWebModel{ReturnUrl = returnUrl});
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginWebModel model)
         {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var result = await _signInManager.PasswordSignInAsync(
+                model.UserName, 
+                model.Password, 
+                model.RememberMe, 
+#if DEBUG
+                false
+#else
+                true
+#endif
+            );
+
+            if (result.Succeeded) 
+                return LocalRedirect(model.ReturnUrl ?? "/");
+
+            ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле");
+
             return View();
         }
+
 
         #endregion
 
