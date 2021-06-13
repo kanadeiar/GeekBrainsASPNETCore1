@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities;
@@ -13,6 +14,10 @@ namespace WebStore.Controllers
     {
         private readonly IWorkerData _Workers;
         private readonly ILogger<WorkersController> _logger;
+        private readonly Mapper _mapperWorkerToWeb = 
+            new (new MapperConfiguration(c => c.CreateMap<Worker, WorkerWebModel>()));
+        private readonly Mapper _mapperWorkerFromWeb =
+            new(new MapperConfiguration(c => c.CreateMap<WorkerWebModel, Worker>()));
 
         public WorkersController(IWorkerData workerData, ILogger<WorkersController> logger)
         {
@@ -35,18 +40,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            var model = new WorkerWebModel()
-            {
-                Id = worker.Id,
-                FirstName = worker.FirstName,
-                LastName = worker.LastName,
-                Patronymic = worker.Patronymic,
-                Age = worker.Age,
-                Birthday = worker.Birthday,
-                EmploymentDate = worker.EmploymentDate,
-                CountChildren = worker.CountChildren,
-            };
-            return View(model);
+            return View(_mapperWorkerToWeb.Map<WorkerWebModel>(worker));
         }
 
         [Authorize(Roles = Role.Administrators)]
@@ -60,19 +54,8 @@ namespace WebStore.Controllers
             var worker = _Workers.Get((int)id);
             if (worker is null)
                 return NotFound();
-
-            var model = new WorkerWebModel
-            {
-                Id = worker.Id,
-                FirstName = worker.FirstName,
-                LastName = worker.LastName,
-                Patronymic = worker.Patronymic,
-                Age = worker.Age,
-                Birthday = worker.Birthday,
-                EmploymentDate = worker.EmploymentDate,
-                CountChildren = worker.CountChildren,
-            };
-            return View(model);
+            
+            return View(_mapperWorkerToWeb.Map<WorkerWebModel>(worker));
         }
 
         [HttpPost, Authorize(Roles = Role.Administrators)]
@@ -117,18 +100,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            var model = new WorkerWebModel
-            {
-                Id = worker.Id,
-                FirstName = worker.FirstName,
-                LastName = worker.LastName,
-                Patronymic = worker.Patronymic,
-                Age = worker.Age,
-                Birthday = worker.Birthday,
-                EmploymentDate = worker.EmploymentDate,
-                CountChildren = worker.CountChildren,
-            };
-            return View(model);
+            return View(_mapperWorkerToWeb.Map<WorkerWebModel>(worker));
         }
         
         [HttpPost, Authorize(Roles = Role.Administrators)]

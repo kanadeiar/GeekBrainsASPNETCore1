@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using WebStore.Domain.Entities;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
 
@@ -9,22 +12,17 @@ namespace WebStore.Controllers
     public class HomeController : Controller
     {
         private readonly IConfiguration _Configuration;
+        private readonly Mapper _mapperProductToWeb = new(new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
+            .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
+            .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
         public HomeController(IConfiguration Configuration)
         {
             _Configuration = Configuration;
         }
         public IActionResult Index([FromServices] IProductData productData)
         {
-            var products = productData
-                .GetProducts()
-                .Take(6)
-                .Select(p => new ProductWebModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    ImageUrl = p.ImageUrl,
-                });
+            var products = _mapperProductToWeb
+                .Map<IEnumerable<ProductWebModel>>(productData.GetProducts().Take(6));
             ViewBag.Products = products;
             return View();
         }
