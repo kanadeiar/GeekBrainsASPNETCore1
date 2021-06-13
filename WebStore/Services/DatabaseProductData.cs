@@ -24,7 +24,6 @@ namespace WebStore.Services
 
         public IEnumerable<Brand> GetBrands() => _context.Brands;
         public IEnumerable<Brand> GetBrandsWithProducts() => _context.Brands.Include(b => b.Products);
-
         public IEnumerable<Product> GetProducts(IProductFilter productFilter = null)
         {
             IQueryable<Product> query = _context.Products;
@@ -42,5 +41,9 @@ namespace WebStore.Services
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
             return query;
         }
+        public Product GetProductById(int id) => _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Section)
+                .SingleOrDefault(p => p.Id == id);
     }
 }
