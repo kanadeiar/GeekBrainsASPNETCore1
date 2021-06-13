@@ -77,24 +77,23 @@ namespace WebStore.Controllers
             if (model is null)
                 return BadRequest();
             if (model.FirstName == "Андрей")
-                ModelState.AddModelError(nameof(model.FirstName), "Андрей - плохое имя!");
+                ModelState.AddModelError(nameof(model.FirstName), "Андрей - плохое имя для работника!");
             if (model.LastName == "Иванов" && model.FirstName == "Иван" && model.Patronymic == "Иванович")
                 ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию имя и отчество Иванов Иван Иванович");
             if (!ModelState.IsValid)
                 return View(model);
             _logger.LogDebug($"Начало редактирования сотрудника id={model.Id}");
 
-            var worker = new Worker
-            {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Patronymic = model.Patronymic,
-                Age = model.Age,
-                Birthday = model.Birthday,
-                EmploymentDate = model.EmploymentDate,
-                CountChildren = model.CountChildren,
-            };
+            var worker = _Workers.Get(model.Id) ?? new Worker();
+
+            worker.FirstName = model.FirstName;
+            worker.LastName = model.LastName;
+            worker.Patronymic = model.Patronymic;
+            worker.Age = model.Age;
+            worker.Birthday = model.Birthday;
+            worker.EmploymentDate = model.EmploymentDate;
+            worker.CountChildren = model.CountChildren;
+
             if (worker.Id == 0)
                 _Workers.Add(worker);
             else

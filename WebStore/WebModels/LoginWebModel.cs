@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.WebModels
 {
+    /// <summary> Веб модель входа в систему </summary>
     public class LoginWebModel
     {
         [Required]

@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Domain.Infrastructure.Interfaces;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {
+    /// <summary> Хранение данных в базе данных по товарам </summary>
     public class DatabaseProductData : IProductData
     {
         private readonly WebStoreContext _context;

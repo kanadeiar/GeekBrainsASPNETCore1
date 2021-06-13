@@ -12,6 +12,7 @@ using WebStore.Domain.Identity;
 
 namespace WebStore.Dal.DataInit
 {
+    /// <summary> Инициализатор данных базы данных </summary>
     public class WebStoreDataInit
     {
         private readonly Random _rnd = new Random();

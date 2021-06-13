@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebStore.Data;
 using WebStore.Domain.Entities;
@@ -7,6 +8,8 @@ using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {
+    /// <summary> Хранение товаров в оперативной памяти </summary>
+    [Obsolete("Не использовать этот класс для хранения товаров", false)]
     public class InMemoryProductData : IProductData
     {
         private readonly List<Section> _Sections;

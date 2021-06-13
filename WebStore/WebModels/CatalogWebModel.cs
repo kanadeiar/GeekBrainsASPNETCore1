@@ -2,6 +2,7 @@
 
 namespace WebStore.WebModels
 {
+    /// <summary> Веб модель категории </summary>
     public class CatalogWebModel
     {
         public int? SectionId { get; set; }

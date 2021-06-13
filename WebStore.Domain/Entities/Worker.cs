@@ -4,6 +4,7 @@ using WebStore.Domain.Entities.Base;
 
 namespace WebStore.Domain.Entities
 {
+    /// <summary> Один работник </summary>
     public class Worker : Entity
     {
         [Required, MaxLength(100)]
