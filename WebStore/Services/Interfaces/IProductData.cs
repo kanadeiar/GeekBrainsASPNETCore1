@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Domain.Infrastructure.Interfaces;
 
 namespace WebStore.Services.Interfaces
@@ -13,8 +12,11 @@ namespace WebStore.Services.Interfaces
         public IEnumerable<Brand> GetBrands();
         /// <summary> Все товары с фильтрацией по категориям и/или брендам </summary>
         public IEnumerable<Product> GetProducts(IProductFilter productFilter = null);
-
-        IEnumerable<Section> GetSectionsWithProducts();
-        IEnumerable<Brand> GetBrandsWithProducts();
+        /// <summary> Категории товаров с включениями продуктов </summary>
+        public IEnumerable<Section> GetSectionsWithProducts();
+        /// <summary> Бренды с включениями продуктов </summary>
+        public IEnumerable<Brand> GetBrandsWithProducts();
+        /// <summary> Получение одного товара по ид </summary>
+        public Product GetProductById(int id);
     }
 }

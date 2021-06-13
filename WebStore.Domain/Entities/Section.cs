@@ -5,6 +5,7 @@ using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities
 {
+    /// <summary> Категория товара </summary>
     public class Section : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }

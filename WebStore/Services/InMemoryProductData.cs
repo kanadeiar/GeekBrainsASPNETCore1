@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebStore.Data;
 using WebStore.Domain.Entities;
@@ -7,6 +8,8 @@ using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {
+    /// <summary> Хранение товаров в оперативной памяти </summary>
+    [Obsolete("Не использовать этот класс для хранения товаров", false)]
     public class InMemoryProductData : IProductData
     {
         private readonly List<Section> _Sections;
@@ -24,7 +27,6 @@ namespace WebStore.Services
         public IEnumerable<Section> GetSectionsWithProducts() => GetSections();
         public IEnumerable<Brand> GetBrands() => _Brands;
         public IEnumerable<Brand> GetBrandsWithProducts() => GetBrands();
-
         public IEnumerable<Product> GetProducts(IProductFilter productFilter = null)
         {
             IEnumerable<Product> query = _Products;
@@ -34,5 +36,6 @@ namespace WebStore.Services
                 query = query.Where(p => p.BrandId == brandId);
             return query;
         }
+        public Product GetProductById(int id) => _Products.SingleOrDefault(p => p.Id == id);
     }
 }

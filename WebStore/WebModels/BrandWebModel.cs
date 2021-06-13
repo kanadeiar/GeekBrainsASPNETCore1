@@ -1,5 +1,6 @@
 ﻿namespace WebStore.WebModels
 {
+    /// <summary> Веб модель бренда </summary>
     public class BrandWebModel
     {
         public int Id { get; set; }

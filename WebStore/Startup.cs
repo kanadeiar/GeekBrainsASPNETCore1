@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStore.Dal.Context;
 using WebStore.Dal.DataInit;
+using WebStore.Dal.Interfaces;
 using WebStore.Data;
 using WebStore.Domain.Identity;
 using WebStore.Infrastructure.Middleware;
@@ -32,7 +33,7 @@ namespace WebStore
                     o => o.MigrationsAssembly("WebStore.Dal"))
                 );
 
-            services.AddTransient<WebStoreDataInit>();
+            services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
 
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreContext>()
@@ -80,8 +81,9 @@ namespace WebStore
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
+            // TODO: Раскомментировать для пересоздания базы данных
             using (var scope = service.CreateScope())
-                scope.ServiceProvider.GetRequiredService<WebStoreDataInit>().RecreateDatabase().InitData();
+                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
 
             if (env.IsDevelopment())
             {

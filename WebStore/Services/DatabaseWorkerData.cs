@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
@@ -10,6 +7,7 @@ using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {
+    /// <summary> Хранение данных по работникам в базе данных </summary>
     public class DatabaseWorkerData : IWorkerData
     {
         private readonly WebStoreContext _context;
@@ -33,15 +31,7 @@ namespace WebStore.Services
 
         public void Update(Worker worker)
         {
-            var item = Get(worker.Id);
-            item.LastName = worker.LastName;
-            item.FirstName = worker.FirstName;
-            item.Patronymic = worker.Patronymic;
-            item.Birthday = worker.Birthday;
-            item.Age = worker.Age;
-            item.CountChildren = worker.CountChildren;
-            item.EmploymentDate = worker.EmploymentDate;
-            _context.Entry(item).State = EntityState.Modified;
+            _context.Entry(worker).State = EntityState.Modified;
             _context.SaveChanges();
         }
 

@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
@@ -9,6 +11,9 @@ namespace WebStore.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductData _productData;
+        private readonly Mapper _mapperProductToWeb = new(new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
+                .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
+                .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
         public CatalogController(IProductData productData)
         {
             _productData = productData;
@@ -27,16 +32,21 @@ namespace WebStore.Controllers
             {
                 SectionId = sectionId,
                 BrandId = brandId,
-                Products = products.Select(p => new ProductWebModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    ImageUrl = p.ImageUrl,
-                }),
+                Products = _mapperProductToWeb
+                    .Map<IEnumerable<ProductWebModel>>(products),
             };
 
             return View(catalogView);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var product = _productData.GetProductById(id);
+            if (product is null)
+                return NotFound();
+
+            return View(_mapperProductToWeb
+                .Map<ProductWebModel>(product));
         }
     }
 }

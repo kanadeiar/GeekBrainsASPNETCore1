@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
+using WebStore.Dal.Interfaces;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
 
 namespace WebStore.Dal.DataInit
 {
-    public class WebStoreDataInit
+    /// <summary> Инициализатор данных базы данных </summary>
+    public class WebStoreDataInit : IWebStoreDataInit
     {
         private readonly Random _rnd = new Random();
         private readonly WebStoreContext _context;
@@ -31,7 +33,7 @@ namespace WebStore.Dal.DataInit
             _logger = logger;
         }
         /// <summary> Пересоздание базы данных </summary>
-        public WebStoreDataInit RecreateDatabase()
+        public IWebStoreDataInit RecreateDatabase()
         {
             _context.Database.EnsureDeleted();
             _logger.LogInformation($"{DateTime.Now} Удаление БД выполнено");
@@ -40,7 +42,7 @@ namespace WebStore.Dal.DataInit
             return this;
         }
         /// <summary> Заполнение начальными данными </summary>
-        public WebStoreDataInit InitData()
+        public IWebStoreDataInit InitData()
         {
             var timer = Stopwatch.StartNew();
             if (_context.Database.GetPendingMigrations().Any())

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.WebModels
 {
+    /// <summary> Веб модель работника </summary>
     public class WorkerWebModel 
     {
         [HiddenInput(DisplayValue = false)]

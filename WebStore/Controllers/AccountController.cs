@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +11,7 @@ using WebStore.WebModels;
 
 namespace WebStore.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -25,8 +26,10 @@ namespace WebStore.Controllers
 
         #region Регистрация пользователя
 
+        [AllowAnonymous]
         public IActionResult Register() => View(new RegisterWebModel());
-        [HttpPost]
+
+        [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
         public async Task<IActionResult> Register(RegisterWebModel model)
         {
             if (!ModelState.IsValid)
@@ -82,9 +85,10 @@ namespace WebStore.Controllers
 
         #region Вход в систему
 
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl) => View(new LoginWebModel{ReturnUrl = returnUrl});
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
         public async Task<IActionResult> Login(LoginWebModel model)
         {
             if (!ModelState.IsValid)
@@ -117,12 +121,13 @@ namespace WebStore.Controllers
 
         #endregion
 
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(string returnUrl)
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return LocalRedirect(returnUrl ?? "/");
         }
 
+        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             #region Лог

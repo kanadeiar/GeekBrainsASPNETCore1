@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Domain.Infrastructure.Interfaces;
 using WebStore.Services.Interfaces;
 
 namespace WebStore.Services
 {
+    /// <summary> Хранение данных в базе данных по товарам </summary>
     public class DatabaseProductData : IProductData
     {
         private readonly WebStoreContext _context;
@@ -24,7 +24,6 @@ namespace WebStore.Services
 
         public IEnumerable<Brand> GetBrands() => _context.Brands;
         public IEnumerable<Brand> GetBrandsWithProducts() => _context.Brands.Include(b => b.Products);
-
         public IEnumerable<Product> GetProducts(IProductFilter productFilter = null)
         {
             IQueryable<Product> query = _context.Products;
@@ -42,5 +41,9 @@ namespace WebStore.Services
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
             return query;
         }
+        public Product GetProductById(int id) => _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Section)
+                .SingleOrDefault(p => p.Id == id);
     }
 }

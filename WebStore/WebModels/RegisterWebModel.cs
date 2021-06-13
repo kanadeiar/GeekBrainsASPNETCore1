@@ -2,6 +2,7 @@
 
 namespace WebStore.WebModels
 {
+    /// <summary> Веб модель регистрации </summary>
     public class RegisterWebModel
     {
         [Required]

@@ -9,6 +9,7 @@ using WebStore.Services.Interfaces;
 namespace WebStore.Services
 {
     /// <summary> Хранилище в оперативной памяти </summary>
+    [Obsolete("Не использовать этот класс для хранения данных по работникам", false)]
     public class InMemoryWorkerData : IWorkerData
     {
         private readonly ILogger<InMemoryWorkerData> _logger;
