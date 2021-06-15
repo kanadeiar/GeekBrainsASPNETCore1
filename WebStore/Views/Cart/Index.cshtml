@@ -45,16 +45,16 @@
                             </td>
                             <td class="cart_quantity">
                                 <div class="cart_quantity_button">
-                                    <a class="cart_quantity_up" href=""> + </a>
-                                    <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                    <a class="cart_quantity_down" href=""> - </a>
+                                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn"> + </a>
+                                    <input class="cart_quantity_input" type="text" name="quantity" value="@quantity" autocomplete="off" size="2">
+                                    <a asp-controller="Cart" asp-action="Subtract" asp-route-id="@product.Id" class="btn"> - </a>
                                 </div>
                             </td>
                             <td class="cart_total">
                                 <p class="cart_total_price">@priceSum.ToString("C")</p>
                             </td>
                             <td class="cart_delete">
-                                <a asp-controller="Cart" asp-action="Remove" asp-route-id="@product.Id" class="cart_quantity_delete">
+                                <a asp-controller="Cart" asp-action="Remove" asp-route-id="@product.Id" class="btn">
                                     <i class="fa fa-times"></i>
                                 </a>
                             </td>
@@ -130,8 +130,7 @@
             <div class="col-sm-6">
                 <div class="total_area">
                     <ul>
-                        <li>Подитог <span>$59</span></li>
-                        <li>Эко-сбор <span>$2</span></li>
+                        <li>Подитог <span>@Model.PriceSum.ToString("C")</span></li>
                         <li>Стоимость доставки <span>Free</span></li>
                         <li>Количество товара <span>@Model.ItemsSum</span></li>
                         <li>Итого <span>@Model.PriceSum.ToString("C")</span></li>
