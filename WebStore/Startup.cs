@@ -82,8 +82,8 @@ namespace WebStore
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
             // TODO: Раскомментировать для пересоздания базы данных
-            using (var scope = service.CreateScope())
-                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
+            //using (var scope = service.CreateScope())
+            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
 
             if (env.IsDevelopment())
             {
