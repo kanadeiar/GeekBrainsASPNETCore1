@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
 
@@ -35,12 +38,15 @@ namespace WebStore.Services
             }
             set => ReplaceCookies(_httpContextAccessor.HttpContext!.Response.Cookies, JsonConvert.SerializeObject(value));
         }
+        private int _cookieHash;
         private void ReplaceCookies(IResponseCookies cookies, string cookie)
         {
+            if (_cookieHash == cookie.GetHashCode())
+                return;
+            _cookieHash = cookie.GetHashCode();
             cookies.Delete(_cartName);
             cookies.Append(_cartName, cookie);
         }
-
         public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)
         {
             _httpContextAccessor = contextAccessor;
@@ -53,27 +59,69 @@ namespace WebStore.Services
         }
         public void Add(int id)
         {
-            throw new NotImplementedException();
+            var cart = Cart;
+
+            var item = cart.Items.FirstOrDefault(i => i.ProductId == id);
+            if (item is { })
+                item.Quantity++;
+            else
+                cart.Items.Add(new CartItem{ ProductId = id });
+
+            Cart = cart;
         }
 
         public void MinusOne(int id)
         {
-            throw new NotImplementedException();
+            var cart = Cart;
+
+            var item = cart.Items.FirstOrDefault(c => c.ProductId == id);
+            if (item is null) return;
+
+            if (item.Quantity > 0)
+                item.Quantity--;
+
+            if (item.Quantity <= 0)
+                cart.Items.Remove(item);
+
+            Cart = cart;
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            var cart = Cart;
+
+            var item = cart.Items.FirstOrDefault(c => c.ProductId == id);
+            if (item is null) return;
+
+            cart.Items.Remove(item);
+
+            Cart = cart;
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            var cart = Cart;
+
+            cart.Items.Clear();
+
+            Cart = cart;
         }
 
         public CartWebModel GetWebModel()
         {
-            throw new NotImplementedException();
+            var products = _productData.GetProducts(new ProductFilter
+            {
+                Ids = Cart.Items.Select(i => i.ProductId).ToArray()
+            });
+            var productViews = _mapperProductToView
+                .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
+
+            return new CartWebModel
+            {
+                Items = Cart.Items
+                    .Where(p => productViews.ContainsKey(p.ProductId))
+                    .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
+            };
         }
     }
 }
