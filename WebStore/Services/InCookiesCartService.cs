@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -70,7 +69,7 @@ namespace WebStore.Services
             Cart = cart;
         }
 
-        public void MinusOne(int id)
+        public void Subtract(int id)
         {
             var cart = Cart;
 
