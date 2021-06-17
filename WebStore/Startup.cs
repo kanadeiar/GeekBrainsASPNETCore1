@@ -98,11 +98,16 @@ namespace WebStore
 
             app.UseMiddleware<DebugMiddleware>();
 
+
             app.Map("/HelloGeekbrains",
                 context => context.Run(async request => await request.Response.WriteAsync("Hello Geekbrains!")));
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name : "areas",
+                    pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
                 endpoints.MapDefaultControllerRoute();
             });
         }
