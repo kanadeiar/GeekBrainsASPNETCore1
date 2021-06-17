@@ -24,28 +24,49 @@ namespace WebStore.Services
             get
             {
                 var context = _httpContextAccessor.HttpContext;
-                var cookies = context!.Response.Cookies;
-                var cartCookie = context.Request.Cookies[_cartName];
-                if (cartCookie is null)
+                if (!context!.Request.Cookies.ContainsKey(_cartName))
                 {
                     var cart = new Cart();
-                    cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
+                    context.Response.Cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
                     return cart;
                 }
-                ReplaceCookies(cookies, cartCookie);
-                return JsonConvert.DeserializeObject<Cart>(cartCookie);
+                return JsonConvert.DeserializeObject<Cart>(context.Request.Cookies[_cartName]);
             }
-            set => ReplaceCookies(_httpContextAccessor.HttpContext!.Response.Cookies, JsonConvert.SerializeObject(value));
+            set => _httpContextAccessor.HttpContext!.Response.Cookies.Append(_cartName,
+                JsonConvert.SerializeObject(value));
         }
-        private int _cookieHash;
-        private void ReplaceCookies(IResponseCookies cookies, string cookie)
-        {
-            if (_cookieHash == cookie.GetHashCode())
-                return;
-            _cookieHash = cookie.GetHashCode();
-            cookies.Delete(_cartName);
-            cookies.Append(_cartName, cookie);
-        }
+        #region Этот вариант больше не используется
+
+        //private Cart Cart
+        //{
+        //    get
+        //    {
+        //        var cookies = context!.Response.Cookies;
+        //        var cartCookie = context.Request.Cookies[_cartName];
+        //        if (cartCookie is null)
+        //        {
+        //            var cart = new Cart();
+        //            cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
+        //            return cart;
+        //        }
+        //        ReplaceCookies(cookies, cartCookie);
+        //        return JsonConvert.DeserializeObject<Cart>(cartCookie);
+        //    }
+        //    set => ReplaceCookies(_httpContextAccessor.HttpContext!.Response.Cookies, JsonConvert.SerializeObject(value));
+        //}
+
+        //private int _cookieHash;
+        //private void ReplaceCookies(IResponseCookies cookies, string cookie)
+        //{
+        //    if (_cookieHash == cookie.GetHashCode())
+        //        return;
+        //    _cookieHash = cookie.GetHashCode();
+        //    cookies.Delete(_cartName);
+        //    cookies.Append(_cartName, cookie);
+        //}
+
+        #endregion
+
         public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)
         {
             _httpContextAccessor = contextAccessor;
