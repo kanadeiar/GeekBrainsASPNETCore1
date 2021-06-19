@@ -20,6 +20,6 @@ namespace WebStore.Domain.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

@@ -189,7 +189,7 @@ namespace WebStore.Dal.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("WebStore.Domain.Entities.Orders.OrderItems", b =>
+            modelBuilder.Entity("WebStore.Domain.Entities.Orders.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -491,7 +491,7 @@ namespace WebStore.Dal.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebStore.Domain.Entities.Orders.OrderItems", b =>
+            modelBuilder.Entity("WebStore.Domain.Entities.Orders.OrderItem", b =>
                 {
                     b.HasOne("WebStore.Domain.Entities.Orders.Order", "Order")
                         .WithMany("Items")

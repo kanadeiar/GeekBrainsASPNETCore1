@@ -4,7 +4,7 @@ using WebStore.Domain.Entities.Base;
 
 namespace WebStore.Domain.Entities.Orders
 {
-    public class OrderItems : Entity
+    public class OrderItem : Entity
     {
         [Required]
         public Order Order { get; set; }

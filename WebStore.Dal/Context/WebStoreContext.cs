@@ -20,7 +20,7 @@ namespace WebStore.Dal.Context
         /// <summary> Заказы </summary>
         public DbSet<Order> Orders { get; set; }
         /// <summary> Элементы заказов </summary>
-        public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public WebStoreContext(DbContextOptions<WebStoreContext> options) : base(options)
         {
