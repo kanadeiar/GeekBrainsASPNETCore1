@@ -44,6 +44,7 @@
                     <label asp-for="ImageUrl" class="control-label"></label>
                     <input asp-for="ImageUrl" class="form-control" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <img src="~/images/shop/@Model.ImageUrl" alt="@Model.ImageUrl" height="200" />
                 </div>
 
                 <div class="form-group">

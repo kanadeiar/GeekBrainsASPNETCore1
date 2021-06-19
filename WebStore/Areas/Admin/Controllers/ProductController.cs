@@ -76,6 +76,7 @@ namespace WebStore.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "Product");
         }
+        
         public IActionResult Delete(int id)
         {
             if (id <= 0)
@@ -89,5 +90,14 @@ namespace WebStore.Areas.Admin.Controllers
             return NotFound();
         }
 
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            _ProductData.DeleteProduct(id);
+
+            return RedirectToAction("Index", "Product");
+        }
     }
 }
