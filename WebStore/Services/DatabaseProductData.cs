@@ -24,9 +24,13 @@ namespace WebStore.Services
 
         public IEnumerable<Brand> GetBrands() => _context.Brands;
         public IEnumerable<Brand> GetBrandsWithProducts() => _context.Brands.Include(b => b.Products);
-        public IEnumerable<Product> GetProducts(IProductFilter productFilter = null)
+        public IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
-            IQueryable<Product> query = _context.Products;
+            IQueryable<Product> query = (includes) 
+                ? _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Section) 
+                : _context.Products;
             if (productFilter?.Ids?.Length > 0)
             {
                 query = query.Where(p => productFilter.Ids.Contains(p.Id));
