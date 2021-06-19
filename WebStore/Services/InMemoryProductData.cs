@@ -9,7 +9,7 @@ using WebStore.Services.Interfaces;
 namespace WebStore.Services
 {
     /// <summary> Хранение товаров в оперативной памяти </summary>
-    [Obsolete("Не использовать этот класс для хранения товаров", false)]
+    [Obsolete("Не использовать этот класс для хранения товаров", true)]
     public class InMemoryProductData : IProductData
     {
         private readonly List<Section> _Sections;
@@ -37,5 +37,19 @@ namespace WebStore.Services
             return query;
         }
         public Product GetProductById(int id) => _Products.SingleOrDefault(p => p.Id == id);
+        public int AddProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteProduct(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

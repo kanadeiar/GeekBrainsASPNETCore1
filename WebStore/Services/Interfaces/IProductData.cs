@@ -18,5 +18,14 @@ namespace WebStore.Services.Interfaces
         public IEnumerable<Brand> GetBrandsWithProducts();
         /// <summary> Получение одного товара по ид </summary>
         public Product GetProductById(int id);
+        /// <summary> Добавить товар </summary>
+        /// <param name="product">Товар</param> <returns></returns>
+        public int AddProduct(Product product);
+        /// <summary> Изменить товар </summary>
+        /// <param name="product">Товар</param>
+        public void UpdateProduct(Product product);
+        /// <summary> Удалить товар </summary>
+        /// <param name="id">Идентификатор</param> <returns>Удалось удалить или нет</returns>
+        public bool DeleteProduct(int id);
     }
 }
