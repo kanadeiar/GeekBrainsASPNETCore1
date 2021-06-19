@@ -10,6 +10,7 @@ using WebStore.WebModels;
 
 namespace WebStore.Services
 {
+    /// <summary> Сервис корзины в куках браузера </summary>
     public class InCookiesCartService : ICartService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

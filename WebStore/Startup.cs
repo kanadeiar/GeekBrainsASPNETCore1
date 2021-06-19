@@ -75,6 +75,7 @@ namespace WebStore
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IProductData, DatabaseProductData>();
             services.AddScoped<IWorkerData, DatabaseWorkerData>();
+            services.AddScoped<IOrderService, DatabaseOrderService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
