@@ -7,6 +7,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
+using WebStore.WebModels.Cart;
 
 namespace WebStore.Services
 {

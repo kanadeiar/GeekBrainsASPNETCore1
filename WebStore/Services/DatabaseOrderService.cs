@@ -9,6 +9,7 @@ using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Identity;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
+using WebStore.WebModels.Cart;
 
 namespace WebStore.Services
 {

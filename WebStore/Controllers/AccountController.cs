@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using WebStore.Domain.Identity;
 using WebStore.Domain.Identity.ErrorCodes;
 using WebStore.WebModels;
+using WebStore.WebModels.Account;
 
 namespace WebStore.Controllers
 {

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using WebStore.Domain.Entities.Orders;
 using WebStore.WebModels;
+using WebStore.WebModels.Cart;
 
 namespace WebStore.Services.Interfaces
 {
