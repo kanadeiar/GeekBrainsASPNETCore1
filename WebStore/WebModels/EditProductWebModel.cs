@@ -34,6 +34,7 @@ namespace WebStore.WebModels
 
         [Display(Name = "Бренд")]
         public int? BrandId { get; set; }
+
         [Display(Name = "Бренд")]
         public string BrandName { get; set; }
     }
