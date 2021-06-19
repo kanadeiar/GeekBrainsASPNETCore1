@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Identity;
 
 namespace WebStore.Dal.Context
@@ -16,8 +17,27 @@ namespace WebStore.Dal.Context
         public DbSet<Product> Products { get; set; }
         /// <summary> Работники </summary>
         public DbSet<Worker> Workers { get; set; }
+        /// <summary> Заказы </summary>
+        public DbSet<Order> Orders { get; set; }
+        /// <summary> Элементы заказов </summary>
+        public DbSet<OrderItems> OrderItems { get; set; }
+
         public WebStoreContext(DbContextOptions<WebStoreContext> options) : base(options)
         {
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Order>()
+                .HasMany(o => o.Items)
+                .WithOne(i => i.Order)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<User>()
+                .HasMany(u => u.Orders)
+                .WithOne(o => o.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

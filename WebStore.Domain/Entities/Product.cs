@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using WebStore.Domain.Entities.Base;
 using WebStore.Domain.Entities.Base.Interfaces;
+using WebStore.Domain.Entities.Orders;
 
 namespace WebStore.Domain.Entities
 {
@@ -17,5 +19,7 @@ namespace WebStore.Domain.Entities
         public string ImageUrl { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+
+        public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
     }
 }
