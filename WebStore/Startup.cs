@@ -72,9 +72,8 @@ namespace WebStore
 
             services.AddSingleton<TestData>();
 
-            //services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IProductData, DatabaseProductData>();
-            //services.AddSingleton<IWorkerData, InMemoryWorkerData>();
             services.AddScoped<IWorkerData, DatabaseWorkerData>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -82,8 +81,8 @@ namespace WebStore
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
             // TODO: Раскомментировать для пересоздания базы данных
-            using (var scope = service.CreateScope())
-                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
+            //using (var scope = service.CreateScope())
+            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
 
             if (env.IsDevelopment())
             {
@@ -99,11 +98,16 @@ namespace WebStore
 
             app.UseMiddleware<DebugMiddleware>();
 
+
             app.Map("/HelloGeekbrains",
                 context => context.Run(async request => await request.Response.WriteAsync("Hello Geekbrains!")));
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name : "areas",
+                    pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
                 endpoints.MapDefaultControllerRoute();
             });
         }

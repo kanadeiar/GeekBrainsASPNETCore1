@@ -71,15 +71,7 @@ namespace WebStore.Controllers
                 return View(model);
             _logger.LogDebug($"Начало редактирования сотрудника id={model.Id}");
 
-            var worker = _Workers.Get(model.Id) ?? new Worker();
-
-            worker.FirstName = model.FirstName;
-            worker.LastName = model.LastName;
-            worker.Patronymic = model.Patronymic;
-            worker.Age = model.Age;
-            worker.Birthday = model.Birthday;
-            worker.EmploymentDate = model.EmploymentDate;
-            worker.CountChildren = model.CountChildren;
+            var worker = _mapperWorkerFromWeb.Map<Worker>(model);
 
             if (worker.Id == 0)
                 _Workers.Add(worker);

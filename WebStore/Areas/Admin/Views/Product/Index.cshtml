@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebStore.WebModels.EditProductWebModel>
+@{
+    ViewBag.Title = "Редактирование товаров";
+}
+
+<div id="page-inner">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="row form-group">
+        <p>
+            <a asp-controller="Product" asp-action="Create" class="btn btn-primary">Создать</a>
+        </p>
+    </div>
+    @if (Model.FirstOrDefault() is { } first)
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th><label>№</label></th>
+                <th><label asp-for="@first.Name"></label></th>
+                <th><label asp-for="@first.BrandName"></label></th>
+                <th><label asp-for="@first.SectionName"></label></th>
+                <th><label asp-for="@first.Order"></label></th>
+                <th><label asp-for="@first.ImageUrl"></label></th>
+                <th><label asp-for="@first.Price"></label></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @{ var index = 1; }
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@(index++)</td>
+                    <td>@product?.Name</td>
+                    <td>@product?.BrandName</td>
+                    <td>@product.SectionName</td>
+                    <td>@product.Order</td>
+                    <td>
+                        <img src="~/images/shop/@product.ImageUrl" width="90" alt="@product.Name"/>
+                    </td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"><i class="glyphicon glyphicon-edit"></i></a>
+                    </td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><i class="glyphicon glyphicon-trash text-danger"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <hr/>
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div class="alert alert-danger">
+                    Товары отсутствуют <strong>Нужно их добавить!</strong>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
