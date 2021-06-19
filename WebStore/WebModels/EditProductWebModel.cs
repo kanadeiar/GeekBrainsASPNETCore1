@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebStore.WebModels
 {
     /// <summary> Веб модель редактирования товара </summary>
-    public class ProductEditWebModel
+    public class EditProductWebModel
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
