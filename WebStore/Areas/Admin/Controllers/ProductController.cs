@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
@@ -15,6 +19,7 @@ namespace WebStore.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IProductData _ProductData;
+        private readonly IWebHostEnvironment _appEnvironment;
 
         private readonly Mapper _mapperProductToWeb =
             new(new MapperConfiguration(c => c.CreateMap<Product, EditProductWebModel>()            
@@ -23,9 +28,10 @@ namespace WebStore.Areas.Admin.Controllers
         private readonly Mapper _mapperProductFromWeb =
             new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()));
 
-        public ProductController(IProductData productData)
+        public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
             _ProductData = productData;
+            _appEnvironment = appEnvironment;
         }
         public IActionResult Index()
         {
@@ -55,7 +61,7 @@ namespace WebStore.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Edit(EditProductWebModel model)
+        public async Task<IActionResult> Edit(EditProductWebModel model, IFormFile uploadedFile)
         {
             if (model is null)
                 return BadRequest();
@@ -68,6 +74,14 @@ namespace WebStore.Areas.Admin.Controllers
             }
 
             var product = _mapperProductFromWeb.Map<Product>(model);
+
+            if (uploadedFile is not null)
+            {
+                string path = "/images/shop/" + uploadedFile.FileName;
+                await using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    await uploadedFile.CopyToAsync(fileStream);
+                product.ImageUrl = uploadedFile.FileName;
+            }
 
             if (product.Id == 0)
                 _ProductData.AddProduct(product);
