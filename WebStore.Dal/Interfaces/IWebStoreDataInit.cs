@@ -9,5 +9,6 @@ namespace WebStore.Dal.Interfaces
 
         /// <summary> Заполнение начальными данными </summary>
         IWebStoreDataInit InitData();
+
     }
 }

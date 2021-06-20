@@ -54,6 +54,7 @@ namespace WebStore.Dal.DataInit
             {
                 _logger.LogInformation($"{DateTime.Now} Миграция БД не требуется");
             }
+
             try
             {
                 InitProducts(_context);
@@ -63,6 +64,7 @@ namespace WebStore.Dal.DataInit
                 _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации данных базы данных");
                 throw;
             }
+
             try
             {
                 InitializeIdentityAsync().GetAwaiter().GetResult();
@@ -72,6 +74,7 @@ namespace WebStore.Dal.DataInit
                 _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации БД системы Identity");
                 throw;
             }
+
             try
             {
                 InitWorkers(_context);
@@ -89,6 +92,11 @@ namespace WebStore.Dal.DataInit
 
         private void InitProducts(WebStoreContext context)
         {
+            if (_context.Products.Any())
+            {
+                _logger.LogInformation($"{DateTime.Now} Инициализация продуктов, категорий и брендов нет требуется");
+                return;
+            }
             foreach (var section in _getSections.Where(s => s.ParentId is null))
             {
                 var parent = new Section
@@ -173,8 +181,8 @@ namespace WebStore.Dal.DataInit
                         string.Join(",", errors));
                     throw new InvalidOperationException($"Ошибка при создании пользователя {admin.UserName}, список ошибок: {string.Join(",", errors)}");
                 }
+                _logger.LogInformation($"{DateTime.Now} Инициализация системы Identity в базе данных выполнено успешно");
             }
-            _logger.LogInformation($"{DateTime.Now} Инициализация системы Identity в базе данных выполнено успешно");
         }
 
         #endregion
@@ -183,6 +191,11 @@ namespace WebStore.Dal.DataInit
 
         private void InitWorkers(WebStoreContext context)
         {
+            if (context.Workers.Any())
+            {
+                _logger.LogInformation($"{DateTime.Now} Инициализация работников, начальных данных работников не требуется");
+                return;
+            }
             var workers = _GetTestWorkers.Select(w => new Worker
             {
                 LastName = w.LastName,
