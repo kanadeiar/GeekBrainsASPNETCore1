@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels.Cart;
@@ -40,7 +41,7 @@ namespace WebStore.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, Authorize, ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckOut(CreateOrderWebModel model, [FromServices] IOrderService orderService)
         {
             if (!ModelState.IsValid)
@@ -54,6 +55,7 @@ namespace WebStore.Controllers
             return RedirectToAction(nameof(OrderConfirmed), new {order.Id});
         }
 
+        [Authorize]
         public async Task<IActionResult> OrderConfirmed(int id)
         {
             ViewBag.OrderId = id;
