@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Ваш заказ успешно сформирован";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <div class="alert alert-success">
+        <p>Заказ с номером @ViewBag.OrderId и названием @ViewBag.Name успешно сформирован и в скором времени будет обработан.</p>
+    </div>
+    <div class="row form-group">
+        <a asp-controller="Home" asp-action="Index">Вернуться на главную страницу</a>
+    </div>
+</div>

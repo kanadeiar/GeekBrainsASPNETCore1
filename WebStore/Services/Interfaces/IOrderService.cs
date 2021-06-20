@@ -23,6 +23,6 @@ namespace WebStore.Services.Interfaces
         /// <param name="Cart">Корзина пользователя</param>
         /// <param name="model">Данные заказа с веба</param>
         /// <returns>Новый заказ</returns>
-        Task<Order> CreateOrder(string userName, CartWebModel Cart, CreateOrderViewModel model);
+        Task<Order> CreateOrder(string userName, CartWebModel Cart, CreateOrderWebModel model);
     }
 }

@@ -40,7 +40,7 @@ namespace WebStore.Services
                 .Include(o => o.Items)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
-        public async Task<Order> CreateOrder(string userName, CartWebModel cart, CreateOrderViewModel model)
+        public async Task<Order> CreateOrder(string userName, CartWebModel cart, CreateOrderWebModel model)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user is null)
@@ -59,6 +59,7 @@ namespace WebStore.Services
                 Phone = model.Phone,
                 Address = model.Address,
             };
+
             var productsIds = cart.Items
                 .Select(i => i.Product.Id).ToArray();
             var cartProducts = await _context.Products
@@ -71,6 +72,8 @@ namespace WebStore.Services
                     Price = p.Price,
                     Quantity = i.Quantity
                 }).ToArray();
+            order.Items = orderItems;
+
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 

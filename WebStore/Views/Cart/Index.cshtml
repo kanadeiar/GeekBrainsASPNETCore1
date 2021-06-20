@@ -1,4 +1,4 @@
-﻿@model WebStore.WebModels.Cart.CartWebModel
+﻿@model WebStore.WebModels.Cart.CartOrderWebModel
 @{
     ViewBag.Title = "Корзина";
 }
@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var (product, quantity, priceSum) in Model.Items)
+                    @foreach (var (product, quantity, priceSum) in Model.Cart.Items)
                     {
                         <tr>
                             <td class="cart_product">
@@ -72,73 +72,8 @@
             <h3>Что мы сделаем с этим дальше?</h3>
             <p>Выберите, есть ли у вас код скидки или бонусные баллы, которые вы хотите использовать или хотите сделать скуидку на доставку.</p>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="chose_area">
-                    <ul class="user_option">
-                        <li>
-                            <input type="checkbox">
-                            <label>Использовать промокод</label>
-                        </li>
-                        <li>
-                            <input type="checkbox">
-                            <label>Использовать сертификат</label>
-                        </li>
-                        <li>
-                            <input type="checkbox">
-                            <label>Рассчитать доставку и налоги</label>
-                        </li>
-                    </ul>
-                    <ul class="user_info">
-                        <li class="single_field">
-                            <label>Страна:</label>
-                            <select>
-                                <option>США</option>
-                                <option>Бангладеш</option>
-                                <option>Англия</option>
-                                <option>Индия</option>
-                                <option>Пакистан</option>
-                                <option>Россия</option>
-                                <option>Канада</option>
-                                <option>Дубаи</option>
-                            </select>
-
-                        </li>
-                        <li class="single_field">
-                            <label>Область/штат:</label>
-                            <select>
-                                <option>Выберите</option>
-                                <option>Дакка</option>
-                                <option>Лондон</option>
-                                <option>Диллих</option>
-                                <option>Лахор</option>
-                                <option>Аляска</option>
-                                <option>Канада</option>
-                                <option>Дубаи</option>
-                            </select>
-
-                        </li>
-                        <li class="single_field zip-field">
-                            <label>Индакс:</label>
-                            <input type="text">
-                        </li>
-                    </ul>
-                    <a class="btn btn-default update" href="">Get Quotes</a>
-                    <a class="btn btn-default check_out" href="">Продолжить</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="total_area">
-                    <ul>
-                        <li>Подитог <span>@Model.PriceSum.ToString("C")</span></li>
-                        <li>Стоимость доставки <span>Free</span></li>
-                        <li>Количество товара <span>@Model.ItemsSum</span></li>
-                        <li>Итого <span>@Model.PriceSum.ToString("C")</span></li>
-                    </ul>
-                    <a class="btn btn-default update" href="">Обновить</a>
-                    <a class="btn btn-default check_out" href="">Оформить заказ</a>
-                </div>
-            </div>
-        </div>
+        <partial name="Partial/_CkeckOutPartial"
+                 model="Model.Order"
+                 view-data="@(new ViewDataDictionary(ViewData) {{"PriceSum", Model.Cart.PriceSum}})" />
     </div>
 </section><!--/#do_action-->
