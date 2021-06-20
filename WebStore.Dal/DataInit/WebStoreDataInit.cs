@@ -151,7 +151,6 @@ namespace WebStore.Dal.DataInit
 
             await CheckRole(Role.Administrators);
             await CheckRole(Role.Users);
-            await CheckRole(Role.Clients);
 
             if (await _userManager.FindByNameAsync(User.Administrator) is null)
             {

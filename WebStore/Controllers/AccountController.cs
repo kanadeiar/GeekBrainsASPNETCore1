@@ -52,10 +52,10 @@ namespace WebStore.Controllers
                 _logger.LogInformation($"Ползователь {user.UserName} успешно зарегистрирован");
 
                 #endregion
-                await _userManager.AddToRoleAsync(user, Role.Clients);
+                await _userManager.AddToRoleAsync(user, Role.Users);
                 #region Лог
 
-                _logger.LogInformation($"Пользователю {user.UserName} автоматически назначена роль {Role.Clients}");
+                _logger.LogInformation($"Пользователю {user.UserName} автоматически назначена роль {Role.Users}");
 
                 #endregion
                 await _signInManager.SignInAsync(user, false);
