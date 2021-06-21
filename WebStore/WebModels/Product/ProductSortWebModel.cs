@@ -11,6 +11,7 @@ namespace WebStore.WebModels.Product
         public ProductSortState BrandSort { get; set; } = ProductSortState.BrandAsc;
         public ProductSortState PriceSort { get; set; } = ProductSortState.PriceAsc;
         public ProductSortState Current { get; set; }
+        public ProductSortState Previous { get; set; }
         public bool Up { get; set; } = true;
 
         public ProductSortWebModel(ProductSortState sortOrder)
@@ -19,6 +20,8 @@ namespace WebStore.WebModels.Product
                 || sortOrder == ProductSortState.PriceDesc || sortOrder == ProductSortState.SectionDesc 
                 || sortOrder == ProductSortState.BrandDesc) 
                 Up = false;
+
+            Previous = sortOrder;
 
             switch (sortOrder)
             {

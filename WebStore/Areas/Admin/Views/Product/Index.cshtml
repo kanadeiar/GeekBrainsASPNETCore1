@@ -82,18 +82,10 @@
             }
             </tbody>
         </table>
-        @if (Model.Page.HasPreviousPage)
-        {
-            <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber - 1)" class="btn btn-default">
-                <i class="glyphicon glyphicon-chevron-left"></i> Назад
-            </a>
-        }
-        @if (Model.Page.HasNextPage)
-        {
-            <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber + 1)" class="btn btn-default">
-                Вперед <i class="glyphicon glyphicon-chevron-right"></i>
-            </a>
-        }
+        <page-link page-model="@Model.Page"
+                   page-action="Index"
+                   page-url-name="@Model.Filter.Name"
+                   page-url-sortorder="@Model.Sort.Previous"></page-link>
     }
     else
     {

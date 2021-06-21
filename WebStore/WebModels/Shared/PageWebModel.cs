@@ -8,9 +8,12 @@ namespace WebStore.WebModels.Shared
         public int TotalPages { get; set; }
         public int StartNumber { get; set; }
 
+        public bool HasFirstPage => PageNumber > 3;
+        public bool HasPrevPreviousPage => PageNumber > 2;
         public bool HasPreviousPage => PageNumber > 1;
         public bool HasNextPage => (PageNumber < TotalPages);
-
+        public bool HasNextNextPage => (PageNumber < TotalPages - 1);
+        public bool HasLastPage => (PageNumber < TotalPages - 2);
 
         public PageWebModel(int count, int pageNumber, int pageSize)
         {

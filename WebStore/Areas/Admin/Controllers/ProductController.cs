@@ -46,7 +46,6 @@ namespace WebStore.Areas.Admin.Controllers
             var pageSize = 6;
             var count = products!.Count();
             products = products!.Skip((page - 1) * pageSize).Take(pageSize);
-            var pageModel = new PageWebModel(count, page, pageSize);
 
             products = sortOrder switch
             {
@@ -66,7 +65,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 Filter = new ProductFilterWebModel(name),
                 Sort = new ProductSortWebModel(sortOrder),
-                Page = pageModel,
+                Page = new PageWebModel(count, page, pageSize),
                 Products = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(products.ToList()),
             };
             return View(webModel);
