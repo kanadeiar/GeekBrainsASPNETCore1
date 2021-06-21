@@ -17,6 +17,7 @@ using WebStore.Models;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
 using WebStore.WebModels.Product;
+using WebStore.WebModels.Shared;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -38,9 +39,14 @@ namespace WebStore.Areas.Admin.Controllers
             _ProductData = productData;
             _appEnvironment = appEnvironment;
         }
-        public IActionResult Index(string name, ProductSortState sortOrder = ProductSortState.NameAsc)
+        public IActionResult Index(string name, int page = 1, ProductSortState sortOrder = ProductSortState.NameAsc)
         {
             var products = _ProductData.GetProducts(new ProductFilter { Name = name }, true);
+
+            var pageSize = 6;
+            var count = products!.Count();
+            products = products!.Skip((page - 1) * pageSize).Take(pageSize);
+            var pageModel = new PageWebModel(count, page, pageSize);
 
             products = sortOrder switch
             {
@@ -60,6 +66,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 Filter = new ProductFilterWebModel(name),
                 Sort = new ProductSortWebModel(sortOrder),
+                Page = pageModel,
                 Products = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(products.ToList()),
             };
             return View(webModel);

@@ -59,7 +59,7 @@
             </tr>
             </thead>
             <tbody>
-            @{ var index = 1; }
+            @{ var index = Model.Page.StartNumber; }
             @foreach (var product in Model.Products)
             {
                 <tr>
@@ -82,7 +82,18 @@
             }
             </tbody>
         </table>
-
+        @if (Model.Page.HasPreviousPage)
+        {
+            <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber - 1)" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i> Назад
+            </a>
+        }
+        @if (Model.Page.HasNextPage)
+        {
+            <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber + 1)" class="btn btn-default">
+                Вперед <i class="glyphicon glyphicon-chevron-right"></i>
+            </a>
+        }
     }
     else
     {

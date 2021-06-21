@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WebStore.Areas.Admin.WebModels;
+using WebStore.WebModels.Shared;
 
 namespace WebStore.WebModels.Product
 {
@@ -8,6 +9,7 @@ namespace WebStore.WebModels.Product
     {
         public ProductFilterWebModel Filter { get; set; }
         public ProductSortWebModel Sort { get; set; }
+        public PageWebModel Page { get; set; }
         public IEnumerable<ProductEditWebModel> Products { get; set; }
     }
 }
