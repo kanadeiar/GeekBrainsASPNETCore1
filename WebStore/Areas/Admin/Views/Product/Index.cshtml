@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStore.WebModels.EditProductWebModel>
+﻿@model WebStore.WebModels.Product.ProductIndexWebModel
 @{
     ViewBag.Title = "Редактирование товаров";
 }
@@ -9,30 +9,50 @@
             <h2>@ViewBag.Title</h2>
         </div>
     </div>
-    <div class="row form-group">
-        <p>
-            <a asp-controller="Product" asp-action="Create" class="btn btn-primary">Создать</a>
-        </p>
+    <div class="row">
+        <div class="col-md-4">
+            <p><a asp-controller="Product" asp-action="Create" class="btn btn-primary">Создать</a></p>
+        </div>
     </div>
-    @if (Model.FirstOrDefault() is { } first)
+    @if (Model.Products.FirstOrDefault() is { } first)
     {
         <table class="table">
             <thead>
             <tr>
                 <th><label>№</label></th>
-                <th><label asp-for="@first.Name"></label></th>
-                <th><label asp-for="@first.BrandName"></label></th>
-                <th><label asp-for="@first.SectionName"></label></th>
-                <th><label asp-for="@first.Order"></label></th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.NameSort">
+                        <label asp-for="@first.Name" class="btn"></label>
+                    </product-sort>
+                </th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.BrandSort">
+                        <label asp-for="@first.BrandName" class="btn"></label>
+                    </product-sort>
+                </th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.SectionSort">
+                        <label asp-for="@first.SectionName" class="btn"></label>
+                    </product-sort>
+                </th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.OrderSort">
+                        <label asp-for="@first.Order" class="btn"></label>
+                    </product-sort>
+                </th>
                 <th><label asp-for="@first.ImageUrl"></label></th>
-                <th><label asp-for="@first.Price"></label></th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.PriceSort">
+                        <label asp-for="@first.Price" class="btn"></label>
+                    </product-sort>
+                </th>
                 <th></th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             @{ var index = 1; }
-            @foreach (var product in Model)
+            @foreach (var product in Model.Products)
             {
                 <tr>
                     <td>@(index++)</td>

@@ -9,5 +9,7 @@
         int? BrandId { get; set; }
         /// <summary> Идентификаторы </summary>
         int[] Ids { get; set; }
+        /// <summary> Фильтр по названию товара </summary>
+        public string Name { get; set; }
     }
 }

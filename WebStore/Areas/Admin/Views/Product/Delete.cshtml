@@ -1,4 +1,4 @@
-﻿@model WebStore.WebModels.EditProductWebModel
+﻿@model WebStore.WebModels.Product.ProductEditWebModel
 @{
     ViewBag.Title = "Удаление одного товара";
 }
@@ -57,12 +57,18 @@
         </dd>
     </dl>
     
-    <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" asp-antiforgery="true">
-        <input type="hidden" asp-for="Id"/>
-        <input type="submit" value="Подтвердить удаление" class="btn btn-danger"/>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" asp-antiforgery="true">
+                <input type="hidden" asp-for="Id"/>
+                <input type="submit" value="Подтвердить удаление" class="btn btn-danger"/>
+            </form>
+        </div>
+    </div>
 
-    <div class="row form-group">
-        <a asp-action="Index" class="btn btn-default">Назад к списку всех товаров</a>
+    <div class="row">
+        <div class="col-md-4">
+            <a asp-action="Index" class="btn btn-default">Назад к списку всех товаров</a>
+        </div>
     </div>
 </div>

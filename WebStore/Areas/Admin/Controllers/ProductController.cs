@@ -10,8 +10,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
+using WebStore.Models;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
+using WebStore.WebModels.Product;
 
 namespace WebStore.Areas.Admin.Controllers
 {
@@ -22,29 +24,50 @@ namespace WebStore.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _appEnvironment;
 
         private readonly Mapper _mapperProductToWeb =
-            new(new MapperConfiguration(c => c.CreateMap<Product, EditProductWebModel>()            
+            new(new MapperConfiguration(c => c.CreateMap<Product, ProductEditWebModel>()            
                 .ForMember("SectionName", o => o.MapFrom(p => p.Section.Name))
                 .ForMember("BrandName", o => o.MapFrom(p => p.Brand.Name))));
         private readonly Mapper _mapperProductFromWeb =
-            new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()));
+            new(new MapperConfiguration(c => c.CreateMap<ProductEditWebModel, Product>()));
 
         public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
             _ProductData = productData;
             _appEnvironment = appEnvironment;
         }
-        public IActionResult Index()
+        public IActionResult Index(ProductSortState sortOrder = ProductSortState.NameAsc)
         {
-            var model = _mapperProductToWeb.Map<IEnumerable<EditProductWebModel>>(_ProductData.GetProducts(includes:true)
-                .OrderBy(p => p.Order));
-            return View(model);
+            //var model = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(_ProductData.GetProducts(includes:true)
+            //    .OrderBy(p => p.Order));
+            //return View(model);
+            var products = _ProductData.GetProducts(includes: true);
+            products = sortOrder switch
+            {
+                ProductSortState.NameAsc => products.OrderBy(p => p.Name),
+                ProductSortState.NameDesc => products.OrderByDescending(p => p.Name),
+                ProductSortState.OrderAsc => products.OrderBy(p => p.Order),
+                ProductSortState.OrderDesc => products.OrderByDescending(p => p.Order),
+                ProductSortState.PriceAsc => products.OrderBy(p => p.Price),
+                ProductSortState.PriceDesc => products.OrderByDescending(p => p.Price),
+                ProductSortState.SectionAsc => products.OrderBy(p => p.Section.Name),
+                ProductSortState.SectionDesc => products.OrderByDescending(p => p.Section.Name),
+                ProductSortState.BrandAsc => products.OrderBy(p => p.Brand.Name),
+                ProductSortState.BrandDesc => products.OrderByDescending(p => p.Brand.Name),
+                _ => products.OrderBy(p => p.Name),
+            };
+            var webModel = new ProductIndexWebModel
+            {
+                Sort = new ProductSortWebModel(sortOrder),
+                Products = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(products.ToList()),
+            };
+            return View(webModel);
         }
 
         public IActionResult Create()
         {
             ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
             ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-            return View("Edit", new EditProductWebModel());
+            return View("Edit", new ProductEditWebModel());
         }
 
         public IActionResult Edit(int id)
@@ -55,13 +78,13 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
+                return View(_mapperProductToWeb.Map<ProductEditWebModel>(product));
             }
             return NotFound();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditProductWebModel model, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(ProductEditWebModel model, IFormFile uploadedFile)
         {
             if (model is null)
                 return BadRequest();
@@ -99,7 +122,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
+                return View(_mapperProductToWeb.Map<ProductEditWebModel>(product));
             }
             return NotFound();
         }

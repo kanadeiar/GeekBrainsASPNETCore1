@@ -1,4 +1,4 @@
-﻿@model WebStore.WebModels.EditProductWebModel
+﻿@model WebStore.WebModels.Product.ProductEditWebModel
 @{
     ViewBag.Title = "Редактирование одного товара";
 }
@@ -69,6 +69,8 @@
 
     </div>
     <div class="row form-group">
-        <a asp-action="Index" class="btn btn-default">Назад к списку всех товаров</a>
+        <div class="col-md-4">
+            <a asp-action="Index" class="btn btn-default">Назад к списку всех товаров</a>
+        </div>
     </div>
 </div>
