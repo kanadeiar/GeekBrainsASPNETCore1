@@ -7,5 +7,6 @@ namespace WebStore.Domain.Infrastructure.Filters
         public int? SectionId { get; set; }
         public int? BrandId { get; set; }
         public int[] Ids { get; set; }
+        public string Name { get; set; }
     }
 }

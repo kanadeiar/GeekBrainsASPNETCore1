@@ -15,9 +15,9 @@ namespace WebStore.Controllers
         private readonly Mapper _mapperProductToWeb = new(new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
-        public HomeController(IConfiguration Configuration)
+        public HomeController(IConfiguration configuration)
         {
-            _Configuration = Configuration;
+            _Configuration = configuration;
         }
         public IActionResult Index([FromServices] IProductData productData)
         {

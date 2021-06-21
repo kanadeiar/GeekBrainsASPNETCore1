@@ -7,9 +7,11 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
+using WebStore.WebModels.Cart;
 
 namespace WebStore.Services
 {
+    /// <summary> Сервис корзины в куках браузера </summary>
     public class InCookiesCartService : ICartService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

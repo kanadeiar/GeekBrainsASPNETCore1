@@ -1,18 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebStore.Services.Interfaces;
+using WebStore.WebModels.Cart;
 
 namespace WebStore.Controllers
 {
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
-        public CartController(ICartService cartService)
+        private readonly IOrderService _orderService;
+
+        public CartController(ICartService cartService, IOrderService orderService)
         {
             _cartService = cartService;
+            _orderService = orderService;
         }
         public IActionResult Index()
         {
-            return View(_cartService.GetWebModel());
+            return View(new CartOrderWebModel{Cart = _cartService.GetWebModel()});
         }
         public IActionResult Add(int id)
         {
@@ -33,6 +39,28 @@ namespace WebStore.Controllers
         {
             _cartService.Clear();
             return RedirectToAction("Index", "Cart");
+        }
+
+        [HttpPost, Authorize, ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckOut(CreateOrderWebModel model, [FromServices] IOrderService orderService)
+        {
+            if (!ModelState.IsValid)
+                return View(nameof(Index), 
+                    new CartOrderWebModel {Cart = _cartService.GetWebModel(), Order = model});
+
+            var order = await _orderService.CreateOrder(User.Identity!.Name, _cartService.GetWebModel(), model);
+            
+            _cartService.Clear();
+
+            return RedirectToAction(nameof(OrderConfirmed), new {order.Id});
+        }
+
+        [Authorize]
+        public async Task<IActionResult> OrderConfirmed(int id)
+        {
+            ViewBag.OrderId = id;
+            ViewBag.Name = (await _orderService.GetOrderById(id)).Name;
+            return View();
         }
     }
 }

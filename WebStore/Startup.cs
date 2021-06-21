@@ -27,11 +27,20 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreContext>(options => 
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("Default"),
-                    o => o.MigrationsAssembly("WebStore.Dal"))
-                );
+            var databaseName = Configuration["Database"];
+            switch (databaseName)
+            {
+                case "MSSQL": 
+                    services.AddDbContext<WebStoreContext>(opt => 
+                        opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
+                            o => o.MigrationsAssembly("WebStore.Dal")));
+                    break;
+                case "SQLite":
+                    services.AddDbContext<WebStoreContext>(opt =>
+                        opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
+                            o => o.MigrationsAssembly("WebStore.Dal.Sqlite")));
+                    break;
+            }
 
             services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
 
@@ -75,14 +84,16 @@ namespace WebStore
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IProductData, DatabaseProductData>();
             services.AddScoped<IWorkerData, DatabaseWorkerData>();
+            services.AddScoped<IOrderService, DatabaseOrderService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
             // TODO: Раскомментировать для пересоздания базы данных
-            //using (var scope = service.CreateScope())
+            using (var scope = service.CreateScope())
             //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
+                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().InitData();
 
             if (env.IsDevelopment())
             {

@@ -1,0 +1,25 @@
+﻿@using WebStore.Domain.Identity
+@{
+    ViewBag.Title = "Профиль пользователя";
+    Layout = "_UserProfileLayout";
+}
+
+<div class="row form-group">
+    <h2>@ViewBag.Title</h2>
+</div>
+
+@if (User.IsInRole(Role.Administrators))
+{
+    <div class="alert alert-info">
+        <p>Приветствую тебя, администратор сайта!</p>
+    </div>
+}
+else
+{
+    <div class="alert alert-success">
+        <p>Приветствую тебя, пользователь!</p>
+    </div>
+}
+<div>
+    <p>Ваше имя пользователя: <span>@User.Identity?.Name</span></p>
+</div>

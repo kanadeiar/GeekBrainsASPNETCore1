@@ -6,6 +6,5 @@ namespace WebStore.Domain.Identity
     {
         public const string Administrators = "Administrators";
         public const string Users = "Users";
-        public const string Clients = "Clients";
     }
 }

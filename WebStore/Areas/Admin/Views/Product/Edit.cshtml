@@ -1,4 +1,4 @@
-﻿@model WebStore.WebModels.EditProductWebModel
+﻿@model WebStore.WebModels.Product.ProductEditWebModel
 @{
     ViewBag.Title = "Редактирование одного товара";
 }
@@ -17,10 +17,12 @@
     <hr/>
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Edit" asp-antiforgery="true">
+            <form asp-controller="Product" asp-antiforgery="true" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <input type="hidden" asp-for="Id" />
+
+                <input type="hidden" asp-for="ImageUrl" />
 
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
@@ -42,7 +44,7 @@
 
                 <div class="form-group">
                     <label asp-for="ImageUrl" class="control-label"></label>
-                    <input asp-for="ImageUrl" class="form-control" />
+                    <input type="file" name="uploadedFile" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     <img src="~/images/shop/@Model.ImageUrl" alt="@Model.ImageUrl" height="200" />
                 </div>
@@ -60,13 +62,15 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="Сохранить" class="btn btn-primary" />
+                    <button asp-action="Edit" class="btn btn-primary">Сохранить</button>
                 </div>
             </form>
         </div>
-        <div class="row form-group">
+
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4">
             <a asp-action="Index" class="btn btn-default">Назад к списку всех товаров</a>
         </div>
     </div>
-
 </div>

@@ -38,6 +38,8 @@ namespace WebStore.Services
             }
             else
             {
+                if (productFilter?.Name is { } name)
+                    query = query.Where(q => q.Name.Contains(name));
                 if (productFilter?.SectionId is { } sectionId)
                     query = query.Where(q => q.SectionId == sectionId);
                 if (productFilter?.BrandId is { } brandId)
