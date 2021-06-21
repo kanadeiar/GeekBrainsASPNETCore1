@@ -10,7 +10,7 @@ namespace WebStore.Domain.Identity
 
         
         public const string Administrator = "Admin";
-        //public const string DefaultAdministratorPassword = "12DBF150wifi@";
-        public const string DefaultAdministratorPassword = "123";
+        public const string DefaultAdministratorPassword = "12DBF150wifi@";
+        //public const string DefaultAdministratorPassword = "123";
     }
 }
