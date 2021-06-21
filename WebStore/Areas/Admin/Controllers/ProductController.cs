@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +9,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WebStore.Areas.Admin.WebModels;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
+using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Models;
 using WebStore.Services.Interfaces;
 using WebStore.WebModels;
@@ -35,9 +38,10 @@ namespace WebStore.Areas.Admin.Controllers
             _ProductData = productData;
             _appEnvironment = appEnvironment;
         }
-        public IActionResult Index(ProductSortState sortOrder = ProductSortState.NameAsc)
+        public IActionResult Index(string name, ProductSortState sortOrder = ProductSortState.NameAsc)
         {
-            var products = _ProductData.GetProducts(includes: true);
+            var products = _ProductData.GetProducts(new ProductFilter { Name = name }, true);
+
             products = sortOrder switch
             {
                 ProductSortState.NameAsc => products.OrderBy(p => p.Name),
@@ -54,6 +58,7 @@ namespace WebStore.Areas.Admin.Controllers
             };
             var webModel = new ProductIndexWebModel
             {
+                Filter = new ProductFilterWebModel(name),
                 Sort = new ProductSortWebModel(sortOrder),
                 Products = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(products.ToList()),
             };

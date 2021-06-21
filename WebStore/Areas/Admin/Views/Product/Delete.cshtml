@@ -57,7 +57,7 @@
         </dd>
     </dl>
     
-    <div class="row">
+    <div class="row form-group">
         <div class="col-md-4">
             <form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" asp-antiforgery="true">
                 <input type="hidden" asp-for="Id"/>
@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group">
         <div class="col-md-4">
             <a asp-action="Index" class="btn btn-default">Назад к списку всех товаров</a>
         </div>

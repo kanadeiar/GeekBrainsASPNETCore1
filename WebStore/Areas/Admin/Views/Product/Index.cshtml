@@ -16,34 +16,42 @@
     </div>
     @if (Model.Products.FirstOrDefault() is { } first)
     {
+        <form method="get">
+            <div class="form-inline form-group">
+                <label class="control-label">Название товара:</label>
+                <input name="name" class="form-control" value="@Model.Filter.Name"/>
+
+                <input type="submit" value="Фильтр" class="btn btn-default"/>
+            </div>
+        </form>
         <table class="table">
             <thead>
             <tr>
                 <th><label>№</label></th>
                 <th>
-                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.NameSort">
-                        <label asp-for="@first.Name" class="btn"></label>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.NameSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.Name"></label>
                     </product-sort>
                 </th>
                 <th>
-                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.BrandSort">
-                        <label asp-for="@first.BrandName" class="btn"></label>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.BrandSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.BrandName"></label>
                     </product-sort>
                 </th>
                 <th>
-                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.SectionSort">
-                        <label asp-for="@first.SectionName" class="btn"></label>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.SectionSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.SectionName"></label>
                     </product-sort>
                 </th>
                 <th>
-                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.OrderSort">
-                        <label asp-for="@first.Order" class="btn"></label>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.OrderSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.Order"></label>
                     </product-sort>
                 </th>
                 <th><label asp-for="@first.ImageUrl"></label></th>
                 <th>
-                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.PriceSort">
-                        <label asp-for="@first.Price" class="btn"></label>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.PriceSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.Price"></label>
                     </product-sort>
                 </th>
                 <th></th>

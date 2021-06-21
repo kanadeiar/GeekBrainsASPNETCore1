@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -20,6 +21,9 @@ namespace WebStore.TagHelpers
         [ViewContext, HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; } = new (); 
+
         public ProductSortTagHelper(IUrlHelperFactory urlHelperFactory)
         {
             _urlHelperFactory = urlHelperFactory;
@@ -29,7 +33,10 @@ namespace WebStore.TagHelpers
         {
             var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
-            var url = urlHelper.Action(Action, new {SortOrder = Property});
+
+            PageUrlValues["SortOrder"] = Property;
+            var url = urlHelper.Action(Action, PageUrlValues);
+
             output.Attributes.SetAttribute("href", url);
 
             if (Current == Property)
