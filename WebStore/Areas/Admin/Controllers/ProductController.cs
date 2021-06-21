@@ -37,9 +37,6 @@ namespace WebStore.Areas.Admin.Controllers
         }
         public IActionResult Index(ProductSortState sortOrder = ProductSortState.NameAsc)
         {
-            //var model = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(_ProductData.GetProducts(includes:true)
-            //    .OrderBy(p => p.Order));
-            //return View(model);
             var products = _ProductData.GetProducts(includes: true);
             products = sortOrder switch
             {

@@ -92,8 +92,8 @@ namespace WebStore
         {
             // TODO: Раскомментировать для пересоздания базы данных
             using (var scope = service.CreateScope())
-                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
-            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().InitData();
+            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
+                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().InitData();
 
             if (env.IsDevelopment())
             {
