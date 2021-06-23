@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebStore.Dal\WebStore.Dal.csproj" />
-    <ProjectReference Include="..\WebStore.Domain\WebStore.Domain.csproj" />
   </ItemGroup>
 
 </Project>
