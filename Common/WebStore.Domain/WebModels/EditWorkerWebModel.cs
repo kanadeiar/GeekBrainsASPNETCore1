@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.Domain.WebModels
 {
-    /// <summary> Веб модель работника </summary>
-    public class WorkerWebModel 
+    /// <summary> Веб модель редактирования данных работника </summary>
+    public class EditWorkerWebModel 
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }

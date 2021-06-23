@@ -15,9 +15,9 @@ namespace WebStore.Controllers
         private readonly IWorkerData _Workers;
         private readonly ILogger<WorkersController> _logger;
         private readonly Mapper _mapperWorkerToWeb = 
-            new (new MapperConfiguration(c => c.CreateMap<Worker, WorkerWebModel>()));
+            new (new MapperConfiguration(c => c.CreateMap<Worker, EditWorkerWebModel>()));
         private readonly Mapper _mapperWorkerFromWeb =
-            new(new MapperConfiguration(c => c.CreateMap<WorkerWebModel, Worker>()));
+            new(new MapperConfiguration(c => c.CreateMap<EditWorkerWebModel, Worker>()));
 
         public WorkersController(IWorkerData workerData, ILogger<WorkersController> logger)
         {
@@ -40,14 +40,14 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            return View(_mapperWorkerToWeb.Map<WorkerWebModel>(worker));
+            return View(_mapperWorkerToWeb.Map<EditWorkerWebModel>(worker));
         }
 
         [Authorize(Roles = Role.Administrators)]
         public IActionResult Edit(int? id)
         {
             if (id is null)
-                return View(new WorkerWebModel());
+                return View(new EditWorkerWebModel());
             if (id <= 0) 
                 return BadRequest();
 
@@ -55,11 +55,11 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
             
-            return View(_mapperWorkerToWeb.Map<WorkerWebModel>(worker));
+            return View(_mapperWorkerToWeb.Map<EditWorkerWebModel>(worker));
         }
 
         [HttpPost, Authorize(Roles = Role.Administrators)]
-        public IActionResult Edit(WorkerWebModel model)
+        public IActionResult Edit(EditWorkerWebModel model)
         {            
             if (model is null)
                 return BadRequest();
@@ -92,7 +92,7 @@ namespace WebStore.Controllers
             if (worker is null)
                 return NotFound();
 
-            return View(_mapperWorkerToWeb.Map<WorkerWebModel>(worker));
+            return View(_mapperWorkerToWeb.Map<EditWorkerWebModel>(worker));
         }
         
         [HttpPost, Authorize(Roles = Role.Administrators)]

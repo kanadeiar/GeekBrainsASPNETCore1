@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace WebStore.Domain.WebModels.Cart
 {
+    /// <summary> Веб модель корзины товаров </summary>
     public class CartWebModel
     {
         public IEnumerable<(ProductWebModel Product, int Quantity, decimal PriceSum)> Items { get; set; }

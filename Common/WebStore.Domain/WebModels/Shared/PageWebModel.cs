@@ -2,6 +2,7 @@
 
 namespace WebStore.Domain.WebModels.Shared
 {
+    /// <summary> Вебмодель пагинации </summary>
     public class PageWebModel
     {
         public int PageNumber { get; set; }

@@ -1,5 +1,6 @@
 ﻿namespace WebStore.Domain.WebModels.UserProfile
 {
+    /// <summary> Веб модель данных заказа пользователя </summary>
     public class UserOrderWebModel
     {
         public int Id { get; set; }

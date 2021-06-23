@@ -12,7 +12,6 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
 using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Domain.Models;
-using WebStore.Domain.WebModels.Admin;
 using WebStore.Domain.WebModels.Product;
 using WebStore.Domain.WebModels.Shared;
 using WebStore.Interfaces.Services;
@@ -26,11 +25,11 @@ namespace WebStore.Areas.Admin.Controllers
         private readonly IWebHostEnvironment _appEnvironment;
 
         private readonly Mapper _mapperProductToWeb =
-            new(new MapperConfiguration(c => c.CreateMap<Product, ProductEditWebModel>()            
+            new(new MapperConfiguration(c => c.CreateMap<Product, EditProductWebModel>()            
                 .ForMember("SectionName", o => o.MapFrom(p => p.Section.Name))
                 .ForMember("BrandName", o => o.MapFrom(p => p.Brand.Name))));
         private readonly Mapper _mapperProductFromWeb =
-            new(new MapperConfiguration(c => c.CreateMap<ProductEditWebModel, Product>()));
+            new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()));
 
         public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
@@ -64,7 +63,7 @@ namespace WebStore.Areas.Admin.Controllers
                 Filter = new ProductFilterWebModel(name),
                 Sort = new ProductSortWebModel(sortOrder),
                 Page = new PageWebModel(count, page, pageSize),
-                Products = _mapperProductToWeb.Map<IEnumerable<ProductEditWebModel>>(products.ToList()),
+                Products = _mapperProductToWeb.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
             };
             return View(webModel);
         }
@@ -73,7 +72,7 @@ namespace WebStore.Areas.Admin.Controllers
         {
             ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
             ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-            return View("Edit", new ProductEditWebModel());
+            return View("Edit", new EditProductWebModel());
         }
 
         public IActionResult Edit(int id)
@@ -84,13 +83,13 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToWeb.Map<ProductEditWebModel>(product));
+                return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
             }
             return NotFound();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProductEditWebModel model, IFormFile uploadedFile)
+        public async Task<IActionResult> Edit(EditProductWebModel model, IFormFile uploadedFile)
         {
             if (model is null)
                 return BadRequest();
@@ -128,7 +127,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(_ProductData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(_ProductData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToWeb.Map<ProductEditWebModel>(product));
+                return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
             }
             return NotFound();
         }
