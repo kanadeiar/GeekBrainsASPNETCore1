@@ -1,6 +1,4 @@
-﻿using WebStore.Dal.DataInit;
-
-namespace WebStore.Dal.Interfaces
+﻿namespace WebStore.Dal.Interfaces
 {
     public interface IWebStoreDataInit
     {
