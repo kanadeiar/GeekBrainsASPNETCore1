@@ -10,11 +10,12 @@ using Microsoft.Extensions.Hosting;
 using WebStore.Dal.Context;
 using WebStore.Dal.DataInit;
 using WebStore.Dal.Interfaces;
-using WebStore.Data;
 using WebStore.Domain.Identity;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Interfaces.Services;
 using WebStore.Services;
+using WebStore.Services.Data;
+using WebStore.Services.Services;
 
 namespace WebStore
 {

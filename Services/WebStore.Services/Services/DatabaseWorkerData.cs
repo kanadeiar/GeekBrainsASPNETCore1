@@ -7,7 +7,7 @@ using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 
-namespace WebStore.Services
+namespace WebStore.Services.Services
 {
     /// <summary> Хранение данных по работникам в базе данных </summary>
     public class DatabaseWorkerData : IWorkerData

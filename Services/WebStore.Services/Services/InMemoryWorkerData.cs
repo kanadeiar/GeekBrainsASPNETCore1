@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using WebStore.Data;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 
-namespace WebStore.Services
+namespace WebStore.Services.Services
 {
     /// <summary> Хранилище в оперативной памяти </summary>
     [Obsolete("Не использовать этот класс для хранения данных по работникам", false)]

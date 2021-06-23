@@ -11,7 +11,7 @@ using WebStore.Domain.Identity;
 using WebStore.Domain.WebModels.Cart;
 using WebStore.Interfaces.Services;
 
-namespace WebStore.Services
+namespace WebStore.Services.Services
 {
     /// <summary> Сервис заказов в базе данных </summary>
     public class DatabaseOrderService : IOrderService

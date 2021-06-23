@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebStore.Data;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Interfaces;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 
-namespace WebStore.Services
+namespace WebStore.Services.Services
 {
     /// <summary> Хранение товаров в оперативной памяти </summary>
     [Obsolete("Не использовать этот класс для хранения товаров", true)]

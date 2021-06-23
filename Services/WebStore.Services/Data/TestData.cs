@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebStore.Domain.Entities;
 
-namespace WebStore.Data
+namespace WebStore.Services.Data
 {
     public class TestData
     {

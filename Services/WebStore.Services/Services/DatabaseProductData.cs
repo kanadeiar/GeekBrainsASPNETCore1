@@ -8,7 +8,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Interfaces;
 using WebStore.Interfaces.Services;
 
-namespace WebStore.Services
+namespace WebStore.Services.Services
 {
     /// <summary> Хранение данных в базе данных по товарам </summary>
     public class DatabaseProductData : IProductData

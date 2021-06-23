@@ -9,7 +9,7 @@ using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
 using WebStore.Interfaces.Services;
 
-namespace WebStore.Services
+namespace WebStore.Services.Services
 {
     /// <summary> Сервис корзины в куках браузера </summary>
     public class InCookiesCartService : ICartService
