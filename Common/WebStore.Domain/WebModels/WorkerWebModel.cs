@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebStore.WebModels
+namespace WebStore.Domain.WebModels
 {
     /// <summary> Веб модель работника </summary>
     public class WorkerWebModel 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStore.WebModels.Cart
+namespace WebStore.Domain.WebModels.Cart
 {
     /// <summary> Веб модель создания заказа </summary>
     public class CreateOrderWebModel

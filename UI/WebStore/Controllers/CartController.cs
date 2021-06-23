@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebStore.Services.Interfaces;
-using WebStore.WebModels.Cart;
+using WebStore.Domain.WebModels.Cart;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {

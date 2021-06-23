@@ -13,8 +13,8 @@ using WebStore.Dal.Interfaces;
 using WebStore.Data;
 using WebStore.Domain.Identity;
 using WebStore.Infrastructure.Middleware;
+using WebStore.Interfaces.Services;
 using WebStore.Services;
-using WebStore.Services.Interfaces;
 
 namespace WebStore
 {

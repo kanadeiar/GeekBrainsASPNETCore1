@@ -1,6 +1,6 @@
-﻿using WebStore.Models;
+﻿using WebStore.Domain.Models;
 
-namespace WebStore.WebModels.Product
+namespace WebStore.Domain.WebModels.Product
 {
     /// <summary> Вебмодель сортировки продуктов </summary>
     public class ProductSortWebModel

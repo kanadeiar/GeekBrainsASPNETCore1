@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace WebStore.WebModels.Cart
+namespace WebStore.Domain.WebModels.Cart
 {
     public class CartWebModel
     {

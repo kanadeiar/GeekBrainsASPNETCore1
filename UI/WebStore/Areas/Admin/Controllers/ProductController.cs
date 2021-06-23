@@ -9,15 +9,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WebStore.Areas.Admin.WebModels;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
 using WebStore.Domain.Infrastructure.Filters;
-using WebStore.Models;
-using WebStore.Services.Interfaces;
-using WebStore.WebModels;
-using WebStore.WebModels.Product;
-using WebStore.WebModels.Shared;
+using WebStore.Domain.Models;
+using WebStore.Domain.WebModels.Admin;
+using WebStore.Domain.WebModels.Product;
+using WebStore.Domain.WebModels.Shared;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Areas.Admin.Controllers
 {

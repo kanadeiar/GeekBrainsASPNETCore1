@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebStore.WebModels.Product
+namespace WebStore.Domain.WebModels.Product
 {
     /// <summary> Веб модель редактирования товара </summary>
     public class ProductEditWebModel

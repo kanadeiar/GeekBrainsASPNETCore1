@@ -1,4 +1,4 @@
-﻿namespace WebStore.WebModels.UserProfile
+﻿namespace WebStore.Domain.WebModels.UserProfile
 {
     public class UserOrderWebModel
     {

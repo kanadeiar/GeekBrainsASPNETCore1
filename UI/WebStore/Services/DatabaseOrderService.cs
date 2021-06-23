@@ -8,9 +8,8 @@ using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Identity;
-using WebStore.Services.Interfaces;
-using WebStore.WebModels;
-using WebStore.WebModels.Cart;
+using WebStore.Domain.WebModels.Cart;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services
 {

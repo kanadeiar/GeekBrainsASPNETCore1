@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Filters;
-using WebStore.Services.Interfaces;
-using WebStore.WebModels;
-using WebStore.WebModels.Cart;
+using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.Cart;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services
 {

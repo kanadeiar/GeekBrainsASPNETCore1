@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebStore.WebModels.Account
+namespace WebStore.Domain.WebModels.Account
 {
     /// <summary> Веб модель входа в систему </summary>
     public class LoginWebModel

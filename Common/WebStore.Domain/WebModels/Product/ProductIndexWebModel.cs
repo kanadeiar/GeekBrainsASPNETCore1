@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using WebStore.Areas.Admin.WebModels;
-using WebStore.WebModels.Shared;
+using WebStore.Domain.WebModels.Admin;
+using WebStore.Domain.WebModels.Shared;
 
-namespace WebStore.WebModels.Product
+namespace WebStore.Domain.WebModels.Product
 {
     /// <summary> Общая вебмодель для отображения отфильтрованных продуктов </summary>
     public class ProductIndexWebModel

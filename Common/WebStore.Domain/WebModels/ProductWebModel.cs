@@ -1,4 +1,4 @@
-﻿namespace WebStore.WebModels
+﻿namespace WebStore.Domain.WebModels
 {
     /// <summary> Веб модель товара </summary>
     public class ProductWebModel

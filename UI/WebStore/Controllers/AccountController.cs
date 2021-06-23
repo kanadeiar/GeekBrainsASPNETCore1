@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebStore.Domain.Identity;
 using WebStore.Domain.Identity.ErrorCodes;
-using WebStore.WebModels;
-using WebStore.WebModels.Account;
+using WebStore.Domain.WebModels.Account;
 
 namespace WebStore.Controllers
 {

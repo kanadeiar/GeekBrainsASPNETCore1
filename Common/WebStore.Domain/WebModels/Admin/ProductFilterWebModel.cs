@@ -1,4 +1,4 @@
-﻿namespace WebStore.Areas.Admin.WebModels
+﻿namespace WebStore.Domain.WebModels.Admin
 {
     public class ProductFilterWebModel
     {

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Interfaces;
-using WebStore.Services.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services
 {

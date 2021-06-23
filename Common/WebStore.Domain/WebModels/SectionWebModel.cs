@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebStore.WebModels
+namespace WebStore.Domain.WebModels
 {
     /// <summary> Веб модель категории </summary>
     public class SectionWebModel

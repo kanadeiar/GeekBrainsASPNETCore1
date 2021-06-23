@@ -4,7 +4,7 @@ using System.Linq;
 using WebStore.Data;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Infrastructure.Interfaces;
-using WebStore.Services.Interfaces;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services
 {

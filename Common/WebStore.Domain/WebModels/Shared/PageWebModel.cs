@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebStore.WebModels.Shared
+namespace WebStore.Domain.WebModels.Shared
 {
     public class PageWebModel
     {

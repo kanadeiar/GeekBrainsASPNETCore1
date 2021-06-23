@@ -1,7 +1,6 @@
-﻿using WebStore.WebModels;
-using WebStore.WebModels.Cart;
+﻿using WebStore.Domain.WebModels.Cart;
 
-namespace WebStore.Services.Interfaces
+namespace WebStore.Interfaces.Services
 {
     public interface ICartService
     {

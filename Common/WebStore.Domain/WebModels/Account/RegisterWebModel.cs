@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStore.WebModels.Account
+namespace WebStore.Domain.WebModels.Account
 {
     /// <summary> Веб модель регистрации </summary>
     public class RegisterWebModel

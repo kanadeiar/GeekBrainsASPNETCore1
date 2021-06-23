@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Identity;
-using WebStore.Services.Interfaces;
-using WebStore.WebModels.UserProfile;
+using WebStore.Domain.WebModels.UserProfile;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {

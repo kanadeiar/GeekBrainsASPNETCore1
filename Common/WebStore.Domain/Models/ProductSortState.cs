@@ -1,4 +1,4 @@
-﻿namespace WebStore.Models
+﻿namespace WebStore.Domain.Models
 {
     /// <summary> Состояние сортировки </summary>
     public enum ProductSortState
