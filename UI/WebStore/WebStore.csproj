@@ -34,6 +34,7 @@
     <ProjectReference Include="..\..\Services\WebStore.Dal.Sqlite\WebStore.Dal.Sqlite.csproj" />
     <ProjectReference Include="..\..\Services\WebStore.Dal\WebStore.Dal.csproj" />
     <ProjectReference Include="..\..\Services\WebStore.Interfaces\WebStore.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Services\WebStore.Services\WebStore.Services.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://beaujs.com/schema.json" /></VisualStudio></ProjectExtensions>
