@@ -1,0 +1,103 @@
+﻿@model WebStore.Domain.WebModels.Product.ProductIndexWebModel
+@{
+    ViewBag.Title = "Редактирование товаров";
+}
+
+<div id="page-inner">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p><a asp-controller="Product" asp-action="Create" class="btn btn-primary">Создать</a></p>
+        </div>
+    </div>
+    @if (Model.Products.FirstOrDefault() is { } first)
+    {
+        <form method="get">
+            <div class="form-inline form-group">
+                <label class="control-label">Название товара:</label>
+                <input name="name" class="form-control" value="@Model.Filter.Name"/>
+
+                <input type="submit" value="Фильтр" class="btn btn-default"/>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><label>№</label></th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.NameSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.Name"></label>
+                    </product-sort>
+                </th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.BrandSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.BrandName"></label>
+                    </product-sort>
+                </th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.SectionSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.SectionName"></label>
+                    </product-sort>
+                </th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.OrderSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.Order"></label>
+                    </product-sort>
+                </th>
+                <th><label asp-for="@first.ImageUrl"></label></th>
+                <th>
+                    <product-sort action="Index" current="@Model.Sort.Current" up="@Model.Sort.Up" property="@Model.Sort.PriceSort" page-url-name="@Model.Filter.Name">
+                        <label asp-for="@first.Price"></label>
+                    </product-sort>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @{ var index = Model.Page.StartNumber; }
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@(index++)</td>
+                    <td>@product?.Name</td>
+                    <td>@product?.BrandName</td>
+                    <td>@product.SectionName</td>
+                    <td>@product.Order</td>
+                    <td>
+                        <img src="~/images/shop/@product.ImageUrl" width="90" alt="@product.Name"/>
+                    </td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"><i class="glyphicon glyphicon-edit"></i></a>
+                    </td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"><i class="glyphicon glyphicon-trash text-danger"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <page-link page-model="@Model.Page"
+                   page-action="Index"
+                   page-url-name="@Model.Filter.Name"
+                   page-url-sortorder="@Model.Sort.Previous"></page-link>
+    }
+    else
+    {
+        <hr/>
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div class="alert alert-danger">
+                    Товары отсутствуют <strong>Нужно их добавить!</strong>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+

@@ -1,0 +1,46 @@
+﻿@model WebStore.Domain.WebModels.Cart.CreateOrderWebModel
+
+<div class="row">
+    <form asp-action="CheckOut" asp-antiforgery="true">
+        <div class="col-sm-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Название этого заказа" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" placeholder="Ваш номер телефона" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" placeholder="Введите свой почтовый адрес" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            @{ ViewData.TryGetValue("PriceSum", out var priceSum); }
+            @if (priceSum is decimal price and > 0)
+            {
+                <div class="total_area">
+                    <ul>
+                        <li>Подитог <span>@price.ToString("C")</span></li>
+                        <li>Эко-сбор <span>0</span></li>
+                        <li>Итого <span>@price.ToString("C")</span></li>
+                        <li>Стоимость доставки <span>Free</span></li>
+                    </ul>
+                    <a class="btn btn-default update" href="">Обновить</a>
+                    <input type="submit" class="btn btn-default check_out" value="Оформить заказ"/>
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+
