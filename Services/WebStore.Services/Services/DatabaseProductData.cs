@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Interfaces;
+using WebStore.Domain.Models.Interfaces;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Services

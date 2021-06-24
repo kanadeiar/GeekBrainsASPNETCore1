@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
-using WebStore.Domain.Infrastructure.Filters;
 using WebStore.Domain.Models;
 using WebStore.Domain.WebModels.Product;
 using WebStore.Domain.WebModels.Shared;

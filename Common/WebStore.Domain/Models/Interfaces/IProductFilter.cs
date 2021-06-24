@@ -1,4 +1,4 @@
-﻿namespace WebStore.Domain.Infrastructure.Interfaces
+﻿namespace WebStore.Domain.Models.Interfaces
 {
     /// <summary> Фильтр по товарам </summary>
     public interface IProductFilter

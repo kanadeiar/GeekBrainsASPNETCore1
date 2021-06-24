@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Filters;
+using WebStore.Domain.Models;
 using WebStore.Domain.WebModels;
 using WebStore.Interfaces.Services;
 

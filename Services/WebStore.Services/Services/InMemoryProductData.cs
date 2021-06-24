@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Infrastructure.Interfaces;
+using WebStore.Domain.Models.Interfaces;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 
