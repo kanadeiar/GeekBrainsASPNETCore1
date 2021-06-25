@@ -88,7 +88,8 @@ namespace WebStore
             services.AddScoped<IWorkerData, DatabaseWorkerData>();
             services.AddScoped<IOrderService, DatabaseOrderService>();
 
-            services.AddHttpClient<IValuesService, ValuesClient>();
+            services.AddHttpClient<IValuesService, ValuesClient>(c => c.
+                BaseAddress = new Uri(Configuration["WebAPI"]));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
