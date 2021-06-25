@@ -13,8 +13,10 @@ using WebStore.Dal.Interfaces;
 using WebStore.Domain.Identity;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Interfaces.Services;
+using WebStore.Interfaces.WebAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services;
+using WebStore.WebAPI.Client.Values;
 
 namespace WebStore
 {
@@ -85,6 +87,8 @@ namespace WebStore
             services.AddScoped<IProductData, DatabaseProductData>();
             services.AddScoped<IWorkerData, DatabaseWorkerData>();
             services.AddScoped<IOrderService, DatabaseOrderService>();
+
+            services.AddHttpClient<IValuesService, ValuesClient>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
