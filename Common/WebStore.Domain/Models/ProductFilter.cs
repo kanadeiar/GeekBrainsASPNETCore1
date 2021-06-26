@@ -1,6 +1,6 @@
-﻿using WebStore.Domain.Infrastructure.Interfaces;
+﻿using WebStore.Domain.Models.Interfaces;
 
-namespace WebStore.Domain.Infrastructure.Filters
+namespace WebStore.Domain.Models
 {
     public class ProductFilter : IProductFilter
     {
