@@ -31,7 +31,8 @@ namespace WebStore.WebAPI.Controllers
         }
 
         //[HttpPost("add")]
-        [HttpPost]
+        //[HttpPost]
+        [HttpGet("add")]
         public IActionResult Add(string str)
         {
             __testList.Add(str);

@@ -29,7 +29,8 @@ namespace WebStore.WebAPI.Client.Values
 
         public void Add(string str)
         {
-            var response = _client.PostAsJsonAsync(_address, str).Result;
+            //var response = _client.PostAsJsonAsync(_address, str).Result;
+            var response = _client.GetAsync($"{_address}/add?str={str}").Result;
             response.EnsureSuccessStatusCode();
         }
 
