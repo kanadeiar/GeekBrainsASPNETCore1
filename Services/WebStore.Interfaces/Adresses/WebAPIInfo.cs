@@ -7,5 +7,7 @@
         public const string Values = "api/values";
         /// <summary> Адрес апи сотрудников </summary>
         public const string Worker = "api/worker";
+        /// <summary> Адрес апи товаров </summary>
+        public const string Product = "api/product";
     }
 }
