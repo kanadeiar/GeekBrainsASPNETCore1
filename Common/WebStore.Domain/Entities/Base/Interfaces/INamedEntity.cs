@@ -2,6 +2,6 @@
 {
     public interface INamedEntity : IEntity
     {
-        public string Name { get; set; }
+        string Name { get; set; }
     }
 }

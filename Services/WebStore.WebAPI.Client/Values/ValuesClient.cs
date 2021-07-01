@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Polly;
+using Polly.Retry;
 using System.Net.Http;
 using System.Net.Http.Json;
 using WebStore.Interfaces.WebAPI;
@@ -9,11 +11,15 @@ namespace WebStore.WebAPI.Client.Values
 {
     public class ValuesClient : BaseClient, IValuesService
     {
+        private AsyncRetryPolicy _policy = Policy
+            .Handle<HttpRequestException>()
+            .RetryAsync(3);
         public ValuesClient(HttpClient client) : base(client, "api/values") { }
 
         public IEnumerable<string> GetAll()
         {
-            var response = _client.GetAsync(_address).Result;
+            var response = _policy.ExecuteAsync(async () => 
+                await _client.GetAsync(_address)).Result;
             if (response.IsSuccessStatusCode)
                 return response.Content.ReadFromJsonAsync<IEnumerable<string>>().Result;
             return Enumerable.Empty<string>();
@@ -21,7 +27,8 @@ namespace WebStore.WebAPI.Client.Values
 
         public string GetById(int id)
         {
-            var response = _client.GetAsync($"{_address}/{id}").Result;
+            var response = _policy.ExecuteAsync(async () => 
+                await _client.GetAsync($"{_address}/{id}")).Result;
             if (response.IsSuccessStatusCode)
                 return response.Content.ReadFromJsonAsync<string>().Result;
             return default;

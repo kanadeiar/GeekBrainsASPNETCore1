@@ -10,6 +10,6 @@
         /// <summary> Идентификаторы </summary>
         int[] Ids { get; set; }
         /// <summary> Фильтр по названию товара </summary>
-        public string Name { get; set; }
+        string Name { get; set; }
     }
 }
