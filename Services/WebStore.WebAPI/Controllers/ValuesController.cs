@@ -4,8 +4,7 @@ using System.Linq;
 
 namespace WebStore.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/[controller]"), ApiController]
     public class ValuesController : ControllerBase
     {
         private static List<string> __testList = Enumerable
