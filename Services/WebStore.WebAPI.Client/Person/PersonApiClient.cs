@@ -13,28 +13,28 @@ namespace WebStore.WebAPI.Client.Person
 
         public IEnumerable<Worker> GetAll()
         {
-            return Get<IEnumerable<Worker>>(_address);
+            return Get<IEnumerable<Worker>>(Address);
         }
 
         public Worker Get(int id)
         {
-            return Get<Worker>($"{_address}/{id}");
+            return Get<Worker>($"{Address}/{id}");
         }
 
         public int Add(Worker worker)
         {
-            var response = Post(_address, worker);
+            var response = Post(Address, worker);
             return response.Content.ReadFromJsonAsync<int>().Result;
         }
 
         public void Update(Worker worker)
         {
-            Put(_address, worker);
+            Put(Address, worker);
         }
 
         public bool Delete(int id)
         {
-            var result = Delete($"{_address}/{id}").IsSuccessStatusCode;
+            var result = Delete($"{Address}/{id}").IsSuccessStatusCode;
             return result;
         }
     }
