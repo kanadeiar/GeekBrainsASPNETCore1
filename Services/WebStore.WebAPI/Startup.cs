@@ -12,6 +12,7 @@ using WebStore.Dal.DataInit;
 using WebStore.Dal.Interfaces;
 using WebStore.Domain.Identity;
 using WebStore.Interfaces.Services;
+using WebStore.Interfaces.WebAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services;
 

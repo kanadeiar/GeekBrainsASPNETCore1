@@ -7,9 +7,9 @@ using WebStore.WebAPI.Client.Base;
 
 namespace WebStore.WebAPI.Client.Person
 {
-    public class PersonApiClient : BaseSyncClient, IWorkerData
+    public class WorkerApiClient : BaseSyncClient, IWorkerData
     {
-        public PersonApiClient(HttpClient client, string address) : base(client, address) { }
+        public WorkerApiClient(HttpClient client, string address) : base(client, address) { }
 
         public IEnumerable<Worker> GetAll()
         {
