@@ -86,13 +86,11 @@ namespace WebStore
 
             services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IProductData, DatabaseProductData>();
-            //services.AddScoped<IWorkerData, DatabaseWorkerData>();
             services.AddScoped<IOrderService, DatabaseOrderService>();
 
-            services.AddHttpClient<IValuesService, ValuesClient>(c => c.
-                BaseAddress = new Uri(Configuration["WebAPI"]));
-            services.AddHttpClient<IWorkerData, WorkerApiClient>(c => c
-                .BaseAddress = new Uri(Configuration["WebAPI"]));
+            services.AddHttpClient("WebStoreAPI", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
+                .AddTypedClient<IValuesService, ValuesClient>()
+                .AddTypedClient<IWorkerData, WorkerApiClient>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
