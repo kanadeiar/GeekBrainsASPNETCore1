@@ -37,37 +37,6 @@ namespace WebStore.Services.Services
             set => _httpContextAccessor.HttpContext!.Response.Cookies.Append(_cartName,
                 JsonConvert.SerializeObject(value));
         }
-        #region Этот вариант больше не используется
-
-        //private Cart Cart
-        //{
-        //    get
-        //    {
-        //        var cookies = context!.Response.Cookies;
-        //        var cartCookie = context.Request.Cookies[_cartName];
-        //        if (cartCookie is null)
-        //        {
-        //            var cart = new Cart();
-        //            cookies.Append(_cartName, JsonConvert.SerializeObject(cart));
-        //            return cart;
-        //        }
-        //        ReplaceCookies(cookies, cartCookie);
-        //        return JsonConvert.DeserializeObject<Cart>(cartCookie);
-        //    }
-        //    set => ReplaceCookies(_httpContextAccessor.HttpContext!.Response.Cookies, JsonConvert.SerializeObject(value));
-        //}
-
-        //private int _cookieHash;
-        //private void ReplaceCookies(IResponseCookies cookies, string cookie)
-        //{
-        //    if (_cookieHash == cookie.GetHashCode())
-        //        return;
-        //    _cookieHash = cookie.GetHashCode();
-        //    cookies.Delete(_cartName);
-        //    cookies.Append(_cartName, cookie);
-        //}
-
-        #endregion
 
         public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)
         {

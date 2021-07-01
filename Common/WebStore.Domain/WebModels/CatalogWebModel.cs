@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WebStore.Domain.WebModels.Shared;
 
 namespace WebStore.Domain.WebModels
 {
@@ -7,6 +8,7 @@ namespace WebStore.Domain.WebModels
     {
         public int? SectionId { get; set; }
         public int? BrandId { get; set; }
+        public PageWebModel PageWebModel { get; set; }
         public IEnumerable<ProductWebModel> Products { get; set; }
     }
 }
