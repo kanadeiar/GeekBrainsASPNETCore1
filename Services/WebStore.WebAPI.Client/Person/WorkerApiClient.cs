@@ -2,14 +2,16 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using WebStore.Domain.Entities;
+using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.Services;
 using WebStore.WebAPI.Client.Base;
 
 namespace WebStore.WebAPI.Client.Person
 {
+    /// <summary> Апи клиент сотрудников </summary>
     public class WorkerApiClient : BaseSyncClient, IWorkerData
     {
-        public WorkerApiClient(HttpClient client, string address) : base(client, address) { }
+        public WorkerApiClient(HttpClient client) : base(client, WebAPIInfo.Worker) { }
 
         public IEnumerable<Worker> GetAll()
         {

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebStore.Interfaces.Adresses;
 
 namespace WebStore.WebAPI.Controllers
 {
-    [Route("api/[controller]"), ApiController]
+    [Route(WebAPIInfo.Values), ApiController]
     public class ValuesController : ControllerBase
     {
         private static List<string> __testList = Enumerable

@@ -4,6 +4,7 @@ using Polly;
 using Polly.Retry;
 using System.Net.Http;
 using System.Net.Http.Json;
+using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.WebAPI;
 using WebStore.WebAPI.Client.Base;
 
@@ -14,7 +15,7 @@ namespace WebStore.WebAPI.Client.Values
         private AsyncRetryPolicy _policy = Policy
             .Handle<HttpRequestException>()
             .RetryAsync(3);
-        public ValuesClient(HttpClient client) : base(client, "api/values") { }
+        public ValuesClient(HttpClient client) : base(client, WebAPIInfo.Values) { }
 
         public IEnumerable<string> GetAll()
         {
