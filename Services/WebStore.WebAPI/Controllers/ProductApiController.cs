@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.DTO;
 using WebStore.Domain.DTO.Mappers;
-using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
-using WebStore.Domain.Models.Interfaces;
 using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.Services;
 
