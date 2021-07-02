@@ -9,5 +9,7 @@
         public const string Worker = "api/worker";
         /// <summary> Адрес апи товаров </summary>
         public const string Product = "api/product";
+        /// <summary> Адрес апи заказов </summary>
+        public const string Order = "api/order";
     }
 }
