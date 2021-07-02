@@ -27,19 +27,21 @@ namespace WebStore.Areas.Admin.Controllers
             new(new MapperConfiguration(c => c.CreateMap<Product, EditProductWebModel>()            
                 .ForMember("SectionName", o => o.MapFrom(p => p.Section.Name))
                 .ForMember("BrandName", o => o.MapFrom(p => p.Brand.Name))));
-        private readonly Mapper _mapperProductFromWeb =
-            new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()));
+        private readonly Mapper _mapperProductFromWeb;
 
         public ProductController(IProductData productData, IWebHostEnvironment appEnvironment)
         {
             _ProductData = productData;
             _appEnvironment = appEnvironment;
+            _mapperProductFromWeb = new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()
+                .ForMember("Section", o => o.MapFrom(p => _ProductData.GetSection((int) p.SectionId)))
+                .ForMember("Brand", o => o.MapFrom(p => _ProductData.GetBrand((int) p.BrandId)))));
         }
         public IActionResult Index(string name, int page = 1, ProductSortState sortOrder = ProductSortState.NameAsc)
         {
             var products = _ProductData.GetProducts(new ProductFilter { Name = name }, true);
 
-            var pageSize = 6;
+            var pageSize = 10;
             var count = products!.Count();
             products = products!.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -101,10 +103,6 @@ namespace WebStore.Areas.Admin.Controllers
             }
 
             var product = _mapperProductFromWeb.Map<Product>(model);
-
-            product.Section = _ProductData.GetSection(product.SectionId);
-            if (product.BrandId is { } brandId)
-                product.Brand = _ProductData.GetBrand(brandId);
 
             if (uploadedFile is not null)
             {
