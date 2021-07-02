@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using WebStore.Domain.DTO;
 using WebStore.Domain.DTO.Mappers;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
 using WebStore.Domain.Models.Interfaces;
 using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.Services;
@@ -39,7 +40,7 @@ namespace WebStore.WebAPI.Client.Product
 
         public IEnumerable<Domain.Entities.Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
-            var response = Post(Address, productFilter);
+            var response = Post(Address, productFilter ?? new ProductFilter());
             var products = response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>().Result;
             return products.FromDTO();
         }
@@ -63,7 +64,7 @@ namespace WebStore.WebAPI.Client.Product
 
         public bool DeleteProduct(int id)
         {
-            var result = Delete($"{Address}/product").IsSuccessStatusCode;
+            var result = Delete($"{Address}/product/{id}").IsSuccessStatusCode;
             return result;
         }
     }
