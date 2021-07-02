@@ -27,7 +27,6 @@ namespace WebStore.Services.Services
             return _context.Sections
                 .Include(s => s.Products).FirstOrDefault(s => s.Id == id);
         }
-        public IEnumerable<Section> GetSectionsWithProducts() => _context.Sections.Include(s => s.Products);
         
         public IEnumerable<Brand> GetBrands() => _context.Brands.Include(s => s.Products);
         public Brand GetBrand(int id)
@@ -35,7 +34,6 @@ namespace WebStore.Services.Services
             return _context.Brands
                 .Include(b => b.Products).FirstOrDefault(b => b.Id == id);
         }
-        public IEnumerable<Brand> GetBrandsWithProducts() => _context.Brands.Include(b => b.Products);
         
         public IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {

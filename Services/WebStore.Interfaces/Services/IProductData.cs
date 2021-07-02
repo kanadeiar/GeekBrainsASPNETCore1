@@ -11,15 +11,11 @@ namespace WebStore.Interfaces.Services
         /// <summary> Одна категория </summary>
         /// <param name="id">Идентификатор</param>
         Section GetSection(int id);
-        /// <summary> Категории товаров с включениями продуктов </summary>
-        IEnumerable<Section> GetSectionsWithProducts();
         /// <summary> Все бренды </summary>
         IEnumerable<Brand> GetBrands();
         /// <summary> Один бренд </summary>
         /// <param name="id">Идентификатор</param>
         Brand GetBrand(int id);
-        /// <summary> Бренды с включениями продуктов </summary>
-        IEnumerable<Brand> GetBrandsWithProducts();
         /// <summary> Все товары с фильтрацией по категориям и/или брендам </summary>
         IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false);
         /// <summary> Получение одного товара по ид </summary>
