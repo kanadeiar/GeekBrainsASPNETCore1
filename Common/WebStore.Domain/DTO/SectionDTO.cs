@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public int Order { get; set; }
         public int? ParentId { get; set; }
+        public byte[] Timestamp { get; set; }
     }
 }

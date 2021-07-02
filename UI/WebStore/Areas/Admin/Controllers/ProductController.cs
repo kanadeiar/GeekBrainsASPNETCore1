@@ -102,6 +102,10 @@ namespace WebStore.Areas.Admin.Controllers
 
             var product = _mapperProductFromWeb.Map<Product>(model);
 
+            product.Section = _ProductData.GetSection(product.SectionId);
+            if (product.BrandId is { } brandId)
+                product.Brand = _ProductData.GetBrand(brandId);
+
             if (uploadedFile is not null)
             {
                 string path = "/images/shop/" + uploadedFile.FileName;

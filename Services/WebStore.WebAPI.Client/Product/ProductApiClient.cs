@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
+using WebStore.Domain.DTO;
+using WebStore.Domain.DTO.Mappers;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models.Interfaces;
 using WebStore.Interfaces.Adresses;
@@ -16,47 +19,52 @@ namespace WebStore.WebAPI.Client.Product
 
         public IEnumerable<Section> GetSections()
         {
-            throw new System.NotImplementedException();
+            return Get<IEnumerable<SectionDTO>>($"{Address}/section").FromDTO();
         }
 
         public Section GetSection(int id)
         {
-            throw new System.NotImplementedException();
+            return Get<SectionDTO>($"{Address}/section/{id}").FromDTO();
         }
 
         public IEnumerable<Brand> GetBrands()
         {
-            throw new System.NotImplementedException();
+            return Get<IEnumerable<BrandDTO>>($"{Address}/brand").FromDTO();
         }
 
         public Brand GetBrand(int id)
         {
-            throw new System.NotImplementedException();
+            return Get<BrandDTO>($"{Address}/brand/{id}").FromDTO();
         }
 
         public IEnumerable<Domain.Entities.Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
-            throw new System.NotImplementedException();
+            var response = Post(Address, productFilter);
+            var products = response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>().Result;
+            return products.FromDTO();
         }
 
         public Domain.Entities.Product GetProductById(int id)
         {
-            throw new System.NotImplementedException();
+            return Get<ProductDTO>($"{Address}/{id}").FromDTO();
         }
 
         public int AddProduct(Domain.Entities.Product product)
         {
-            throw new System.NotImplementedException();
+            var response = Post($"{Address}/product", product.ToDTO());
+            var id = response.Content.ReadFromJsonAsync<int>().Result;
+            return id;
         }
 
         public void UpdateProduct(Domain.Entities.Product product)
         {
-            throw new System.NotImplementedException();
+            Put($"{Address}/product", product.ToDTO());
         }
 
         public bool DeleteProduct(int id)
         {
-            throw new System.NotImplementedException();
+            var result = Delete($"{Address}/product").IsSuccessStatusCode;
+            return result;
         }
     }
 }
