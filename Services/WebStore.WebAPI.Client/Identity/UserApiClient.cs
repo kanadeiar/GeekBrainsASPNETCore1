@@ -16,6 +16,7 @@ namespace WebStore.WebAPI.Client.Identity
     {
         public UserApiClient(HttpClient client) : base(client, WebAPIInfo.Identity.ApiUser) { }
 
+        #region IUserStore<User>
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
         {
@@ -106,6 +107,9 @@ namespace WebStore.WebAPI.Client.Identity
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
 
         public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
         {
