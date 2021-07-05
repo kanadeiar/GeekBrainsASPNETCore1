@@ -11,12 +11,12 @@ using WebStore.Interfaces.Adresses;
 namespace WebStore.WebAPI.Controllers.Identity
 {
     [Route(WebAPIInfo.Identity.ApiRole), ApiController]
-    public class RuleApiController : ControllerBase
+    public class RoleApiController : ControllerBase
     {
-        private readonly ILogger<RuleApiController> _logger;
+        private readonly ILogger<RoleApiController> _logger;
         private readonly RoleStore<Role> _roleStore;
 
-        public RuleApiController(WebStoreContext context, ILogger<RuleApiController> logger)
+        public RoleApiController(WebStoreContext context, ILogger<RoleApiController> logger)
         {
             _logger = logger;
             _roleStore = new RoleStore<Role>(context);
