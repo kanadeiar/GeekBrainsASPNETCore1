@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,92 +19,113 @@ namespace WebStore.WebAPI.Client.Identity
 
         #region IUserStore<User>
 
-        public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetUserIdAsync(User user, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/GetUserId", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> GetUserNameAsync(User user, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/GetUserName", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task SetUserNameAsync(User user, string userName, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/SetUserName/{userName}", user, cancel).ConfigureAwait(false);
+            user.UserName = await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/GetNormalizedUserName", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/SetNormalizedUserName/{normalizedName}", user, cancel)
+                .ConfigureAwait(false);
+            user.NormalizedUserName = await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancel)
+        {
+            var response = await PostAsync(Address, user, cancel).ConfigureAwait(false);
+            var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
+            return result ? IdentityResult.Success : IdentityResult.Failed();
+        }
+
+        public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancel)
+        {
+            var response = await PutAsync(Address, user, cancel).ConfigureAwait(false);
+            var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
+            return result ? IdentityResult.Success : IdentityResult.Failed();
+        }
+
+        public async Task<IdentityResult> DeleteAsync(User user, CancellationToken cancel)
+        {
+            var response = await DeleteAsync(Address, cancel).ConfigureAwait(false);
+            var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
+            return result ? IdentityResult.Success : IdentityResult.Failed();
+        }
+
+        public async Task<User> FindByIdAsync(string userId, CancellationToken cancel)
+        {
+            return await GetAsync<User>($"{Address}/FindById/{userId}", cancel).ConfigureAwait(false);
+        }
+
+        public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancel)
+        {
+            return await GetAsync<User>($"{Address}/FindByName/{normalizedUserName}", cancel).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region IUserRoleStore<User>
+
+        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
+        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
+
+        #endregion
+
+        #region IUserPaddwordStore<User>
+
+        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
+        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+        public Task<bool> HasPasswordAsync(User user, CancellationToken cancel)
         {
             throw new NotImplementedException();
         }

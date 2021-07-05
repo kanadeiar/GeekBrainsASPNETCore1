@@ -32,7 +32,7 @@ namespace WebStore.WebAPI.Client.Identity
 
         public async Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancel)
         {
-            var response = await DeleteAsync(Address, cancel).ConfigureAwait(false);
+            var response = await DeleteAsync($"{Address}/{role.Id}", cancel).ConfigureAwait(false);
             var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken:cancel);
             return result ? IdentityResult.Success : IdentityResult.Failed();
         }

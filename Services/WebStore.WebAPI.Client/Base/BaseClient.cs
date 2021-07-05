@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading;
@@ -45,6 +46,8 @@ namespace WebStore.WebAPI.Client.Base
         {
             var response = await Client
                 .GetAsync(url, cancel).ConfigureAwait(false);
+            if (response.StatusCode == HttpStatusCode.NoContent)
+                return default;
             return await response
                 .EnsureSuccessStatusCode()
                 .Content.ReadFromJsonAsync<T>(cancellationToken: cancel);

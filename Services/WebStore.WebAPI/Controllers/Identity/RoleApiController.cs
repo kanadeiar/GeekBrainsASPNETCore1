@@ -42,9 +42,10 @@ namespace WebStore.WebAPI.Controllers.Identity
             return result.Succeeded;
         }
 
-        [HttpDelete]
-        public async Task<bool> DeleteAsync(Role role)
+        [HttpDelete("{roleId}")]
+        public async Task<bool> DeleteAsync(string roleId)
         {
+            var role = await _roleStore.FindByIdAsync(roleId);
             var result = await _roleStore.DeleteAsync(role);
             if (!result.Succeeded) _logger.LogError($"Ошибка удаления роли пользователей {role.Name}");
             return result.Succeeded;

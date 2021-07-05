@@ -84,11 +84,11 @@ namespace WebStore.WebAPI.Controllers.Identity
             return result.Succeeded;
         }
 
-        [HttpDelete]
-        public async Task<bool> DeleteAsync([FromBody] User user)
+        [HttpDelete("{userId}")]
+        public async Task<bool> DeleteAsync(string userId)
         {
+            var user = await _userStore.FindByIdAsync(userId);
             var result = await _userStore.DeleteAsync(user);
-
             return result.Succeeded;
         }
 
@@ -104,7 +104,11 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.FindByNameAsync(name);
         }
 
-        [HttpPost("Role/{role}")]
+        #endregion
+
+        #region Roles
+
+                [HttpPost("Role/{role}")]
         public async Task AddToRoleAsync([FromBody] User user, string role)
         {
             await _userStore.AddToRoleAsync(user, role);
@@ -135,6 +139,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             return await _userStore.GetUsersInRoleAsync(role);
         }
+
+        #endregion
+
+        #region Passwords
 
         [HttpPost("SetPasswordHash")]
         public async Task<string> SerPasswordHashAsync([FromBody] PasswordHashDTO hashDto)
