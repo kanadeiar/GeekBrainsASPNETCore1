@@ -183,7 +183,7 @@ namespace WebStore.WebAPI.Client.Identity
 
         #endregion
 
-
+        #region IUserLoginStore<User>
 
         public Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
         {
@@ -204,6 +204,10 @@ namespace WebStore.WebAPI.Client.Identity
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region IUserLockoutStore<User>
 
         public Task<DateTimeOffset?> GetLockoutEndDateAsync(User user, CancellationToken cancellationToken)
         {
@@ -240,7 +244,7 @@ namespace WebStore.WebAPI.Client.Identity
             throw new NotImplementedException();
         }
 
-
+        #endregion
 
         #region IUserClaimStore<User>
 

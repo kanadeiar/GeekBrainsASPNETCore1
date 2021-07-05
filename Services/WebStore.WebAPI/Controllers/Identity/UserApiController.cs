@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -256,10 +258,83 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #endregion
 
+        #region Login
 
+        [HttpPost("AddLogin")]
+        public async Task AddLoginAsync([FromBody] AddLoginDTO loginDto)
+        {
+            await _userStore.AddLoginAsync(loginDto.User, loginDto.UserLoginInfo);
+            await _userStore.Context.SaveChangesAsync();
+        }
 
+        [HttpPost("RemoveLogin/{loginProvider}/{providerKey}")]
+        public async Task RemoveLoginAsync([FromBody] User user, string loginProvider, string providerKey)
+        {
+            await _userStore.RemoveLoginAsync(user, loginProvider, providerKey);
+            await _userStore.Context.SaveChangesAsync();
+        }
 
+        [HttpPost("GetLogins")]
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync([FromBody] User user)
+        {
+            return await _userStore.GetLoginsAsync(user);
+        }
 
+        [HttpGet("FindByLogin/{loginProvider}/{providerKey}")]
+        public async Task<User> FindByLoginAsync(string loginProvider, string providerKey)
+        {
+            return await _userStore.FindByLoginAsync(loginProvider, providerKey);
+        }
+
+        #endregion
+
+        #region Lockout
+
+        [HttpPost("GetLockoutEndDate")]
+        public async Task<DateTimeOffset?> GetLockoutEndDateAsync([FromBody] User user)
+        {
+            return await _userStore.GetLockoutEndDateAsync(user);
+        }
+
+        [HttpPost("SetLockoutEndDate")]
+        public async Task<DateTimeOffset?> SetLockoutEndDateAsync([FromBody] SetLockoutDTO lockoutDto)
+        {
+            await _userStore.SetLockoutEndDateAsync(lockoutDto.User, lockoutDto.LockoutEnd);
+            await _userStore.UpdateAsync(lockoutDto.User);
+            return lockoutDto.User.LockoutEnd;
+        }
+
+        [HttpPost("IncrementAccessFailedCount")]
+        public async Task<int> IncrementAccessFailedCountAsync([FromBody] User user)
+        {
+            var count = await _userStore.IncrementAccessFailedCountAsync(user);
+            await _userStore.UpdateAsync(user);
+            return count;
+        }
+
+        [HttpPost("ResetAccessFailedCount")]
+        public async Task<int> ResetAccessFailedCountAsync([FromBody] User user)
+        {
+            await _userStore.ResetAccessFailedCountAsync(user);
+            await _userStore.UpdateAsync(user);
+            return user.AccessFailedCount;
+        }
+
+        [HttpPost("GetAccessFailedCount")]
+        public async Task<int> GetAccessFailedCountAsync([FromBody] User user)
+        {
+            return await _userStore.GetAccessFailedCountAsync(user);
+        }
+
+        [HttpPost("SetLockoutEnabled/{enabled:bool}")]
+        public async Task<bool> GetLockoutEnabledAsync([FromBody] User user, bool enabled)
+        {
+            await _userStore.SetLockoutEnabledAsync(user, enabled);
+            await _userStore.UpdateAsync(user);
+            return user.LockoutEnabled;
+        }
+
+        #endregion
 
         #region Claims
 
@@ -297,7 +372,5 @@ namespace WebStore.WebAPI.Controllers.Identity
         }
 
         #endregion
-
-
     }
 }
