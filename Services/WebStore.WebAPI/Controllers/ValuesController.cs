@@ -5,7 +5,7 @@ using WebStore.Interfaces.Adresses;
 
 namespace WebStore.WebAPI.Controllers
 {
-    [Route(WebAPIInfo.Values), ApiController]
+    [Route(WebAPIInfo.ApiValue), ApiController]
     public class ValuesController : ControllerBase
     {
         private static List<string> __testList = Enumerable

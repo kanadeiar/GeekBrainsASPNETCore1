@@ -11,7 +11,7 @@ namespace WebStore.WebAPI.Client.Person
     /// <summary> Апи клиент сотрудников </summary>
     public class WorkerApiClient : BaseSyncClient, IWorkerData
     {
-        public WorkerApiClient(HttpClient client) : base(client, WebAPIInfo.Worker) { }
+        public WorkerApiClient(HttpClient client) : base(client, WebAPIInfo.ApiWorker) { }
 
         public IEnumerable<Worker> GetAll()
         {

@@ -15,7 +15,7 @@ namespace WebStore.WebAPI.Client.Values
         private AsyncRetryPolicy _policy = Policy
             .Handle<HttpRequestException>()
             .RetryAsync(3);
-        public ValuesClient(HttpClient client) : base(client, WebAPIInfo.Values) { }
+        public ValuesClient(HttpClient client) : base(client, WebAPIInfo.ApiValue) { }
 
         public IEnumerable<string> GetAll()
         {

@@ -6,7 +6,7 @@ using WebStore.Interfaces.Services;
 namespace WebStore.WebAPI.Controllers
 {
     /// <summary> Апи контроллер сотрудников </summary>
-    [Route(WebAPIInfo.Worker), ApiController]
+    [Route(WebAPIInfo.ApiWorker), ApiController]
     public class PersonApiController : ControllerBase
     {
         private readonly IWorkerData _workerData;

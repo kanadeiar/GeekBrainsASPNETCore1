@@ -15,7 +15,7 @@ namespace WebStore.WebAPI.Client.Product
     /// <summary> Апи клиент товаров </summary>
     public class ProductApiClient : BaseSyncClient, IProductData
     {
-        public ProductApiClient(HttpClient client) : base(client, WebAPIInfo.Product) { }
+        public ProductApiClient(HttpClient client) : base(client, WebAPIInfo.ApiProduct) { }
 
 
         public IEnumerable<Section> GetSections()

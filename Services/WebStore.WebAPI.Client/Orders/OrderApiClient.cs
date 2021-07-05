@@ -14,7 +14,7 @@ namespace WebStore.WebAPI.Client.Orders
 {
     public class OrderApiClient : BaseSyncClient, IOrderService
     {
-        public OrderApiClient(HttpClient client) : base(client, WebAPIInfo.Order) { }
+        public OrderApiClient(HttpClient client) : base(client, WebAPIInfo.ApiOrder) { }
 
         public async Task<IEnumerable<Order>> GetUserOrders(string userName)
         {

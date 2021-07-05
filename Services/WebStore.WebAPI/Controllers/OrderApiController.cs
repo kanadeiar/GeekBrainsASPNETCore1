@@ -7,7 +7,7 @@ using WebStore.Interfaces.Services;
 
 namespace WebStore.WebAPI.Controllers
 {
-    [Route(WebAPIInfo.Order), ApiController]
+    [Route(WebAPIInfo.ApiOrder), ApiController]
     public class OrderApiController : ControllerBase
     {
         private readonly IOrderService _orderService;

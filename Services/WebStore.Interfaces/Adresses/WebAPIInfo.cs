@@ -4,12 +4,17 @@
     public static class WebAPIInfo
     {
         /// <summary> Адрес апи тестовых значений </summary>
-        public const string Values = "api/values";
+        public const string ApiValue = "api/values";
         /// <summary> Адрес апи сотрудников </summary>
-        public const string Worker = "api/worker";
+        public const string ApiWorker = "api/worker";
         /// <summary> Адрес апи товаров </summary>
-        public const string Product = "api/product";
+        public const string ApiProduct = "api/product";
         /// <summary> Адрес апи заказов </summary>
-        public const string Order = "api/order";
+        public const string ApiOrder = "api/order";
+
+        /// <summary> Адрес апи пользователей </summary>
+        public const string ApiUser = "api/user";
+        /// <summary> Адрес апи ролей пользователей </summary>
+        public const string ApiRole = "api/role";
     }
 }
