@@ -158,9 +158,85 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #endregion
 
+        #region Email/Phone
 
+        [HttpPost("SetEmail/{email}")]
+        public async Task<string> SetEmailAsync([FromBody] User user, string email)
+        {
+            await _userStore.SetEmailAsync(user, email);
+            await _userStore.UpdateAsync(user);
+            return user.Email;
+        }
 
+        [HttpPost("GetEmail")]
+        public async Task<string> GetEmailAsync([FromBody] User user)
+        {
+            return await _userStore.GetEmailAsync(user);
+        }
 
+        [HttpPost("GetEmailConfirmed")]
+        public async Task<bool> GetEmailConfirmedAsync([FromBody] User user)
+        {
+            return await _userStore.GetEmailConfirmedAsync(user);
+        }
+
+        [HttpPost("SetEmailConfirmed/{enable:bool}")]
+        public async Task<bool> SetEmailConfirmedAsync([FromBody] User user, bool enable)
+        {
+            await _userStore.SetEmailConfirmedAsync(user, enable);
+            await _userStore.UpdateAsync(user);
+            return user.EmailConfirmed;
+        }
+
+        [HttpGet("FindByEmail/{email}")]
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            return await _userStore.FindByEmailAsync(email);
+        }
+
+        [HttpPost("GetNormalizedEmail")]
+        public async Task<string> GetNormalizedEmailAsync([FromBody] User user)
+        {
+            return await _userStore.GetNormalizedEmailAsync(user);
+        }
+
+        [HttpPost("SetNormalizedEmail/{email?}")]
+        public async Task<string> SetNormalizedEmailAsync([FromBody] User user, string email)
+        {
+            await _userStore.SetNormalizedEmailAsync(user, email);
+            await _userStore.UpdateAsync(user);
+            return user.NormalizedEmail;
+        }
+
+        [HttpPost("SetPhoneNumber/{phone}")]
+        public async Task<string> SetPhoneNumberAsync([FromBody] User user, string phone)
+        {
+            await _userStore.SetPhoneNumberAsync(user, phone);
+            await _userStore.UpdateAsync(user);
+            return user.PhoneNumber;
+        }
+
+        [HttpPost("GetPhoneNumber")]
+        public async Task<string> GetPhoneNumberAsync([FromBody] User user)
+        {
+            return await _userStore.GetPhoneNumberAsync(user);
+        }
+
+        [HttpPost("GetPhoneNumberConfirmed")]
+        public async Task<bool> GetPhoneNumberConfirmedAsync([FromBody] User user)
+        {
+            return await _userStore.GetPhoneNumberConfirmedAsync(user);
+        }
+
+        [HttpPost("SetPhoneNumberConfirmed/{confirmed:bool}")]
+        public async Task<bool> SetPhoneNumberConfirmedAsync([FromBody] User user, bool confirmed)
+        {
+            await _userStore.SetPhoneNumberConfirmedAsync(user, confirmed);
+            await _userStore.UpdateAsync(user);
+            return user.PhoneNumberConfirmed;
+        }
+
+        #endregion
 
         #region TwoFactor
 

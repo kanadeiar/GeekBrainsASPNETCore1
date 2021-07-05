@@ -110,6 +110,7 @@ namespace WebStore.WebAPI.Client.Identity
 
         #endregion
 
+        #region IUserEmailStore<User>
 
         public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
         {
@@ -165,9 +166,9 @@ namespace WebStore.WebAPI.Client.Identity
         {
             throw new NotImplementedException();
         }
-
-
-
+        
+        #endregion
+        
         #region IUserTwoFactorStore<User>
 
         public Task SetTwoFactorEnabledAsync(User user, bool enabled, CancellationToken cancellationToken)
