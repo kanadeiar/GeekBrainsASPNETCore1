@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -158,6 +159,68 @@ namespace WebStore.WebAPI.Controllers.Identity
         #endregion
 
 
+
+
+
+        #region TwoFactor
+
+        [HttpPost("GetTwoFactorEnabled")]
+        public async Task<bool> GetTwoFactorEnabledAsync([FromBody] User user)
+        {
+            return await _userStore.GetTwoFactorEnabledAsync(user);
+        }
+
+        [HttpPost("SetTwoFactorEnabled/{enable:bool}")]
+        public async Task<bool> SetTwoFactorEnabledAsync([FromBody] User user, bool enable)
+        {
+            await _userStore.SetTwoFactorEnabledAsync(user, enable);
+            await _userStore.UpdateAsync(user);
+            return user.TwoFactorEnabled;
+        }
+
+        #endregion
+
+
+
+
+
+
+        #region Claims
+
+        [HttpPost("GetClaims")]
+        public async Task<IList<Claim>> GetClaimsAsync([FromBody] User user)
+        {
+            return await _userStore.GetClaimsAsync(user);
+        }
+
+        [HttpPost("AddClaims")]
+        public async Task AddClaimsAsync([FromBody] AddClaimDTO claimDto)
+        {
+            await _userStore.AddClaimsAsync(claimDto.User, claimDto.Cliams);
+            await _userStore.Context.SaveChangesAsync();
+        }
+
+        [HttpPost("ReplaceClaim")]
+        public async Task ReplaceClaimAsync([FromBody] ReplaceClaimDTO claimDto)
+        {
+            await _userStore.ReplaceClaimAsync(claimDto.User, claimDto.Claim, claimDto.NewClaim);
+            await _userStore.Context.SaveChangesAsync();
+        }
+
+        [HttpPost("RemoveClaims")]
+        public async Task RemoveClaimsAsync([FromBody] RemoveClaimDTO claimDto)
+        {
+            await _userStore.RemoveClaimsAsync(claimDto.User, claimDto.Cliams);
+            await _userStore.Context.SaveChangesAsync();
+        }
+
+        [HttpPost("GetUsersForClaim")]
+        public async Task<IList<User>> GetUserForClaimAsync([FromBody] Claim claim)
+        {
+            return await _userStore.GetUsersForClaimAsync(claim);
+        }
+
+        #endregion
 
 
     }

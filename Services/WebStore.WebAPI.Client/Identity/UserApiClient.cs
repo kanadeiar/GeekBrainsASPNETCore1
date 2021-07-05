@@ -166,6 +166,10 @@ namespace WebStore.WebAPI.Client.Identity
             throw new NotImplementedException();
         }
 
+
+
+        #region IUserTwoFactorStore<User>
+
         public Task SetTwoFactorEnabledAsync(User user, bool enabled, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -175,6 +179,10 @@ namespace WebStore.WebAPI.Client.Identity
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+
 
         public Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
         {
@@ -231,6 +239,10 @@ namespace WebStore.WebAPI.Client.Identity
             throw new NotImplementedException();
         }
 
+
+
+        #region IUserClaimStore<User>
+
         public Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -255,5 +267,7 @@ namespace WebStore.WebAPI.Client.Identity
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
