@@ -51,14 +51,14 @@ namespace WebStore.WebAPI
 
             services.Configure<IdentityOptions>(o =>
             {
-#if DEBUG
+//#if DEBUG
                 o.Password.RequireDigit = false;
                 o.Password.RequiredLength = 3;
                 o.Password.RequireUppercase = false;
                 o.Password.RequireLowercase = false;
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredUniqueChars = 3;
-#endif
+//#endif
                 o.User.RequireUniqueEmail = false;
                 o.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
