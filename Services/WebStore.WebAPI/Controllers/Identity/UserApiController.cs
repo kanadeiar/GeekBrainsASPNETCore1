@@ -108,7 +108,7 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Roles
 
-                [HttpPost("Role/{role}")]
+        [HttpPost("Role/{role}")]
         public async Task AddToRoleAsync([FromBody] User user, string role)
         {
             await _userStore.AddToRoleAsync(user, role);
@@ -168,7 +168,7 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #endregion
 
-        #region Email/Phone
+        #region Email
 
         [HttpPost("SetEmail/{email}")]
         public async Task<string> SetEmailAsync([FromBody] User user, string email)
@@ -218,6 +218,10 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.NormalizedEmail;
         }
 
+        #endregion
+
+        #region Phone
+
         [HttpPost("SetPhoneNumber/{phone}")]
         public async Task<string> SetPhoneNumberAsync([FromBody] User user, string phone)
         {
@@ -250,18 +254,18 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region TwoFactor
 
-        [HttpPost("GetTwoFactorEnabled")]
-        public async Task<bool> GetTwoFactorEnabledAsync([FromBody] User user)
-        {
-            return await _userStore.GetTwoFactorEnabledAsync(user);
-        }
-
         [HttpPost("SetTwoFactorEnabled/{enable:bool}")]
         public async Task<bool> SetTwoFactorEnabledAsync([FromBody] User user, bool enable)
         {
             await _userStore.SetTwoFactorEnabledAsync(user, enable);
             await _userStore.UpdateAsync(user);
             return user.TwoFactorEnabled;
+        }
+
+        [HttpPost("GetTwoFactorEnabled")]
+        public async Task<bool> GetTwoFactorEnabledAsync([FromBody] User user)
+        {
+            return await _userStore.GetTwoFactorEnabledAsync(user);
         }
 
         #endregion

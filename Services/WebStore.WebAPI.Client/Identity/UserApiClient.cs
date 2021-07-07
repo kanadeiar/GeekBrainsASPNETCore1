@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using WebStore.Domain.DTO.Identity;
 using WebStore.Domain.Identity;
 using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.Services.Identity;
@@ -85,122 +86,149 @@ namespace WebStore.WebAPI.Client.Identity
 
         #region IUserRoleStore<User>
 
-        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancel)
+        public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/Role/{roleName}", user, cancel).ConfigureAwait(false);
         }
 
-        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancel)
+        public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/Role/Delete/{roleName}", user, cancel).ConfigureAwait(false);
         }
 
-        public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancel)
+        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/Role", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<IList<string>>(cancellationToken: cancel);
         }
 
-        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancel)
+        public async Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/IsInRole/{roleName}", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancel)
+        public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            return await GetAsync<List<User>>($"{Address}/UsersInRole/{roleName}", cancel).ConfigureAwait(false);
         }
 
 
         #endregion
 
-        #region IUserPaddwordStore<User>
+        #region IUserPasswordStore<User>
 
-        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancel)
+        public async Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetPasswordHash",
+                new PasswordHashDTO {User = user, Hash = passwordHash}, cancel).ConfigureAwait(false);
+            user.PasswordHash = await response.Content.ReadAsStringAsync();
         }
 
-        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancel)
+        public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetPasswordHash", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<string>(cancellationToken: cancel);
         }
 
-        public Task<bool> HasPasswordAsync(User user, CancellationToken cancel)
+        public async Task<bool> HasPasswordAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/HasPassword", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
         #endregion
 
         #region IUserEmailStore<User>
 
-        public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
+        public async Task SetEmailAsync(User user, string email, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetEmail/{email}", user, cancel).ConfigureAwait(false);
+            user.Email = await response.Content.ReadAsStringAsync();
         }
 
-        public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetEmailAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetEmail", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
         }
 
-        public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
+        public async Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetEmailConfirmed", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
+        public async Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetEmailConfirmed/{confirmed}", user, cancel)
+                .ConfigureAwait(false);
+            user.EmailConfirmed = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        public Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        public async Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            return await GetAsync<User>($"{Address}/FindByEmail/{normalizedEmail}", cancel).ConfigureAwait(false);
         }
 
-        public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetNormalizedEmail", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
         }
 
-        public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
+        public async Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetNormalizedEmail/{normalizedEmail}", user, cancel)
+                .ConfigureAwait(false);
+            user.NormalizedEmail = await response.Content.ReadAsStringAsync();
         }
 
-        public Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-        
         #endregion
-        
+
+        #region IUserPhoneNumberStore<User>
+
+        public async Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/SetPhoneNumber/{phoneNumber}", user, cancel)
+                .ConfigureAwait(false);
+            user.PhoneNumber = await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> GetPhoneNumberAsync(User user, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/GetPhoneNumber", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/GetPhoneNumberConfirmed", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
+        }
+
+        public async Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancel)
+        {
+            var response = await PostAsync($"{Address}/SetPhoneNumberConfirmed/{confirmed}", user, cancel)
+                .ConfigureAwait(false);
+            user.PhoneNumberConfirmed = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
+        }
+
+        #endregion
+
         #region IUserTwoFactorStore<User>
 
-        public Task SetTwoFactorEnabledAsync(User user, bool enabled, CancellationToken cancellationToken)
+        public async Task SetTwoFactorEnabledAsync(User user, bool enabled, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetTwoFactorEnabled/{enabled}", user, cancel)
+                .ConfigureAwait(false);
+            user.TwoFactorEnabled = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        public Task<bool> GetTwoFactorEnabledAsync(User user, CancellationToken cancellationToken)
+        public async Task<bool> GetTwoFactorEnabledAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetTwoFactorEnabled", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
         #endregion
