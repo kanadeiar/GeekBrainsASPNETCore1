@@ -27,5 +27,12 @@ namespace WebStore.WebAPI.Client.Identity
 
             return services;
         }
+
+        public static IdentityBuilder AddIdentityWebStoreAPIClients(this IdentityBuilder builder)
+        {
+            builder.Services.AddIdentityWebStoreAPIClients();
+
+            return builder;
+        }
     }
 }

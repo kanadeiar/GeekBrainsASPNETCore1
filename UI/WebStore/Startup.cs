@@ -51,10 +51,10 @@ namespace WebStore
             //services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
 
             services.AddIdentity<User, IdentityRole>()
-                //.AddEntityFrameworkStores<WebStoreContext>()
+                .AddIdentityWebStoreAPIClients()
                 .AddDefaultTokenProviders();
 
-            services.AddIdentityWebStoreAPIClients();
+            //services.AddIdentityWebStoreAPIClients();
 
             services.Configure<IdentityOptions>(o =>
             {
