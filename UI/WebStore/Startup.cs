@@ -49,7 +49,7 @@ namespace WebStore
 
             services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
 
-            services.AddIdentity<User, Role>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<WebStoreContext>()
                 .AddDefaultTokenProviders();
 

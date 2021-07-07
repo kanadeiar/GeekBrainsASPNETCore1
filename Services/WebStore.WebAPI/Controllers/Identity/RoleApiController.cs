@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,22 +15,22 @@ namespace WebStore.WebAPI.Controllers.Identity
     public class RoleApiController : ControllerBase
     {
         private readonly ILogger<RoleApiController> _logger;
-        private readonly RoleStore<Role> _roleStore;
+        private readonly RoleStore<IdentityRole> _roleStore;
 
         public RoleApiController(WebStoreContext context, ILogger<RoleApiController> logger)
         {
             _logger = logger;
-            _roleStore = new RoleStore<Role>(context);
+            _roleStore = new RoleStore<IdentityRole>(context);
         }
 
         [HttpGet("All")]
-        public async Task<IEnumerable<Role>> GetAllRolesAsync() =>
+        public async Task<IEnumerable<IdentityRole>> GetAllRolesAsync() =>
             await _roleStore.Roles.ToArrayAsync();
 
         #region Roles
 
         [HttpPost]
-        public async Task<bool> CreateAsync([FromBody] Role role)
+        public async Task<bool> CreateAsync([FromBody] IdentityRole role)
         {
             var result = await _roleStore.CreateAsync(role);
             if (!result.Succeeded) _logger.LogError($"Ошибка создания роли пользователей {role.Name}");
@@ -37,7 +38,7 @@ namespace WebStore.WebAPI.Controllers.Identity
         }
 
         [HttpPut]
-        public async Task<bool> UpdateAsync([FromBody] Role role)
+        public async Task<bool> UpdateAsync([FromBody] IdentityRole role)
         {
             var result = await _roleStore.UpdateAsync(role);
             if (!result.Succeeded) _logger.LogError($"Ошибка обновления роли пользователей {role.Name}");
@@ -54,19 +55,19 @@ namespace WebStore.WebAPI.Controllers.Identity
         }
 
         [HttpPost("GetRoleId")]
-        public async Task<string> GetRoleIdAsync([FromBody] Role role)
+        public async Task<string> GetRoleIdAsync([FromBody] IdentityRole role)
         {
             return await _roleStore.GetRoleIdAsync(role);
         }
 
         [HttpPost("GetRoleName")]
-        public async Task<string> GetRoleNameAsync([FromBody] Role role)
+        public async Task<string> GetRoleNameAsync([FromBody] IdentityRole role)
         {
             return await _roleStore.GetRoleNameAsync(role);
         }
 
         [HttpPost("SetRoleName/{name}")]
-        public async Task<string> SetRoleNameAsync([FromBody] Role role, string name)
+        public async Task<string> SetRoleNameAsync([FromBody] IdentityRole role, string name)
         {
             await _roleStore.SetRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
@@ -75,13 +76,13 @@ namespace WebStore.WebAPI.Controllers.Identity
         }
 
         [HttpPost("GetNormalizedRoleName")]
-        public async Task<string> GetNormalizedRoleNameAsync([FromBody] Role role)
+        public async Task<string> GetNormalizedRoleNameAsync([FromBody] IdentityRole role)
         {
             return await _roleStore.GetNormalizedRoleNameAsync(role);
         }
 
         [HttpPost("SetNormalizedRoleName/{name}")]
-        public async Task<string> SetNormalizedRoleNameAsync([FromBody] Role role, string name)
+        public async Task<string> SetNormalizedRoleNameAsync([FromBody] IdentityRole role, string name)
         {
             await _roleStore.SetNormalizedRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
@@ -90,13 +91,13 @@ namespace WebStore.WebAPI.Controllers.Identity
         }
 
         [HttpGet("FindById/{id}")]
-        public async Task<Role> FindBuIdAsync(string id)
+        public async Task<IdentityRole> FindBuIdAsync(string id)
         {
             return await _roleStore.FindByIdAsync(id);
         }
 
         [HttpGet("FindByName/{name}")]
-        public async Task<Role> FindByNameAsync(string name)
+        public async Task<IdentityRole> FindByNameAsync(string name)
         {
             return await _roleStore.FindByNameAsync(name);
         }

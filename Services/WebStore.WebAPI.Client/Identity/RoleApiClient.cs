@@ -16,66 +16,66 @@ namespace WebStore.WebAPI.Client.Identity
 
         #region IRoleStore<Role>
         
-        public async Task<IdentityResult> CreateAsync(Role role, CancellationToken cancel)
+        public async Task<IdentityResult> CreateAsync(IdentityRole role, CancellationToken cancel)
         {
             var response = await PostAsync(Address, role, cancel).ConfigureAwait(false);
             var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
             return result ? IdentityResult.Success : IdentityResult.Failed();
         }
 
-        public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancel)
+        public async Task<IdentityResult> UpdateAsync(IdentityRole role, CancellationToken cancel)
         {
             var response = await PutAsync(Address, role, cancel).ConfigureAwait(false);
             var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
             return result ? IdentityResult.Success : IdentityResult.Failed();
         }
 
-        public async Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancel)
+        public async Task<IdentityResult> DeleteAsync(IdentityRole role, CancellationToken cancel)
         {
             var response = await DeleteAsync($"{Address}/{role.Id}", cancel).ConfigureAwait(false);
             var result = await response.Content.ReadFromJsonAsync<bool>(cancellationToken:cancel);
             return result ? IdentityResult.Success : IdentityResult.Failed();
         }
 
-        public async Task<string> GetRoleIdAsync(Role role, CancellationToken cancel)
+        public async Task<string> GetRoleIdAsync(IdentityRole role, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetRoleId", role, cancel).ConfigureAwait(false);
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<string> GetRoleNameAsync(Role role, CancellationToken cancel)
+        public async Task<string> GetRoleNameAsync(IdentityRole role, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetRoleName", role, cancel).ConfigureAwait(false);
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancel)
+        public async Task SetRoleNameAsync(IdentityRole role, string roleName, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/SetRoleName/{roleName}", role, cancel).ConfigureAwait(false);
             role.Name = await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancel)
+        public async Task<string> GetNormalizedRoleNameAsync(IdentityRole role, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetNormalizedRoleName", role, cancel).ConfigureAwait(false);
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancel)
+        public async Task SetNormalizedRoleNameAsync(IdentityRole role, string normalizedName, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/SetNormalizedRoleName/{normalizedName}", role, cancel)
                 .ConfigureAwait(false);
             role.NormalizedName = await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<Role> FindByIdAsync(string roleId, CancellationToken cancel)
+        public async Task<IdentityRole> FindByIdAsync(string roleId, CancellationToken cancel)
         {
-            return await GetAsync<Role>($"{Address}/FindById/{roleId}", cancel).ConfigureAwait(false);
+            return await GetAsync<IdentityRole>($"{Address}/FindById/{roleId}", cancel).ConfigureAwait(false);
         }
 
-        public async Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancel)
+        public async Task<IdentityRole> FindByNameAsync(string normalizedRoleName, CancellationToken cancel)
         {
-            return await GetAsync<Role>($"{Address}/FindByName/{normalizedRoleName}", cancel);
+            return await GetAsync<IdentityRole>($"{Address}/FindByName/{normalizedRoleName}", cancel);
         }
 
         #endregion IRoleStore<Role>

@@ -19,12 +19,12 @@ namespace WebStore.Dal.DataInit
         private readonly Random _rnd = new Random();
         private readonly WebStoreContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<Role> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<WebStoreDataInit> _logger;
         public WebStoreDataInit(
             WebStoreContext context, 
             UserManager<User> userManager,
-            RoleManager<Role> roleManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<WebStoreDataInit> logger)
         {
             _context = context;
@@ -152,7 +152,7 @@ namespace WebStore.Dal.DataInit
                 if (!await _roleManager.RoleExistsAsync(RoleName))
                 {
                     _logger.LogInformation("Роль {0} отсутствует. Создаю...", RoleName);
-                    await _roleManager.CreateAsync(new Role { Name = RoleName });
+                    await _roleManager.CreateAsync(new IdentityRole { Name = RoleName });
                     _logger.LogInformation("Роль {0} создана успешно", RoleName);
                 }
             }
