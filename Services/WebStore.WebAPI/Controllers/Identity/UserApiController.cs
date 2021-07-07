@@ -104,7 +104,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.FindByNameAsync(name);
         }
 
-        #endregion
+        #endregion Users
 
         #region Roles
 
@@ -140,7 +140,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.GetUsersInRoleAsync(role);
         }
 
-        #endregion
+        #endregion Roles
 
         #region Passwords
 
@@ -166,7 +166,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.HasPasswordAsync(user);
         }
 
-        #endregion
+        #endregion Passwords
 
         #region Email
 
@@ -218,7 +218,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.NormalizedEmail;
         }
 
-        #endregion
+        #endregion Email
 
         #region Phone
 
@@ -250,7 +250,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.PhoneNumberConfirmed;
         }
 
-        #endregion
+        #endregion Phone
 
         #region TwoFactor
 
@@ -268,7 +268,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.GetTwoFactorEnabledAsync(user);
         }
 
-        #endregion
+        #endregion TwoFactor
 
         #region Login
 
@@ -298,7 +298,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.FindByLoginAsync(loginProvider, providerKey);
         }
 
-        #endregion
+        #endregion Login
 
         #region Lockout
 
@@ -338,15 +338,21 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.GetAccessFailedCountAsync(user);
         }
 
+        [HttpPost("GetLockoutEnabled")]
+        public async Task<bool> GetLockoutEnabledAsync([FromBody] User user)
+        {
+            return await _userStore.GetLockoutEnabledAsync(user);
+        }
+
         [HttpPost("SetLockoutEnabled/{enabled:bool}")]
-        public async Task<bool> GetLockoutEnabledAsync([FromBody] User user, bool enabled)
+        public async Task<bool> SetLockoutEnabledAsync([FromBody] User user, bool enabled)
         {
             await _userStore.SetLockoutEnabledAsync(user, enabled);
             await _userStore.UpdateAsync(user);
             return user.LockoutEnabled;
         }
 
-        #endregion
+        #endregion Lockout
 
         #region Claims
 
@@ -383,6 +389,6 @@ namespace WebStore.WebAPI.Controllers.Identity
             return await _userStore.GetUsersForClaimAsync(claim);
         }
 
-        #endregion
+        #endregion Claims
     }
 }

@@ -26,6 +26,8 @@ namespace WebStore.WebAPI.Controllers.Identity
         public async Task<IEnumerable<Role>> GetAllRolesAsync() =>
             await _roleStore.Roles.ToArrayAsync();
 
+        #region Roles
+
         [HttpPost]
         public async Task<bool> CreateAsync([FromBody] Role role)
         {
@@ -98,5 +100,7 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             return await _roleStore.FindByNameAsync(name);
         }
+        
+        #endregion Roles
     }
 }

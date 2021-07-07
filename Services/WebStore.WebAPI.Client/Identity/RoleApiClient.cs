@@ -78,6 +78,6 @@ namespace WebStore.WebAPI.Client.Identity
             return await GetAsync<Role>($"{Address}/FindByName/{normalizedRoleName}", cancel);
         }
 
-        #endregion
+        #endregion IRoleStore<Role>
     }
 }

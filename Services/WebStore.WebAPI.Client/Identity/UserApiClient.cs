@@ -82,7 +82,7 @@ namespace WebStore.WebAPI.Client.Identity
             return await GetAsync<User>($"{Address}/FindByName/{normalizedUserName}", cancel).ConfigureAwait(false);
         }
 
-        #endregion
+        #endregion IUserStore<User>
 
         #region IUserRoleStore<User>
 
@@ -113,8 +113,7 @@ namespace WebStore.WebAPI.Client.Identity
             return await GetAsync<List<User>>($"{Address}/UsersInRole/{roleName}", cancel).ConfigureAwait(false);
         }
 
-
-        #endregion
+        #endregion IUserRoleStore<User>
 
         #region IUserPasswordStore<User>
 
@@ -137,7 +136,7 @@ namespace WebStore.WebAPI.Client.Identity
             return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        #endregion
+        #endregion IUserPasswordStore<User>
 
         #region IUserEmailStore<User>
 
@@ -184,7 +183,7 @@ namespace WebStore.WebAPI.Client.Identity
             user.NormalizedEmail = await response.Content.ReadAsStringAsync();
         }
 
-        #endregion
+        #endregion IUserEmailStore<User>
 
         #region IUserPhoneNumberStore<User>
 
@@ -214,7 +213,7 @@ namespace WebStore.WebAPI.Client.Identity
             user.PhoneNumberConfirmed = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        #endregion
+        #endregion IUserPhoneNumberStore<User>
 
         #region IUserTwoFactorStore<User>
 
@@ -231,98 +230,114 @@ namespace WebStore.WebAPI.Client.Identity
             return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        #endregion
+        #endregion IUserTwoFactorStore<User>
 
         #region IUserLoginStore<User>
 
-        public Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancellationToken)
+        public async Task AddLoginAsync(User user, UserLoginInfo login, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/AddLogin", new AddLoginDTO {User = user, UserLoginInfo = login}, cancel)
+                .ConfigureAwait(false);
         }
 
-        public Task RemoveLoginAsync(User user, string loginProvider, string providerKey, CancellationToken cancellationToken)
+        public async Task RemoveLoginAsync(User user, string loginProvider, string providerKey, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/RemoveLogin/{loginProvider}/{providerKey}", user, cancel).ConfigureAwait(false);
         }
 
-        public Task<IList<UserLoginInfo>> GetLoginsAsync(User user, CancellationToken cancellationToken)
+        public async Task<IList<UserLoginInfo>> GetLoginsAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetLogins", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<List<UserLoginInfo>>(cancellationToken: cancel);
         }
 
-        public Task<User> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
+        public async Task<User> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            return await GetAsync<User>($"{Address}/FindByLogin/{loginProvider}/{providerKey}", cancel)
+                .ConfigureAwait(false);
         }
 
-        #endregion
+        #endregion IUserLoginStore<User>
 
         #region IUserLockoutStore<User>
 
-        public Task<DateTimeOffset?> GetLockoutEndDateAsync(User user, CancellationToken cancellationToken)
+        public async Task<DateTimeOffset?> GetLockoutEndDateAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetLockoutEndDate", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<DateTimeOffset?>(cancellationToken: cancel);
         }
 
-        public Task SetLockoutEndDateAsync(User user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
+        public async Task SetLockoutEndDateAsync(User user, DateTimeOffset? lockoutEnd, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetLockoutEndDate",
+                new SetLockoutDTO {User = user, LockoutEnd = lockoutEnd}, cancel).ConfigureAwait(false);
+            user.LockoutEnd = await response.Content.ReadFromJsonAsync<DateTimeOffset?>(cancellationToken: cancel);
         }
 
-        public Task<int> IncrementAccessFailedCountAsync(User user, CancellationToken cancellationToken)
+        public async Task<int> IncrementAccessFailedCountAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/IncrementAccessFailedCount", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<int>(cancellationToken: cancel);
         }
 
-        public Task ResetAccessFailedCountAsync(User user, CancellationToken cancellationToken)
+        public async Task ResetAccessFailedCountAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/ResetAccessFailedCount", user, cancel).ConfigureAwait(false);
         }
 
-        public Task<int> GetAccessFailedCountAsync(User user, CancellationToken cancellationToken)
+        public async Task<int> GetAccessFailedCountAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetAccessFailedCount", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<int>(cancellationToken: cancel);
         }
 
-        public Task<bool> GetLockoutEnabledAsync(User user, CancellationToken cancellationToken)
+        public async Task<bool> GetLockoutEnabledAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetLockoutEnabled", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        public Task SetLockoutEnabledAsync(User user, bool enabled, CancellationToken cancellationToken)
+        public async Task SetLockoutEnabledAsync(User user, bool enabled, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/SetLockoutEnabled/{enabled}", user, cancel)
+                .ConfigureAwait(false);
+            user.LockoutEnabled = await response.Content.ReadFromJsonAsync<bool>(cancellationToken: cancel);
         }
 
-        #endregion
+        #endregion IUserLockoutStore<User>
 
         #region IUserClaimStore<User>
 
-        public Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
+        public async Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetClaims", user, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<List<Claim>>(cancellationToken: cancel);
         }
 
-        public Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        public async Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/AddClaims", new AddClaimDTO {User = user, Cliams = claims}, cancel)
+                .ConfigureAwait(false);
         }
 
-        public Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+        public async Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/ReplaceClaim",
+                new ReplaceClaimDTO {User = user, Claim = claim, NewClaim = newClaim}, cancel).ConfigureAwait(false);
         }
 
-        public Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        public async Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            await PostAsync($"{Address}/RemoveClaims", new RemoveClaimDTO {User = user, Cliams = claims}, cancel)
+                .ConfigureAwait(false);
         }
 
-        public Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
+        public async Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var response = await PostAsync($"{Address}/GetUsersForClaim", claim, cancel).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<List<User>>(cancellationToken: cancel);
         }
 
-        #endregion
+        #endregion IUserClaimStore<User>
     }
 }
