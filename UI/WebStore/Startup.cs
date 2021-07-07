@@ -3,13 +3,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebStore.Dal.Context;
-using WebStore.Dal.DataInit;
-using WebStore.Dal.Interfaces;
 using WebStore.Domain.Identity;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Interfaces.Services;
@@ -33,28 +29,9 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            //var databaseName = Configuration["Database"];
-            //switch (databaseName)
-            //{
-            //    case "MSSQL": 
-            //        services.AddDbContext<WebStoreContext>(opt => 
-            //            opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
-            //                o => o.MigrationsAssembly("WebStore.Dal")));
-            //        break;
-            //    case "SQLite":
-            //        services.AddDbContext<WebStoreContext>(opt =>
-            //            opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
-            //                o => o.MigrationsAssembly("WebStore.Dal.Sqlite")));
-            //        break;
-            //}
-
-            //services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
-
             services.AddIdentity<User, IdentityRole>()
                 .AddIdentityWebStoreAPIClients()
                 .AddDefaultTokenProviders();
-
-            //services.AddIdentityWebStoreAPIClients();
 
             services.Configure<IdentityOptions>(o =>
             {
@@ -101,11 +78,6 @@ namespace WebStore
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
         {
-            // TODO: Раскомментировать для пересоздания базы данных
-            //using (var scope = service.CreateScope())
-            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
-            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().InitData();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
