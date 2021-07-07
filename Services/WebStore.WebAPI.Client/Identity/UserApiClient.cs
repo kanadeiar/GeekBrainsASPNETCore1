@@ -127,7 +127,7 @@ namespace WebStore.WebAPI.Client.Identity
         public async Task<string> GetPasswordHashAsync(User user, CancellationToken cancel)
         {
             var response = await PostAsync($"{Address}/GetPasswordHash", user, cancel).ConfigureAwait(false);
-            return await response.Content.ReadFromJsonAsync<string>(cancellationToken: cancel);
+            return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<bool> HasPasswordAsync(User user, CancellationToken cancel)

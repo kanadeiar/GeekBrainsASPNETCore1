@@ -16,6 +16,7 @@ using WebStore.Interfaces.Services;
 using WebStore.Interfaces.WebAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services;
+using WebStore.WebAPI.Client.Identity;
 using WebStore.WebAPI.Client.Orders;
 using WebStore.WebAPI.Client.Person;
 using WebStore.WebAPI.Client.Product;
@@ -32,26 +33,37 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            var databaseName = Configuration["Database"];
-            switch (databaseName)
-            {
-                case "MSSQL": 
-                    services.AddDbContext<WebStoreContext>(opt => 
-                        opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
-                            o => o.MigrationsAssembly("WebStore.Dal")));
-                    break;
-                case "SQLite":
-                    services.AddDbContext<WebStoreContext>(opt =>
-                        opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
-                            o => o.MigrationsAssembly("WebStore.Dal.Sqlite")));
-                    break;
-            }
+            //var databaseName = Configuration["Database"];
+            //switch (databaseName)
+            //{
+            //    case "MSSQL": 
+            //        services.AddDbContext<WebStoreContext>(opt => 
+            //            opt.UseSqlServer(Configuration.GetConnectionString("MSSQL"),
+            //                o => o.MigrationsAssembly("WebStore.Dal")));
+            //        break;
+            //    case "SQLite":
+            //        services.AddDbContext<WebStoreContext>(opt =>
+            //            opt.UseSqlite(Configuration.GetConnectionString("SQLite"),
+            //                o => o.MigrationsAssembly("WebStore.Dal.Sqlite")));
+            //        break;
+            //}
 
-            services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
+            //services.AddTransient<IWebStoreDataInit, WebStoreDataInit>();
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<WebStoreContext>()
+                //.AddEntityFrameworkStores<WebStoreContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddHttpClient("WebStoreAPI", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
+                .AddTypedClient<IUserStore<User>, UserApiClient>()
+                .AddTypedClient<IUserRoleStore<User>, UserApiClient>()
+                .AddTypedClient<IUserPasswordStore<User>, UserApiClient>()
+                .AddTypedClient<IUserEmailStore<User>, UserApiClient>()
+                .AddTypedClient<IUserPhoneNumberStore<User>, UserApiClient>()
+                .AddTypedClient<IUserTwoFactorStore<User>, UserApiClient>()
+                .AddTypedClient<IUserClaimStore<User>, UserApiClient>()
+                .AddTypedClient<IUserLoginStore<User>, UserApiClient>()
+                .AddTypedClient<IRoleStore<IdentityRole>, RoleApiClient>();
 
             services.Configure<IdentityOptions>(o =>
             {
@@ -96,12 +108,12 @@ namespace WebStore
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
         {
             // TODO: Раскомментировать для пересоздания базы данных
-            using (var scope = service.CreateScope())
+            //using (var scope = service.CreateScope())
             //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().RecreateDatabase().InitData();
-                scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().InitData();
+            //    scope.ServiceProvider.GetRequiredService<IWebStoreDataInit>().InitData();
 
             if (env.IsDevelopment())
             {
