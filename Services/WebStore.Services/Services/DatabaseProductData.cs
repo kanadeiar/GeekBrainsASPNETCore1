@@ -20,11 +20,21 @@ namespace WebStore.Services.Services
             _context = context;
             _logger = logger;
         }
-        public IEnumerable<Section> GetSections() => _context.Sections;
-        public IEnumerable<Section> GetSectionsWithProducts() => _context.Sections.Include(s => s.Products);
 
-        public IEnumerable<Brand> GetBrands() => _context.Brands;
-        public IEnumerable<Brand> GetBrandsWithProducts() => _context.Brands.Include(b => b.Products);
+        public IEnumerable<Section> GetSections() => _context.Sections.Include(s => s.Products);
+        public Section GetSection(int id)
+        {
+            return _context.Sections
+                .Include(s => s.Products).FirstOrDefault(s => s.Id == id);
+        }
+        
+        public IEnumerable<Brand> GetBrands() => _context.Brands.Include(s => s.Products);
+        public Brand GetBrand(int id)
+        {
+            return _context.Brands
+                .Include(b => b.Products).FirstOrDefault(b => b.Id == id);
+        }
+        
         public IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             IQueryable<Product> query = (includes) 

@@ -9,7 +9,7 @@ namespace WebStore.Domain.WebModels
         public string Name { get; set; }
         public int Order { get; set; }
         public SectionWebModel Parent { get; set; }
-        public List<SectionWebModel> Children { get; set; } = new();
+        public List<SectionWebModel> Children { get; set; } = new List<SectionWebModel>();
         public int CountProduct { get; set; }
     }
 }

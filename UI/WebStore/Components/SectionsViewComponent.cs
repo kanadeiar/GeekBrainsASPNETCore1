@@ -18,7 +18,7 @@ namespace WebStore.Components
 
         public IViewComponentResult Invoke()
         {
-            var all = _productData.GetSectionsWithProducts();
+            var all = _productData.GetSections();
 
             var parents = all.Where(p => p.ParentId == null);
             var patentsViews = parents.Select(p => new SectionWebModel

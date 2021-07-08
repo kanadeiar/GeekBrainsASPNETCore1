@@ -46,30 +46,74 @@
         };
         public static string GetDescription(string code)
         {
-            var description = code switch
+            string description;
+            switch (code)
             {
-                DefaultError => "Произошла неизвестная ошибка",
-                ConcurrencyFailure => "Ошибка параллельного доступа, объект был изменен",
-                PasswordMismatch => "Неверный пароль",
-                InvalidToken => "Неверный токен",
-                LoginAlreadyAssociated => "Пользователь с таким логином уже существует",
-                InvalidUserName => "Имя пользователя недействительно, может содержать только буквы и цифры",
-                InvalidEmail => "Недействительный адрес электронной почты",
-                DuplicateUserName => "Имя пользователя уже занято",
-                DuplicateEmail => "Адрес электронной почты уже занят",
-                InvalidRoleName => "Имя роли недействительно",
-                DuplicateRoleName => "Имя роли уже занято",
-                UserAlreadyHasPassword => "У пользователя уже установлен пароль",
-                UserLockoutNotEnabled => "Для этого пользователя отключена блокировка",
-                UserAlreadyInRole => "Пользователю уже назначена эта роль",
-                UserNotInRole => "Пользователю не назначена необходимая роль",
-                PasswordTooShort => "Слишком короткий пароль",
-                PasswordRequiresNonAlphanumeric => "Пароль должен содержать хотябы один не буквенно-цифровой символ",
-                PasswordRequiresDigit => "Пароль должен содержать хотя бы одну цифру (0-9)",
-                PasswordRequiresLower => "Пароль должен содержать хотя бы один символ в нижнем регистре (a-z)",
-                PasswordRequiresUpper => "Пароль должен содержать хотя бы один символ в верхнем регистре (A-Z)", 
-                _ => "Произошла неизвестная ошибка",
-            };
+                case DefaultError:
+                    description = "Произошла неизвестная ошибка";
+                    break;
+                case ConcurrencyFailure:
+                    description = "Ошибка параллельного доступа, объект был изменен";
+                    break;
+                case PasswordMismatch:
+                    description = "Неверный пароль";
+                    break;
+                case InvalidToken:
+                    description = "Неверный токен";
+                    break;
+                case LoginAlreadyAssociated:
+                    description = "Пользователь с таким логином уже существует";
+                    break;
+                case InvalidUserName:
+                    description = "Имя пользователя недействительно, может содержать только буквы и цифры";
+                    break;
+                case InvalidEmail:
+                    description = "Недействительный адрес электронной почты";
+                    break;
+                case DuplicateUserName:
+                    description = "Имя пользователя уже занято";
+                    break;
+                case DuplicateEmail:
+                    description = "Адрес электронной почты уже занят";
+                    break;
+                case InvalidRoleName:
+                    description = "Имя роли недействительно";
+                    break;
+                case DuplicateRoleName:
+                    description = "Имя роли уже занято";
+                    break;
+                case UserAlreadyHasPassword:
+                    description = "У пользователя уже установлен пароль";
+                    break;
+                case UserLockoutNotEnabled:
+                    description = "Для этого пользователя отключена блокировка";
+                    break;
+                case UserAlreadyInRole:
+                    description = "Пользователю уже назначена эта роль";
+                    break;
+                case UserNotInRole:
+                    description = "Пользователю не назначена необходимая роль";
+                    break;
+                case PasswordTooShort:
+                    description = "Слишком короткий пароль";
+                    break;
+                case PasswordRequiresNonAlphanumeric:
+                    description = "Пароль должен содержать хотябы один не буквенно-цифровой символ";
+                    break;
+                case PasswordRequiresDigit:
+                    description = "Пароль должен содержать хотя бы одну цифру (0-9)";
+                    break;
+                case PasswordRequiresLower:
+                    description = "Пароль должен содержать хотя бы один символ в нижнем регистре (a-z)";
+                    break;
+                case PasswordRequiresUpper:
+                    description = "Пароль должен содержать хотя бы один символ в верхнем регистре (A-Z)";
+                    break;
+                default:
+                    description = "Произошла неизвестная ошибка";
+                    break;
+            }
+
             return description;
         }
     }

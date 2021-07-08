@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.Shared;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
@@ -18,7 +20,7 @@ namespace WebStore.Controllers
         {
             _productData = productData;
         }
-        public IActionResult Index(int? brandId, int? sectionId)
+        public IActionResult Index(int? brandId, int? sectionId, int page = 1)
         {
             var filter = new ProductFilter()
             {
@@ -28,10 +30,15 @@ namespace WebStore.Controllers
 
             var products = _productData.GetProducts(filter);
 
+            int pageSize = 9;
+            var count = products.Count();
+            products = products.Skip((page - 1) * pageSize).Take(pageSize);
+
             var catalogView = new CatalogWebModel
             {
                 SectionId = sectionId,
                 BrandId = brandId,
+                PageWebModel = new PageWebModel(count, page, pageSize),
                 Products = _mapperProductToWeb
                     .Map<IEnumerable<ProductWebModel>>(products),
             };

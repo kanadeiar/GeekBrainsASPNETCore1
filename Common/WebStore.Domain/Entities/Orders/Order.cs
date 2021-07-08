@@ -19,6 +19,6 @@ namespace WebStore.Domain.Entities.Orders
 
         public DateTime DateTime { get; set; } = DateTime.Now;
 
-        public ICollection<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public ICollection<OrderItem> Items { get; set; }
     }
 }

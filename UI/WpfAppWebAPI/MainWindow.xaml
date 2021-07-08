@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfAppWebAPI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppWebAPI"
+        mc:Ignorable="d"
+        Title="Тестовый клиент теста работы WebAPI" Height="500" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Name="ButtonUpdate" Click="ButtonUpdate_OnClick" Content="Обновить список" Margin="5"/>
+        <ListBox Grid.Row="1" Name="ListBoxItems" Margin="5">
+        </ListBox>
+        <Button Grid.Row="2" Name="ButtonAdd" Click="ButtonAdd_OnClick" Content="Добавить элемент" Margin="5"/>
+        <Button Grid.Row="3" Name="ButtonDeleta" Click="ButtonDeleta_OnClick" Content="Удалить элемент" Margin="5"/>
+    </Grid>
+</Window>

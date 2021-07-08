@@ -30,6 +30,7 @@ namespace WebStore.Services.Services
             return await _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .Where(o => o.User.UserName == userName).ToArrayAsync();
         }
         public async Task<Order> GetOrderById(int id)
@@ -37,6 +38,7 @@ namespace WebStore.Services.Services
             return await _context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
         public async Task<Order> CreateOrder(string userName, CartWebModel cart, CreateOrderWebModel model)

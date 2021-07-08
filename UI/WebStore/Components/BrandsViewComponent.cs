@@ -14,7 +14,7 @@ namespace WebStore.Components
         }
         public IViewComponentResult Invoke()
         {
-            var brandsViews = _productData.GetBrandsWithProducts().OrderBy(b => b.Order).Select(b => new BrandWebModel
+            var brandsViews = _productData.GetBrands().OrderBy(b => b.Order).Select(b => new BrandWebModel
             {
                 Id = b.Id,
                 Name = b.Name,

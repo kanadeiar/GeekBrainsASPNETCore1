@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Orders;
@@ -7,7 +8,7 @@ using WebStore.Domain.Identity;
 namespace WebStore.Dal.Context
 {
     /// <summary> Хранилище данных в базе данных </summary>
-    public class WebStoreContext : IdentityDbContext<User, Role, string>
+    public class WebStoreContext : IdentityDbContext<User, IdentityRole, string>
     {
         /// <summary> Категории </summary>
         public DbSet<Section> Sections { get; set; }
