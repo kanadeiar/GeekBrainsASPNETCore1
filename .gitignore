@@ -359,3 +359,4 @@ MigrationBackup/
 /WebStore/KanadeiarWebStore.DB
 /Services/WebStore.WebAPI/WebStore.WebAPI.xml
 /Common/WebStore.Domain/WebStore.Domain.xml
+/Services/WebStore.WebAPI/KanadeiarWebStore.DB
