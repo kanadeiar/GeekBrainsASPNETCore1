@@ -357,3 +357,5 @@ MigrationBackup/
 **/wwwroot/css/site.min.css
 **/wwwroot/css/site.css
 /WebStore/KanadeiarWebStore.DB
+/Services/WebStore.WebAPI/WebStore.WebAPI.xml
+/Common/WebStore.Domain/WebStore.Domain.xml

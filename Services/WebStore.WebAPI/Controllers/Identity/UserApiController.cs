@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +14,7 @@ using WebStore.Interfaces.Adresses;
 
 namespace WebStore.WebAPI.Controllers.Identity
 {
+    /// <summary> Управление пользователями </summary>
     [Route(WebAPIInfo.Identity.ApiUser), ApiController]
     public class UserApiController : ControllerBase
     {
@@ -27,24 +26,36 @@ namespace WebStore.WebAPI.Controllers.Identity
             _userStore = new UserStore<User>(context);
         }
 
+        /// <summary> Все пользователи </summary>
+        /// <returns>Пользователи</returns>
         [HttpGet("All")]
         public async Task<IEnumerable<User>> GetAllUsers() => 
             await _userStore.Users.ToArrayAsync();
 
         #region Users
 
+        /// <summary> Получние идентификатора пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Идентификатор</returns>
         [HttpPost("GetUserId")]
         public async Task<string> GetUserIdAsync([FromBody] User user)
         {
             return await _userStore.GetUserIdAsync(user);
         }
 
+        /// <summary> Получение имени пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Название пользователя</returns>
         [HttpPost("GetUserName")]
         public async Task<string> GetUserNameAsync([FromBody] User user)
         {
             return await _userStore.GetUserNameAsync(user);
         }
 
+        /// <summary> Установить имя пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="name">Новое имя</param>
+        /// <returns>Обновленное имя пользователя</returns>
         [HttpPost("SetUserName/{name}")]
         public async Task<string> SetUserNameAsync([FromBody] User user, string name)
         {
@@ -54,12 +65,19 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.UserName;
         }
 
+        /// <summary> Получение нормализованного имени пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Нормализованное имя</returns>
         [HttpPost("GetNormalizedUserName")]
         public async Task<string> GetNormalizedUserNameAsync([FromBody] User user)
         {
             return await _userStore.GetNormalizedUserNameAsync(user);
         }
 
+        /// <summary> Установка нормализованного имени пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="name">Новое нормализованное имя пользователя</param>
+        /// <returns>Обновленное имя пользователя</returns>
         [HttpPost("SetNormalizedUserName/{name}")]
         public async Task<string> SetNormalizedUserNameAsync([FromBody] User user, string name)
         {
@@ -69,6 +87,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.NormalizedUserName;
         }
 
+        /// <summary> Создание пользователя </summary>
+        /// <param name="user">Новый пользователь</param>
+        /// <returns>Результат операции</returns>
         [HttpPost]
         public async Task<bool> CrateAsync([FromBody] User user)
         {
@@ -77,6 +98,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             return result.Succeeded;
         }
 
+        /// <summary> Обновление пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Результат операции</returns>
         [HttpPut]
         public async Task<bool> UpdateAsync([FromBody] User user)
         {
@@ -85,6 +109,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             return result.Succeeded;
         }
 
+        /// <summary> Удаление пользователя </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <returns>Результат операции</returns>
         [HttpDelete("{userId}")]
         public async Task<bool> DeleteAsync(string userId)
         {
@@ -93,12 +120,18 @@ namespace WebStore.WebAPI.Controllers.Identity
             return result.Succeeded;
         }
 
+        /// <summary> Поиск пользователя по идентификатору </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Пользователь</returns>
         [HttpGet("FindById/{id}")]
         public async Task<User> FindByIdAsync(string id)
         {
             return await _userStore.FindByIdAsync(id);
         }
 
+        /// <summary> Поиск пользователя по имени </summary>
+        /// <param name="name">Имя пользователя</param>
+        /// <returns>Пользователь</returns>
         [HttpGet("FindByName/{name}")]
         public async Task<User> FindByName(string name)
         {
@@ -109,6 +142,10 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Roles
 
+        /// <summary> Добавить пользователю роль </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="role">Роль пользователя</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("Role/{role}")]
         public async Task AddToRoleAsync([FromBody] User user, string role)
         {
@@ -116,6 +153,10 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Отобрать у пользователя роль </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="role">Роль</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("Role/Delete/{role}")]
         public async Task RemoveFromRoleAsync([FromBody] User user, string role)
         {
@@ -123,18 +164,28 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Получить роли пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Его роли</returns>
         [HttpPost("Role")]
         public async Task<IList<string>> GetRolesAsync([FromBody] User user)
         {
             return await _userStore.GetRolesAsync(user);
         }
 
+        /// <summary> Проверка роли у пользователя - в этой роли он или нет </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="role">Роль</param>
+        /// <returns>Пользователь в этой роли</returns>
         [HttpPost("IsInRole/{role}")]
         public async Task<bool> IsInRoleAsync([FromBody] User user, string role)
         {
             return await _userStore.IsInRoleAsync(user, role);
         }
 
+        /// <summary> Получение пользователей в этой роли </summary>
+        /// <param name="role">Роль</param>
+        /// <returns>Пользователи</returns>
         [HttpGet("UsersInRole/{role}")]
         public async Task<IList<User>> GetUsersInRoleAsync(string role)
         {
@@ -145,6 +196,9 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Passwords
 
+        /// <summary> Установка хеша пароля пользователю </summary>
+        /// <param name="hashDto">Дтошка с пользователем и хешем паролем</param>
+        /// <returns>Новый хеш пароля</returns>
         [HttpPost("SetPasswordHash")]
         public async Task<string> SerPasswordHashAsync([FromBody] PasswordHashDTO hashDto)
         {
@@ -155,12 +209,18 @@ namespace WebStore.WebAPI.Controllers.Identity
             return hashDto.User.PasswordHash;
         }
 
+        /// <summary> Получение хеша пароля пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Хеш пароля</returns>
         [HttpPost("GetPasswordHash")]
         public async Task<string> GetPasswordHashAsync([FromBody] User user)
         {
             return await _userStore.GetPasswordHashAsync(user);
         }
 
+        /// <summary> Проверка что у пользователя есть хеш пароль </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Есть пароль</returns>
         [HttpPost("HasPassword")]
         public async Task<bool> HasPasswordAsync([FromBody] User user)
         {
@@ -171,6 +231,10 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Email
 
+        /// <summary> Установка адреса почты у пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="email">электронная почта</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("SetEmail/{email}")]
         public async Task<string> SetEmailAsync([FromBody] User user, string email)
         {
@@ -179,18 +243,28 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.Email;
         }
 
+        /// <summary> Получение адреса электронной почты пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("GetEmail")]
         public async Task<string> GetEmailAsync([FromBody] User user)
         {
             return await _userStore.GetEmailAsync(user);
         }
 
+        /// <summary> Определение что адрес почты подтвержден </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Адрес подтвержден</returns>
         [HttpPost("GetEmailConfirmed")]
         public async Task<bool> GetEmailConfirmedAsync([FromBody] User user)
         {
             return await _userStore.GetEmailConfirmedAsync(user);
         }
 
+        /// <summary> Установка, что адрес почты подтвержден </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="enable">Статус подтверждения</param>
+        /// <returns>Обновленный статус</returns>
         [HttpPost("SetEmailConfirmed/{enable:bool}")]
         public async Task<bool> SetEmailConfirmedAsync([FromBody] User user, bool enable)
         {
@@ -199,18 +273,28 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.EmailConfirmed;
         }
 
+        /// <summary> Поиск пользователя по электронной почте </summary>
+        /// <param name="email">Электронная почта</param>
+        /// <returns>Пользователь</returns>
         [HttpGet("FindByEmail/{email}")]
         public async Task<User> FindByEmailAsync(string email)
         {
             return await _userStore.FindByEmailAsync(email);
         }
 
+        /// <summary> Получение нормализованного адреса электронной почты </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Нормализованное имя</returns>
         [HttpPost("GetNormalizedEmail")]
         public async Task<string> GetNormalizedEmailAsync([FromBody] User user)
         {
             return await _userStore.GetNormalizedEmailAsync(user);
         }
 
+        /// <summary> Установка нормализованного адреса электронной почты </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="email">Новый нормализованный адрес</param>
+        /// <returns>Обновленный нормализованный адрес</returns>
         [HttpPost("SetNormalizedEmail/{email?}")]
         public async Task<string> SetNormalizedEmailAsync([FromBody] User user, string email)
         {
@@ -223,6 +307,10 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Phone
 
+        /// <summary> Установка номера телефона пользователю </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="phone">Номер телефона</param>
+        /// <returns>Обновленный номер телефона</returns>
         [HttpPost("SetPhoneNumber/{phone}")]
         public async Task<string> SetPhoneNumberAsync([FromBody] User user, string phone)
         {
@@ -231,18 +319,28 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.PhoneNumber;
         }
 
+        /// <summary> Получение номера телефона пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("GetPhoneNumber")]
         public async Task<string> GetPhoneNumberAsync([FromBody] User user)
         {
             return await _userStore.GetPhoneNumberAsync(user);
         }
 
+        /// <summary> Получение статуса подтверждения номера телефона </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Телефон подтвержден</returns>
         [HttpPost("GetPhoneNumberConfirmed")]
         public async Task<bool> GetPhoneNumberConfirmedAsync([FromBody] User user)
         {
             return await _userStore.GetPhoneNumberConfirmedAsync(user);
         }
 
+        /// <summary> Установка статуса подтвержедния номера телефона </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="confirmed">Статус подтверждения</param>
+        /// <returns>Обновленный статус подтверждения</returns>
         [HttpPost("SetPhoneNumberConfirmed/{confirmed:bool}")]
         public async Task<bool> SetPhoneNumberConfirmedAsync([FromBody] User user, bool confirmed)
         {
@@ -255,6 +353,10 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region TwoFactor
 
+        /// <summary> Установка двухфакторного входа </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="enable">Статус установки</param>
+        /// <returns>Текущий обновленный статус</returns>
         [HttpPost("SetTwoFactorEnabled/{enable:bool}")]
         public async Task<bool> SetTwoFactorEnabledAsync([FromBody] User user, bool enable)
         {
@@ -263,6 +365,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.TwoFactorEnabled;
         }
 
+        /// <summary> Получение двухфакторного входа </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Статус установки</returns>
         [HttpPost("GetTwoFactorEnabled")]
         public async Task<bool> GetTwoFactorEnabledAsync([FromBody] User user)
         {
@@ -273,6 +378,9 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Login
 
+        /// <summary> Добавление логина </summary>
+        /// <param name="loginDto">Дтошка добавления логина пользователя</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("AddLogin")]
         public async Task AddLoginAsync([FromBody] AddLoginDTO loginDto)
         {
@@ -280,6 +388,11 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Удалить логин пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="loginProvider">Провайдер</param>
+        /// <param name="providerKey">Ключ</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("RemoveLogin/{loginProvider}/{providerKey}")]
         public async Task RemoveLoginAsync([FromBody] User user, string loginProvider, string providerKey)
         {
@@ -287,12 +400,19 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Получение всех логинов пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Его логины</returns>
         [HttpPost("GetLogins")]
         public async Task<IList<UserLoginInfo>> GetLoginsAsync([FromBody] User user)
         {
             return await _userStore.GetLoginsAsync(user);
         }
 
+        /// <summary> Получение логина пользователя </summary>
+        /// <param name="loginProvider"></param>
+        /// <param name="providerKey"></param>
+        /// <returns>Пользователь</returns>
         [HttpGet("FindByLogin/{loginProvider}/{providerKey}")]
         public async Task<User> FindByLoginAsync(string loginProvider, string providerKey)
         {
@@ -303,12 +423,18 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Lockout
 
+        /// <summary> Получение даты окончания блокировки </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Дата</returns>
         [HttpPost("GetLockoutEndDate")]
         public async Task<DateTimeOffset?> GetLockoutEndDateAsync([FromBody] User user)
         {
             return await _userStore.GetLockoutEndDateAsync(user);
         }
 
+        /// <summary> Установка даты окончания блокировки </summary>
+        /// <param name="lockoutDto">Дтошка для пользователя и даты</param>
+        /// <returns>Обновленная дата окончания блокировки</returns>
         [HttpPost("SetLockoutEndDate")]
         public async Task<DateTimeOffset?> SetLockoutEndDateAsync([FromBody] SetLockoutDTO lockoutDto)
         {
@@ -317,6 +443,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             return lockoutDto.User.LockoutEnd;
         }
 
+        /// <summary> Увеличение количества неверных входов </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Текущее количество</returns>
         [HttpPost("IncrementAccessFailedCount")]
         public async Task<int> IncrementAccessFailedCountAsync([FromBody] User user)
         {
@@ -325,6 +454,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             return count;
         }
 
+        /// <summary> Сброс количества неверных входов </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Текущее количество</returns>
         [HttpPost("ResetAccessFailedCount")]
         public async Task<int> ResetAccessFailedCountAsync([FromBody] User user)
         {
@@ -333,18 +465,28 @@ namespace WebStore.WebAPI.Controllers.Identity
             return user.AccessFailedCount;
         }
 
+        /// <summary> Получение количества неверных входов </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost("GetAccessFailedCount")]
         public async Task<int> GetAccessFailedCountAsync([FromBody] User user)
         {
             return await _userStore.GetAccessFailedCountAsync(user);
         }
 
+        /// <summary> Получение значения что пользователь заблокирован </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost("GetLockoutEnabled")]
         public async Task<bool> GetLockoutEnabledAsync([FromBody] User user)
         {
             return await _userStore.GetLockoutEnabledAsync(user);
         }
 
+        /// <summary> Установка, что пользователь заблокирован </summary>
+        /// <param name="user"></param>
+        /// <param name="enabled"></param>
+        /// <returns></returns>
         [HttpPost("SetLockoutEnabled/{enabled:bool}")]
         public async Task<bool> SetLockoutEnabledAsync([FromBody] User user, bool enabled)
         {
@@ -357,12 +499,18 @@ namespace WebStore.WebAPI.Controllers.Identity
 
         #region Claims
 
+        /// <summary> Получение прав пользователя </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns>Права его</returns>
         [HttpPost("GetClaims")]
         public async Task<IList<Claim>> GetClaimsAsync([FromBody] User user)
         {
             return await _userStore.GetClaimsAsync(user);
         }
 
+        /// <summary> Добавление прав пользователю </summary>
+        /// <param name="claimDto">Дотшка для добавления прав</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("AddClaims")]
         public async Task AddClaimsAsync([FromBody] AddClaimDTO claimDto)
         {
@@ -370,6 +518,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Изменение права пользователя </summary>
+        /// <param name="claimDto">Дтошка для пользователя, права и нового права</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("ReplaceClaim")]
         public async Task ReplaceClaimAsync([FromBody] ReplaceClaimDTO claimDto)
         {
@@ -377,6 +528,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Отбирание права у пользователя </summary>
+        /// <param name="claimDto">Дтошка для пользователя, права</param>
+        /// <returns>Результат операции</returns>
         [HttpPost("RemoveClaims")]
         public async Task RemoveClaimsAsync([FromBody] RemoveClaimDTO claimDto)
         {
@@ -384,6 +538,9 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _userStore.Context.SaveChangesAsync();
         }
 
+        /// <summary> Получение пользователей с таким правом </summary>
+        /// <param name="claim">Право</param>
+        /// <returns>Пользователи</returns>
         [HttpPost("GetUsersForClaim")]
         public async Task<IList<User>> GetUserForClaimAsync([FromBody] Claim claim)
         {

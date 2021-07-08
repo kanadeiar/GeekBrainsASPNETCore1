@@ -5,6 +5,7 @@ using WebStore.Interfaces.Adresses;
 
 namespace WebStore.WebAPI.Controllers
 {
+    /// <summary> Тестовые значения </summary>
     [Route(WebAPIInfo.ApiValue), ApiController]
     public class ValuesController : ControllerBase
     {
@@ -13,13 +14,19 @@ namespace WebStore.WebAPI.Controllers
             .Select(i => $"Тестовое значение № {i}")
             .ToList();
 
+        /// <summary> Получить все тестовые значения </summary>
+        /// <returns>Тестовые значения</returns>
         [HttpGet]
         public IActionResult Get() => Ok(__testList);
 
+        /// <summary> Количество тестовых значений </summary>
+        /// <returns>Количество значений</returns>
         [HttpGet("count")]
         public IActionResult GetCount() => Ok(__testList.Count);
 
-        //[HttpGet("id[[{id:int}]]")]
+        /// <summary> Получить одно значение по идентификатору </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Тестовое значение</returns>
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -30,8 +37,9 @@ namespace WebStore.WebAPI.Controllers
             return Ok(__testList[id]);
         }
 
-        //[HttpPost("add")]
-        //[HttpPost]
+        /// <summary> Добавить одно тестовое значение </summary>
+        /// <param name="str">Значение</param>
+        /// <returns>Результат операции</returns>
         [HttpGet("add")]
         public IActionResult Add(string str)
         {
@@ -39,7 +47,10 @@ namespace WebStore.WebAPI.Controllers
             return Ok();
         }
 
-        //[HttpPut("edit/{id:int}")]
+        /// <summary> Обновить одно тестовое значение </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <param name="str">Значение</param>
+        /// <returns>Результат операции</returns>
         [HttpPut("{id:int}")]
         public IActionResult Replace(int id, string str)
         {
@@ -51,6 +62,9 @@ namespace WebStore.WebAPI.Controllers
             return Ok();
         }
 
+        /// <summary> Удалить одно тестовое значение </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Результат операции</returns>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

@@ -2,6 +2,7 @@
 
 namespace WebStore.Domain.DTO.Identity
 {
+    /// <summary> Добавление прав пользователю </summary>
     public class AddClaimDTO : ClaimDTO
     {
     }

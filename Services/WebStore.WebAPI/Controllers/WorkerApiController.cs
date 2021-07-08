@@ -15,18 +15,26 @@ namespace WebStore.WebAPI.Controllers
             _workerData = workerData;
         }
 
+        /// <summary> Получить всех работников </summary>
+        /// <returns>Все работники</returns>
         [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_workerData.GetAll());
         }
 
+        /// <summary> Получить работника по идентификатору </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns>Работник</returns>
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
             return Ok(_workerData.Get(id));
         }
 
+        /// <summary> Добавить нового работника </summary>
+        /// <param name="worker">Работник</param>
+        /// <returns>Идентификатор добавленного работника</returns>
         [HttpPost]
         public IActionResult Add(Worker worker)
         {
@@ -34,6 +42,9 @@ namespace WebStore.WebAPI.Controllers
             return Ok(id);
         }
 
+        /// <summary> Обновить сведения работника </summary>
+        /// <param name="worker">Работник</param>
+        /// <returns>Результат операции</returns>
         [HttpPut]
         public IActionResult Update(Worker worker)
         {
@@ -41,6 +52,9 @@ namespace WebStore.WebAPI.Controllers
             return Ok();
         }
 
+        /// <summary> Удалить работника </summary>
+        /// <param name="id">Идентификатор работника</param>
+        /// <returns>Результат операции</returns>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
