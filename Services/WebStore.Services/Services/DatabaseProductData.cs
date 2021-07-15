@@ -69,6 +69,9 @@ namespace WebStore.Services.Services
                 throw new ArgumentNullException(nameof(product));
             _context.Add(product);
             _context.SaveChanges();
+            #region Лог
+            _logger.LogInformation($"Товар {product.Id} {product.Name} успешно добавлен в базу данных");
+            #endregion
             return product.Id;
         }
 
@@ -90,14 +93,25 @@ namespace WebStore.Services.Services
                 _context.Update(origin);
             }
             _context.SaveChanges();
+            #region Лог
+            _logger.LogInformation($"Товар {product.Id} {product.Name} успешно обновлен в базе данных");
+            #endregion
         }
 
         public bool DeleteProduct(int id)
         {
-            if (GetProductById(id) is not { } person) 
+            if (GetProductById(id) is not { } product)
+            {
+                #region Лог
+                _logger.LogError($"Товар с идентификатором {id} не удалось удалить из базы данных");
+                #endregion
                 return false;
-            _context.Remove(person);
+            }                
+            _context.Remove(product);
             _context.SaveChanges();
+            #region Лог
+            _logger.LogInformation($"Товар {id} {product.Name} успешно удален из базы данных");
+            #endregion
             return true;
         }
     }
