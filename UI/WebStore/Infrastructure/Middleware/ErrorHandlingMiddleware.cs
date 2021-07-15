@@ -8,8 +8,8 @@ namespace WebStore.Infrastructure.Middleware
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<DebugMiddleware> _logger;
-        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<DebugMiddleware> logger)
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
             _next = next;
             _logger = logger;
