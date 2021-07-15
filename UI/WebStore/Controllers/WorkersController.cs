@@ -69,16 +69,18 @@ namespace WebStore.Controllers
                 ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию имя и отчество Иванов Иван Иванович");
             if (!ModelState.IsValid)
                 return View(model);
-            _logger.LogDebug($"Начало редактирования сотрудника id={model.Id}");
-
+            #region Лог
+            _logger.LogInformation($"Начало редактирования сотрудника id={model.Id}");
+            #endregion
             var worker = _mapperWorkerFromWeb.Map<Worker>(model);
 
             if (worker.Id == 0)
                 _Workers.Add(worker);
             else
                 _Workers.Update(worker);
-            _logger.LogDebug($"Редактирование сотрудника id={model.Id} завершено");
-
+            #region Лог
+            _logger.LogInformation($"Редактирование сотрудника id={model.Id} завершено");
+            #endregion
             return RedirectToAction("Index");
         }
 
@@ -100,12 +102,14 @@ namespace WebStore.Controllers
         {
             if (id <= 0) 
                 return BadRequest();
+            #region Лог
             _logger.LogDebug($"Начало удаления сотрудника id={id}");
-
+            #endregion
             if (!_Workers.Delete(id))
                 return BadRequest();
+            #region Лог
             _logger.LogDebug($"Окончание успешного удаления сотрудника id={id}");
-
+            #endregion
             return RedirectToAction("Index");
         }
     }
