@@ -90,8 +90,7 @@ namespace WebStore
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<DebugMiddleware>();
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.Map("/HelloGeekbrains",
                 context => context.Run(async request => await request.Response.WriteAsync("Hello Geekbrains!")));

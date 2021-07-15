@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -54,14 +55,15 @@ namespace WebStore.Controllers
         {
             return View();
         }
-
-
+        
         #region Вспомогательные
 
         public IActionResult Error()
         {
             return View();
         }
+        public IActionResult Throw(string id) => 
+            throw new ApplicationException(id);
 
         #endregion
     }
