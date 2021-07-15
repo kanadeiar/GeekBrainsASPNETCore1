@@ -30,6 +30,9 @@ namespace WebStore.Services.Services
                 throw new ArgumentNullException(nameof(worker));
             _context.Workers.Add(worker);
             _context.SaveChanges();
+            #region Лог
+            _logger.LogInformation($"Пользователь {worker.LastName} {worker.FirstName} {worker.Patronymic} успешно добавлен в базу данных");
+            #endregion
             return worker.Id;
         }
 
@@ -52,6 +55,9 @@ namespace WebStore.Services.Services
             else
                 _context.Entry(worker).State = EntityState.Modified;
             _context.SaveChanges();
+            #region Лог
+            _logger.LogInformation($"Пользователь {worker.LastName} {worker.FirstName} {worker.Patronymic} успешно обновлен в базе данных");
+            #endregion
         }
 
         public bool Delete(int id)
@@ -60,6 +66,9 @@ namespace WebStore.Services.Services
                 return false;
             _context.Workers.Remove(item);
             _context.SaveChanges();
+            #region Лог
+            _logger.LogInformation($"Пользователь {item.LastName} {item.FirstName} {item.Patronymic} успешно удален из базы данных");
+            #endregion
             return true;
         }
     }

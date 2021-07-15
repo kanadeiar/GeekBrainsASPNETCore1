@@ -11,6 +11,7 @@ using WebStore.Dal.Context;
 using WebStore.Domain.DTO.Identity;
 using WebStore.Domain.Identity;
 using WebStore.Interfaces.Adresses;
+using System.Text;
 
 namespace WebStore.WebAPI.Controllers.Identity
 {
@@ -61,7 +62,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetUserNameAsync(user, name);
             await _userStore.UpdateAsync(user);
-            if (!string.Equals(user.UserName, name)) _logger.LogError($"Ошибка при изменении имени пользователя с {user.UserName} на {name}");
+            #region Лог
+            if (!string.Equals(user.UserName, name)) 
+                _logger.LogError($"Ошибка при изменении имени пользователя с {user.UserName} на {name}");
+            #endregion
             return user.UserName;
         }
 
@@ -83,7 +87,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetNormalizedUserNameAsync(user, name);
             await _userStore.UpdateAsync(user);
-            if (!string.Equals(user.NormalizedUserName, name)) _logger.LogError($"Ошибка при изменении нормализованного имени пользователя с {user.NormalizedUserName} на {name}");
+            #region Лог
+            if (!string.Equals(user.NormalizedUserName, name)) 
+                _logger.LogError($"Ошибка при изменении нормализованного имени пользователя с {user.NormalizedUserName} на {name}");
+            #endregion
             return user.NormalizedUserName;
         }
 
@@ -94,7 +101,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         public async Task<bool> CrateAsync([FromBody] User user)
         {
             var result = await _userStore.CreateAsync(user);
-            if (!result.Succeeded) _logger.LogError($"Ошибка при создании пользователя {user.UserName}");
+            #region Лог
+            if (!result.Succeeded) 
+                _logger.LogError($"Ошибка при создании пользователя {user.UserName}");
+            #endregion
             return result.Succeeded;
         }
 
@@ -105,7 +115,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         public async Task<bool> UpdateAsync([FromBody] User user)
         {
             var result = await _userStore.UpdateAsync(user);
-            if (!result.Succeeded) _logger.LogError($"Ошибка при изменении пользователя {user.UserName}");
+            #region Лог
+            if (!result.Succeeded) 
+                _logger.LogError($"Ошибка при изменении пользователя {user.UserName}");
+            #endregion
             return result.Succeeded;
         }
 
@@ -117,6 +130,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             var user = await _userStore.FindByIdAsync(userId);
             var result = await _userStore.DeleteAsync(user);
+            #region Лог
+            if (!result.Succeeded)
+                _logger.LogError($"Ошибка при удалении пользователя {user.UserName}");
+            #endregion
             return result.Succeeded;
         }
 
@@ -151,6 +168,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.AddToRoleAsync(user, role);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            if (!await _userStore.IsInRoleAsync(user, role))
+                _logger.LogError($"Не удалось назначить роль {role} пользователю {user.UserName}");
+            #endregion
         }
 
         /// <summary> Отобрать у пользователя роль </summary>
@@ -162,6 +183,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.RemoveFromRoleAsync(user, role);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            if (await _userStore.IsInRoleAsync(user, role))
+                _logger.LogError($"Не удалось удалить роль {role} у пользователя {user.UserName}");
+            #endregion
         }
 
         /// <summary> Получить роли пользователя </summary>
@@ -204,8 +229,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetPasswordHashAsync(hashDto.User, hashDto.Hash);
             await _userStore.UpdateAsync(hashDto.User);
+            #region Лог
             if (!string.Equals(hashDto.User.PasswordHash, hashDto.Hash))
                 _logger.LogError($"Ошибка при задании пароля пользователю {hashDto.User.UserName}");
+            #endregion Лог
             return hashDto.User.PasswordHash;
         }
 
@@ -240,6 +267,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetEmailAsync(user, email);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (!string.Equals(user.Email, email))
+                _logger.LogError($"Не удалось назначить адрес электронной почты {email} пользователю {user.UserName}");
+            #endregion
             return user.Email;
         }
 
@@ -270,6 +301,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetEmailConfirmedAsync(user, enable);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (await _userStore.GetEmailConfirmedAsync(user) != enable)
+                _logger.LogError($"Не удалось установить статус подтверждения {enable} адреса электронной почты у пользователя {user.UserName}");
+            #endregion
             return user.EmailConfirmed;
         }
 
@@ -300,6 +335,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetNormalizedEmailAsync(user, email);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (!string.Equals(user.NormalizedEmail, email))
+                _logger.LogError($"Не удалось установить нормализованный адрес электронной почты {email} у пользователя {user.UserName}");
+            #endregion
             return user.NormalizedEmail;
         }
 
@@ -316,6 +355,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetPhoneNumberAsync(user, phone);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (!string.Equals(user.PhoneNumber, phone))
+                _logger.LogError($"Не удалось установить номер телефона {phone} у пользователя {user.UserName}");
+            #endregion
             return user.PhoneNumber;
         }
 
@@ -346,6 +389,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetPhoneNumberConfirmedAsync(user, confirmed);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (user.PhoneNumberConfirmed != confirmed)
+                _logger.LogError($"Не удалось установить статус подтверждения {confirmed} у номера телефона у пользователя {user.UserName}");
+            #endregion
             return user.PhoneNumberConfirmed;
         }
 
@@ -362,6 +409,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetTwoFactorEnabledAsync(user, enable);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (user.TwoFactorEnabled != enable)
+                _logger.LogError($"Не удалось установить статус двухфакторного входа {enable} у пользователя {user.UserName}");
+            #endregion
             return user.TwoFactorEnabled;
         }
 
@@ -386,6 +437,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.AddLoginAsync(loginDto.User, loginDto.UserLoginInfo);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            if (!(await _userStore.GetLoginsAsync(loginDto.User)).Contains(loginDto.UserLoginInfo))
+                _logger.LogError($"Не удалось добавить логин {loginDto.UserLoginInfo.LoginProvider} {loginDto.UserLoginInfo.ProviderKey} пользователю {loginDto.User.UserName}");
+            #endregion
         }
 
         /// <summary> Удалить логин пользователя </summary>
@@ -398,6 +453,15 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.RemoveLoginAsync(user, loginProvider, providerKey);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            var logins = await _userStore.GetLoginsAsync(user);
+            foreach (var login in logins)
+                if (login.LoginProvider == loginProvider && login.ProviderKey == providerKey)
+                {
+                    _logger.LogError($"Не удалось удалить логин {loginProvider} {providerKey} у пользователя {user}");
+                    break;
+                }
+            #endregion
         }
 
         /// <summary> Получение всех логинов пользователя </summary>
@@ -440,6 +504,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetLockoutEndDateAsync(lockoutDto.User, lockoutDto.LockoutEnd);
             await _userStore.UpdateAsync(lockoutDto.User);
+            #region Лог
+            if (!(lockoutDto.User.LockoutEnd == lockoutDto.LockoutEnd))
+                _logger.LogError($"Не удалось установить дату окончания блокировки {lockoutDto.LockoutEnd} у пользователя {lockoutDto.User.UserName}");
+            #endregion
             return lockoutDto.User.LockoutEnd;
         }
 
@@ -449,8 +517,13 @@ namespace WebStore.WebAPI.Controllers.Identity
         [HttpPost("IncrementAccessFailedCount")]
         public async Task<int> IncrementAccessFailedCountAsync([FromBody] User user)
         {
+            var oldCount = await _userStore.GetAccessFailedCountAsync(user);
             var count = await _userStore.IncrementAccessFailedCountAsync(user);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (count != oldCount + 1)
+                _logger.LogError($"Не удалось увеличить на еденицу количество неверных входов {oldCount} у пользователя {user.UserName} ");
+            #endregion
             return count;
         }
 
@@ -462,6 +535,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.ResetAccessFailedCountAsync(user);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (await _userStore.GetAccessFailedCountAsync(user) != 0)
+                _logger.LogError($"Не удалось сбросить количество неверных входов у пользователя {user.UserName}");
+            #endregion
             return user.AccessFailedCount;
         }
 
@@ -492,6 +569,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.SetLockoutEnabledAsync(user, enabled);
             await _userStore.UpdateAsync(user);
+            #region Лог
+            if (user.LockoutEnabled != enabled)
+                _logger.LogError($"Не удалось установить статус блокировки {enabled} у пользователя {user.UserName}");
+            #endregion
             return user.LockoutEnabled;
         }
 
@@ -516,6 +597,22 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.AddClaimsAsync(claimDto.User, claimDto.Cliams);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            var claims = await _userStore.GetClaimsAsync(claimDto.User);
+            var containsAll = true;
+            foreach (var claim in claimDto.Cliams)
+            {
+                if (claims.Contains(claim))
+                    continue;
+                else
+                {
+                    containsAll = false;
+                    break;
+                }
+            }
+            if (!containsAll)
+                _logger.LogError($"Не удалось добавить права пользователю {claimDto.User}");
+            #endregion
         }
 
         /// <summary> Изменение права пользователя </summary>
@@ -526,6 +623,11 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.ReplaceClaimAsync(claimDto.User, claimDto.Claim, claimDto.NewClaim);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            var claims = await _userStore.GetClaimsAsync(claimDto.User);
+            if (!claims.Contains(claimDto.NewClaim))
+                _logger.LogError($"Не удалось изменить права пользователя с {claimDto.Claim} {claimDto.NewClaim} на у пользователя {claimDto.User}");
+            #endregion
         }
 
         /// <summary> Отбирание права у пользователя </summary>
@@ -536,6 +638,22 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _userStore.RemoveClaimsAsync(claimDto.User, claimDto.Cliams);
             await _userStore.Context.SaveChangesAsync();
+            #region Лог
+            var claims = await _userStore.GetClaimsAsync(claimDto.User);
+            var containsAny = false;
+            foreach (var claim in claimDto.Cliams)
+            {
+                if (claims.Contains(claim))
+                {
+                    containsAny = true;
+                    break;
+                }
+                else
+                    continue; 
+            }
+            if (containsAny)
+                _logger.LogError($"Не удалось отобрать права у пользователя {claimDto.User}");
+            #endregion
         }
 
         /// <summary> Получение пользователей с таким правом </summary>

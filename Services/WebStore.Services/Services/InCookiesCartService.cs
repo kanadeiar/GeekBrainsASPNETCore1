@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
@@ -16,6 +17,7 @@ namespace WebStore.Services.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IProductData _productData;
+        private readonly ILogger<InCookiesCartService> _logger;
         private readonly string _cartName;
         private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
@@ -38,10 +40,11 @@ namespace WebStore.Services.Services
                 JsonConvert.SerializeObject(value));
         }
 
-        public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData)
+        public InCookiesCartService(IHttpContextAccessor contextAccessor, IProductData productData, ILogger<InCookiesCartService> logger)
         {
             _httpContextAccessor = contextAccessor;
             _productData = productData;
+            _logger = logger;
 
             var user = _httpContextAccessor.HttpContext!.User;
             var userName = user.Identity!.IsAuthenticated ? $"-{user.Identity.Name}" : null;
@@ -57,7 +60,9 @@ namespace WebStore.Services.Services
                 item.Quantity++;
             else
                 cart.Items.Add(new CartItem{ ProductId = id });
-
+            #region Лог
+            _logger.LogInformation($"Успешно добавлен в корзину товар c идентификатором {id}");
+            #endregion
             Cart = cart;
         }
 
@@ -73,7 +78,9 @@ namespace WebStore.Services.Services
 
             if (item.Quantity <= 0)
                 cart.Items.Remove(item);
-
+            #region Лог
+            _logger.LogInformation($"Товар с идентификатором {id} успешно убавлен на еденицу в корзине");
+            #endregion
             Cart = cart;
         }
 
@@ -85,7 +92,9 @@ namespace WebStore.Services.Services
             if (item is null) return;
 
             cart.Items.Remove(item);
-
+            #region Лог
+            _logger.LogInformation($"Товар с идентификатором {id} успешно удален из корзины");
+            #endregion
             Cart = cart;
         }
 
@@ -94,7 +103,9 @@ namespace WebStore.Services.Services
             var cart = Cart;
 
             cart.Items.Clear();
-
+            #region Лог
+            _logger.LogInformation("Корзина успешно очищена от товаров");
+            #endregion
             Cart = cart;
         }
 

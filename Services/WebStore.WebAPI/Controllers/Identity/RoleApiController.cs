@@ -38,7 +38,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         public async Task<bool> CreateAsync([FromBody] IdentityRole role)
         {
             var result = await _roleStore.CreateAsync(role);
-            if (!result.Succeeded) _logger.LogError($"Ошибка создания роли пользователей {role.Name}");
+            #region Лог
+            if (!result.Succeeded) 
+                _logger.LogError($"Ошибка создания роли пользователей {role.Name}");
+            #endregion
             return result.Succeeded;
         }
 
@@ -49,7 +52,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         public async Task<bool> UpdateAsync([FromBody] IdentityRole role)
         {
             var result = await _roleStore.UpdateAsync(role);
-            if (!result.Succeeded) _logger.LogError($"Ошибка обновления роли пользователей {role.Name}");
+            #region Лог
+            if (!result.Succeeded) 
+                _logger.LogError($"Ошибка обновления роли пользователей {role.Name}");
+            #endregion
             return result.Succeeded;
         }
 
@@ -61,7 +67,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             var role = await _roleStore.FindByIdAsync(roleId);
             var result = await _roleStore.DeleteAsync(role);
-            if (!result.Succeeded) _logger.LogError($"Ошибка удаления роли пользователей {role.Name}");
+            #region Лог
+            if (!result.Succeeded) 
+                _logger.LogError($"Ошибка удаления роли пользователей {role.Name}");
+            #endregion
             return result.Succeeded;
         }
 
@@ -92,7 +101,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _roleStore.SetRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
-            if (!string.Equals(role.Name, name)) _logger.LogError($"Ошибка при изменении имени роли с {role.Name} на {name}");
+            #region Лог
+            if (!string.Equals(role.Name, name))
+                _logger.LogError($"Ошибка при изменении имени роли с {role.Name} на {name}");
+            #endregion
             return role.Name;
         }
 
@@ -114,7 +126,10 @@ namespace WebStore.WebAPI.Controllers.Identity
         {
             await _roleStore.SetNormalizedRoleNameAsync(role, name);
             await _roleStore.UpdateAsync(role);
-            if (!string.Equals(role.NormalizedName, name)) _logger.LogError($"Ошибка при изменении нормализованного имени роли с {role.NormalizedName} на {name}");
+            #region Лог
+            if (!string.Equals(role.NormalizedName, name))
+                _logger.LogError($"Ошибка при изменении нормализованного имени роли с {role.NormalizedName} на {name}");
+            #endregion
             return role.NormalizedName;
         }
 
