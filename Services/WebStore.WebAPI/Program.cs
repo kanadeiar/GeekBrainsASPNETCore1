@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace WebStore.WebAPI
 {
@@ -12,8 +14,15 @@ namespace WebStore.WebAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                    webBuilder
+                .ConfigureLogging((host, log) => log
+                        .ClearProviders()
+                        .AddDebug()
+                        .AddEventLog()
+                        .AddConsole()
+                        .AddFilter<ConsoleLoggerProvider>(level => level >= LogLevel.Information)
+                    //.AddFilter<ConsoleLoggerProvider>((category, level) => level >= LogLevel.Information && category.EndsWith("Info"))
+                )
+                .ConfigureWebHostDefaults(webBuilder => webBuilder
                         .UseStartup<Startup>()
                 )
             ;
