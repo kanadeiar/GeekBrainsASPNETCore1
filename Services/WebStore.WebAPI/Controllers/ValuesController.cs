@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using WebStore.Interfaces.Adresses;
@@ -9,7 +10,7 @@ namespace WebStore.WebAPI.Controllers
     [Route(WebAPIInfo.ApiValue), ApiController]
     public class ValuesController : ControllerBase
     {
-        private static List<string> __testList = Enumerable
+        private static readonly List<string> __testList = Enumerable
             .Range(1, 20)
             .Select(i => $"Тестовое значение № {i}")
             .ToList();
@@ -74,6 +75,15 @@ namespace WebStore.WebAPI.Controllers
                 return NotFound();
             __testList.RemoveAt(id);
             return Ok();
+        }
+
+        /// <summary> Генерация исключения </summary>
+        /// <param name="message">Текст в исплючении</param>
+        /// <returns>Результат операции</returns>
+        [HttpGet("Throw")]
+        public IActionResult Throw(string message)
+        {
+            throw new ApplicationException(message);
         }
     }
 }

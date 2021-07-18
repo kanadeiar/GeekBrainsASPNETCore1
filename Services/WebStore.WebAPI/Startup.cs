@@ -13,20 +13,26 @@ using WebStore.Dal.DataInit;
 using WebStore.Dal.Interfaces;
 using WebStore.Domain.Identity;
 using WebStore.Interfaces.Services;
-using WebStore.Interfaces.WebAPI;
 using WebStore.Services.Data;
 using WebStore.Services.Services;
+using WebStore.WebAPI.Infrastructure.Middleware;
 
 namespace WebStore.WebAPI
 {
+    /// <summary> Конфигурация приложения </summary>
     public class Startup
     {
+        /// <summary> Конструктор </summary>
+        /// <param name="configuration">Конфигурация</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+        /// <summary> Конфигурация </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary> Конфигурация сервисов приложения </summary>
+        /// <param name="services">Сервисы</param>
         public void ConfigureServices(IServiceCollection services)
         {
             var databaseName = Configuration["Database"];
@@ -109,6 +115,10 @@ namespace WebStore.WebAPI
             });
         }
 
+        /// <summary> Конфигурация конвейера </summary>
+        /// <param name="app">Строитель приложения</param>
+        /// <param name="env">Среда</param>
+        /// <param name="service">Сервисы</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
             using (var scope = service.CreateScope())
@@ -128,6 +138,8 @@ namespace WebStore.WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
