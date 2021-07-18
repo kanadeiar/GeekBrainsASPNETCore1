@@ -18,6 +18,7 @@ namespace WebStore.Domain.DTO.Mappers
                     Name = brand.Name,
                     Order = brand.Order,
                     Timestamp = brand.Timestamp,
+                    ProductsIds = brand.Products.Select(p => p.Id),
                 };
         }
         /// <summary> Из дтошки </summary>
@@ -31,6 +32,7 @@ namespace WebStore.Domain.DTO.Mappers
                     Name = brand.Name,
                     Order = brand.Order,
                     Timestamp = brand.Timestamp,
+                    Products = brand.ProductsIds.Select(i => new Product{Id = i}).ToList(),
                 };
         }
         /// <summary> В дтошку </summary>

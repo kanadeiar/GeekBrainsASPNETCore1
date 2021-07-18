@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 
 namespace WebStore.Domain.DTO.Mappers
@@ -19,6 +20,7 @@ namespace WebStore.Domain.DTO.Mappers
                     Order = section.Order,
                     ParentId = section.ParentId,
                     Timestamp = section.Timestamp,
+                    ProductsIds = section.Products.Select(p => p.Id),
                 };
         }
         /// <summary> Из дтошки </summary>
@@ -33,6 +35,7 @@ namespace WebStore.Domain.DTO.Mappers
                     Order = section.Order,
                     ParentId = section.ParentId,
                     Timestamp = section.Timestamp,
+                    Products = section.ProductsIds.Select(i => new Product{Id = i}).ToList(),
                 };
         }
         /// <summary> В дтошку </summary>

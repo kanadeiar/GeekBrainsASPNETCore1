@@ -22,6 +22,7 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("section")]
         public IActionResult GetSections()
         {
+            var o = _productData.GetSections();
             return Ok(_productData.GetSections().ToDTO());
         }
 
