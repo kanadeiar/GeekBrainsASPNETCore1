@@ -89,7 +89,7 @@ namespace WebStore.WebAPI
 
             services.AddSingleton<TestData>();
 
-            services.AddScoped<ICartService, InCookiesCartService>();
+            //services.AddScoped<ICartService, InCookiesCartService>();
             services.AddScoped<IProductData, DatabaseProductData>();
             services.AddScoped<IWorkerData, DatabaseWorkerData>();
             services.AddScoped<IOrderService, DatabaseOrderService>();
