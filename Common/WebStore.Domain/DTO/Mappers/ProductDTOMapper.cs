@@ -4,8 +4,10 @@ using WebStore.Domain.Entities;
 
 namespace WebStore.Domain.DTO.Mappers
 {
+    /// <summary> Маппер товаров </summary>
     public static class ProductDTOMapper
     {
+        /// <summary> В дтошку </summary>
         public static ProductDTO ToDTO(this Product product)
         {
             return product is null
@@ -22,6 +24,7 @@ namespace WebStore.Domain.DTO.Mappers
                     Timestamp = product.Timestamp,
                 };
         }
+        /// <summary> Из дтошки </summary>
         public static Product FromDTO(this ProductDTO product)
         {
             return product is null
@@ -38,7 +41,9 @@ namespace WebStore.Domain.DTO.Mappers
                     Timestamp = product.Timestamp,
                 };
         }
+        /// <summary> В дтошку </summary>
         public static IEnumerable<ProductDTO> ToDTO(this IEnumerable<Product> products) => products.Select(ToDTO);
+        /// <summary> Из дтошки </summary>
         public static IEnumerable<Product> FromDTO(this IEnumerable<ProductDTO> products) => products.Select(FromDTO);
     }
 }

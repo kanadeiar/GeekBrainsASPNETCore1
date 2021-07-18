@@ -25,6 +25,8 @@ namespace WebStore.Domain.WebModels.Product
         [Display(Name = "Категория")]
         [Required(ErrorMessage = "Нужно обязательно выбрать категорию товара")]
         public int? SectionId { get; set; }
+
+        /// <summary> Категория товара </summary>
         [Display(Name = "Категория")]
         public string SectionName { get; set; }
 
