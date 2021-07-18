@@ -16,7 +16,7 @@ namespace WebStore.WebAPI.Controllers.Identity
     {
         private readonly ILogger<RoleApiController> _logger;
         private readonly RoleStore<IdentityRole> _roleStore;
-
+        /// <summary> Конструктор </summary>
         public RoleApiController(WebStoreContext context, ILogger<RoleApiController> logger)
         {
             _logger = logger;

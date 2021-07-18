@@ -14,6 +14,7 @@ namespace WebStore.WebAPI.Controllers
     public class OrderApiController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        /// <summary> Конструктор </summary>
         public OrderApiController(IOrderService orderService)
         {
             _orderService = orderService;

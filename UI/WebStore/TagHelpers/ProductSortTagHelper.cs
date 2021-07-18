@@ -41,7 +41,7 @@ namespace WebStore.TagHelpers
 
             if (Current == Property)
             {
-                TagBuilder tag = new TagBuilder("i");
+                var tag = new TagBuilder("i");
                 tag.AddCssClass("glyphicon");
                 if (Up == true)
                     tag.AddCssClass("glyphicon-chevron-up");

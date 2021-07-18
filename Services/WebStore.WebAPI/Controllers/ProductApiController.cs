@@ -12,6 +12,7 @@ namespace WebStore.WebAPI.Controllers
     public class ProductApiController : ControllerBase
     {
         private readonly IProductData _productData;
+        /// <summary> Конструктор </summary>
         public ProductApiController(IProductData productData)
         {
             _productData = productData;

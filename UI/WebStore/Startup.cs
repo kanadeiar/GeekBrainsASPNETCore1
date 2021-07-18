@@ -66,7 +66,9 @@ namespace WebStore
 
             services.AddSingleton<TestData>();
 
-            services.AddScoped<ICartService, InCookiesCartService>();
+            //services.AddScoped<ICartService, InCookiesCartService>();
+            services.AddScoped<ICartStore, InCookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
 
             services.AddHttpClient("WebStoreAPI", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
                 .AddTypedClient<IValuesService, ValuesClient>()

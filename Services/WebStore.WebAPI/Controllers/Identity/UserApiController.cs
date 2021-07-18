@@ -21,6 +21,7 @@ namespace WebStore.WebAPI.Controllers.Identity
     {
         private readonly ILogger<UserApiController> _logger;
         private readonly UserStore<User> _userStore;
+        /// <summary> Конструктор </summary>
         public UserApiController(WebStoreContext context, ILogger<UserApiController> logger)
         {
             _logger = logger;

@@ -15,15 +15,13 @@ namespace WebStore.Controllers
     [Authorize]
     public class UserProfileController : Controller
     {
-        private readonly UserManager<User> _userManager;
         private readonly Mapper _mapperOrderToView = 
             new (new MapperConfiguration(c => c.CreateMap<Order, UserOrderWebModel>()
                 .ForMember("PriceSum", o => o
                     .MapFrom(u => u.Items.Sum(i => i.Price)))
                 .ForMember("Count", o => o.MapFrom(u => u.Items.Count))));
-        public UserProfileController(UserManager<User> userManager)
+        public UserProfileController()
         {
-            _userManager = userManager;
         }
 
         public IActionResult Index()
