@@ -9,8 +9,12 @@
         public string Name { get; set; }
         /// <summary> Сортировка </summary>
         public int Order { get; set; }
+        /// <summary> Категория </summary>
+        public int SectionId { get; set; }
         /// <summary> Категория товара </summary>
         public SectionDTO Section { get; set; }
+        /// <summary> Бренд </summary>
+        public int? BrandId { get; set; }
         /// <summary> Бренд товара </summary>
         public BrandDTO Brand { get; set; }
         /// <summary> Путь к файлу с картинкой </summary>
