@@ -44,6 +44,7 @@ namespace WebStore.Domain.DTO.Mappers.Order
             {
                 Id = p.Product.Id,
                 Price = p.Product.Price,
+                ProductId = p.Product.Id,
                 Quantity = p.Quantity,
             });
         }
@@ -52,7 +53,7 @@ namespace WebStore.Domain.DTO.Mappers.Order
         {
             return new CartWebModel
             {
-                Items = items.Select(p => (new ProductWebModel{Id = p.ProductId}, p.Quantity, p.Price * p.Quantity)),
+                Items = items.Select(p => (new ProductWebModel {Id = p.ProductId} , p.Quantity, p.Price * p.Quantity)),
             };
         }
     }
