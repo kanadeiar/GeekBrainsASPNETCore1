@@ -57,7 +57,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost, Authorize, ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOut(CreateOrderWebModel model, [FromServices] IOrderService orderService)
+        public async Task<IActionResult> CheckOut(CreateOrderWebModel model)
         {
             if (!ModelState.IsValid)
                 return View(nameof(Index), 

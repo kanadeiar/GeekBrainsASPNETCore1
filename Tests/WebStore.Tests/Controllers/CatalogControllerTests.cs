@@ -98,5 +98,19 @@ namespace WebStore.Tests.Controllers
             productDataMock.Verify(p => p.GetProductById(It.IsAny<int>()), Times.Once);
             productDataMock.VerifyNoOtherCalls();
         }
+
+        [TestMethod]
+        public void Details_Returns_NotFound()
+        {
+            var productDataMock = new Mock<IProductData>();
+            productDataMock
+                .Setup(p => p.GetProductById(It.IsAny<int>()))
+                .Returns((Product) null);
+            var controller = new CatalogController(productDataMock.Object);
+
+            var result = controller.Details(1);
+
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
     }
 }
