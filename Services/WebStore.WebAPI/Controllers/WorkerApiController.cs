@@ -10,6 +10,7 @@ namespace WebStore.WebAPI.Controllers
     public class PersonApiController : ControllerBase
     {
         private readonly IWorkerData _workerData;
+        /// <summary> Конструктор </summary>
         public PersonApiController(IWorkerData workerData)
         {
             _workerData = workerData;

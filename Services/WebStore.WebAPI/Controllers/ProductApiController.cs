@@ -12,6 +12,7 @@ namespace WebStore.WebAPI.Controllers
     public class ProductApiController : ControllerBase
     {
         private readonly IProductData _productData;
+        /// <summary> Конструктор </summary>
         public ProductApiController(IProductData productData)
         {
             _productData = productData;
@@ -22,7 +23,6 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("section")]
         public IActionResult GetSections()
         {
-            var o = _productData.GetSections();
             return Ok(_productData.GetSections().ToDTO());
         }
 

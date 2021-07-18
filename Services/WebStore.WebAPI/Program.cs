@@ -9,13 +9,15 @@ using Serilog.Formatting.Json;
 
 namespace WebStore.WebAPI
 {
+    /// <summary> Главная программа </summary>
     public class Program
     {
+        /// <summary> Вход </summary>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
-
+        /// <summary> Хост приложения </summary>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 //.ConfigureLogging((host, log) => log
