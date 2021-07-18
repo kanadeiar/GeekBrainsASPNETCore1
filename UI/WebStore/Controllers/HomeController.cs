@@ -62,6 +62,12 @@ namespace WebStore.Controllers
         {
             return View();
         }
+
+        public IActionResult Second(string message)
+        {
+            return Content(message);
+        }
+
         public IActionResult Throw(string id) => 
             throw new ApplicationException(id);
 
