@@ -18,6 +18,8 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class CatalogControllerTests
     {
+        #region Тестирование списка товаров
+
         [TestMethod]
         public void Index_Section1_Returns_CorrectView()
         {
@@ -43,25 +45,44 @@ namespace WebStore.Tests.Controllers
 
             var result = controller.Index(null, 1);
 
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
             var viewResult = (ViewResult) result;
-            Assert.IsInstanceOfType(viewResult.Model, typeof(CatalogWebModel));
+            Assert
+                .IsInstanceOfType(viewResult.Model, typeof(CatalogWebModel));
             var catalogWebModel = (CatalogWebModel) viewResult.Model;
-            Assert.IsNull(catalogWebModel.BrandId);
-            Assert.AreEqual(expectedSection, catalogWebModel.SectionId);
-            Assert.IsInstanceOfType(catalogWebModel.PageWebModel, typeof(PageWebModel));
-            Assert.AreEqual(1, catalogWebModel.PageWebModel.PageNumber);
-            Assert.AreEqual(1, catalogWebModel.PageWebModel.TotalPages);
-            Assert.AreEqual(expectedCountProducts, catalogWebModel.Products.Count());
+            Assert
+                .IsNull(catalogWebModel.BrandId);
+            Assert
+                .AreEqual(expectedSection, catalogWebModel.SectionId);
+            Assert
+                .IsInstanceOfType(catalogWebModel.PageWebModel, typeof(PageWebModel));
+            Assert
+                .AreEqual(1, catalogWebModel.PageWebModel.PageNumber);
+            Assert
+                .AreEqual(1, catalogWebModel.PageWebModel.TotalPages);
+            Assert
+                .AreEqual(expectedCountProducts, catalogWebModel.Products.Count());
             var firstWebModel = catalogWebModel.Products.First();
-            Assert.AreEqual(expectedIdFirst, firstWebModel.Id);
-            Assert.AreEqual(expectedNameFirst, firstWebModel.Name);
-            Assert.AreEqual(expectedPriceFirst, firstWebModel.Price);
-            Assert.IsNull(firstWebModel.Brand);
-            Assert.IsNull(firstWebModel.Section);
-            productDataMock.Verify(p => p.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
-            productDataMock.VerifyNoOtherCalls();
+            Assert
+                .AreEqual(expectedIdFirst, firstWebModel.Id);
+            Assert
+                .AreEqual(expectedNameFirst, firstWebModel.Name);
+            Assert
+                .AreEqual(expectedPriceFirst, firstWebModel.Price);
+            Assert
+                .IsNull(firstWebModel.Brand);
+            Assert
+                .IsNull(firstWebModel.Section);
+            productDataMock
+                .Verify(p => p.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
+            productDataMock
+                .VerifyNoOtherCalls();
         }
+
+        #endregion
+        
+        #region Тестирование детального отображения товара
 
         [TestMethod]
         public void Details_Returns_CorrectView()
@@ -88,13 +109,18 @@ namespace WebStore.Tests.Controllers
 
             var result = controller.Details(expectedId);
             
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
             var viewResult = (ViewResult) result;
-            Assert.IsInstanceOfType(viewResult.Model, typeof(ProductWebModel));
+            Assert
+                .IsInstanceOfType(viewResult.Model, typeof(ProductWebModel));
             var webModel = (ProductWebModel) viewResult.Model;
-            Assert.AreEqual(expectedId, webModel.Id);
-            Assert.AreEqual(expectedName, webModel.Name);
-            Assert.AreEqual(expectedPrice, webModel.Price);
+            Assert
+                .AreEqual(expectedId, webModel.Id);
+            Assert
+                .AreEqual(expectedName, webModel.Name);
+            Assert
+                .AreEqual(expectedPrice, webModel.Price);
             productDataMock.Verify(p => p.GetProductById(It.IsAny<int>()), Times.Once);
             productDataMock.VerifyNoOtherCalls();
         }
@@ -110,7 +136,10 @@ namespace WebStore.Tests.Controllers
 
             var result = controller.Details(1);
 
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            Assert
+                .IsInstanceOfType(result, typeof(NotFoundResult));
         }
+
+        #endregion
     }
 }
