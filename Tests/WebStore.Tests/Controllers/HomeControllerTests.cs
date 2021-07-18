@@ -16,6 +16,8 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class HomeControllerTests
     {
+        #region Тест главного действия
+
         [TestMethod]
         public void Index_Returns_CorrectView()
         {
@@ -34,6 +36,10 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsInstanceOfType(viewResult.ViewData["Products"], typeof(IEnumerable<ProductWebModel>));
         }
+
+        #endregion
+
+        #region Тесты второстепенных действий
 
         [TestMethod]
         public void ProductDetails_Returns_CorrectView()
@@ -146,6 +152,10 @@ namespace WebStore.Tests.Controllers
                 .AreEqual(expectedString, contentResult);
         }
 
+        #endregion
+
+        #region Тесты действия с выбрасыванием исключения
+
         [TestMethod, ExpectedException(typeof(ApplicationException))]
         public void Throw_thrown_ApplicationException()
         {
@@ -167,5 +177,7 @@ namespace WebStore.Tests.Controllers
 
             Assert.AreEqual(expectedString, exception.Message);
         }
+
+        #endregion
     }
 }

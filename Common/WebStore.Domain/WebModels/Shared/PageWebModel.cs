@@ -9,7 +9,7 @@ namespace WebStore.Domain.WebModels.Shared
         public int PageNumber { get; set; }
         /// <summary> Всего страниц </summary>
         public int TotalPages { get; set; }
-        /// <summary> Начальный номер </summary>
+        /// <summary> Начальный номер, для отображения порядковых номеров </summary>
         public int StartNumber { get; set; }
 
         /// <summary> Есть первая страница </summary>
