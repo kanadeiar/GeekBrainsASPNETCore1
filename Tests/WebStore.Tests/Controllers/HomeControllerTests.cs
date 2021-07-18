@@ -153,7 +153,7 @@ namespace WebStore.Tests.Controllers
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
 
-            var result = controller.Throw(expectedString);
+            _ = controller.Throw(expectedString);
         }
 
         [TestMethod]
