@@ -21,7 +21,7 @@ namespace WebStore.Controllers
         }
         public IActionResult Index()
         {
-            return View(new CartOrderWebModel{Cart = _cartService.GetWebModel()});
+            return View(new CartOrderWebModel{ Cart = _cartService.GetWebModel() });
         }
         public IActionResult Add(int id)
         {

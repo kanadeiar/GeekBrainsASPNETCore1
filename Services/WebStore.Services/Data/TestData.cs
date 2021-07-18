@@ -9,7 +9,7 @@ namespace WebStore.Services.Data
     {
         #region Тестовые данные
 
-        public IEnumerable<Worker> GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker
+        public static IEnumerable<Worker> GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker
         {
             Id = p,
             FirstName = $"Иван_{p}",

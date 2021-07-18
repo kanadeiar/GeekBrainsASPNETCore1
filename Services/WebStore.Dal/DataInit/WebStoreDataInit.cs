@@ -16,7 +16,7 @@ namespace WebStore.Dal.DataInit
     /// <summary> Инициализатор данных базы данных </summary>
     public class WebStoreDataInit : IWebStoreDataInit
     {
-        private readonly Random _rnd = new Random();
+        private readonly Random _rnd = new ();
         private readonly WebStoreContext _context;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -196,7 +196,7 @@ namespace WebStore.Dal.DataInit
                 _logger.LogInformation($"{DateTime.Now} Инициализация работников, начальных данных работников не требуется");
                 return;
             }
-            var workers = _GetTestWorkers.Select(w => new Worker
+            var workers = GetTestWorkers.Select(w => new Worker
             {
                 LastName = w.LastName,
                 FirstName = w.FirstName,
@@ -349,7 +349,8 @@ namespace WebStore.Dal.DataInit
             new Product { Id = 80, Name = "Женские джинсы", Price = 1025, ImageUrl = "product10.jpg", Order = 9, SectionId = 25, BrandId = 3 },
 
         };
-        public IEnumerable<Worker> _GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker
+
+        private static IEnumerable<Worker> GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker
         {
             Id = p,
             FirstName = $"Иван_{p}",

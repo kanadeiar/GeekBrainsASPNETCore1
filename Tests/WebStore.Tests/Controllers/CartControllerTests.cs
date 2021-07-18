@@ -20,6 +20,145 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class CartControllerTests
     {
+        #region Тестирование основных методов
+
+        [TestMethod]
+        public void Index_Returns_CorrectModel()
+        {
+            var expectedCart = new CartWebModel();
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(c => c.GetWebModel())
+                .Returns(expectedCart);
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.Index();
+
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
+            var model = (CartOrderWebModel)((ViewResult)result).Model;
+            Assert
+                .AreSame(expectedCart, model.Cart);
+            cartServiceMock
+                .Verify(c => c.GetWebModel(), Times.Once);
+            cartServiceMock
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void Add_Void_Correct()
+        {
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(c => c.Add(It.IsAny<int>()));
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.Add(1);
+
+            Assert
+                .IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult) result;
+            Assert
+                .AreEqual("Cart", redirectResult.ControllerName);
+            Assert
+                .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
+            cartServiceMock
+                .Verify(c => c.Add(It.IsAny<int>()), Times.Once);
+            cartServiceMock
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void Subtract_Void_Correct()
+        {
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(c => c.Subtract(It.IsAny<int>()));
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.Subtract(1);
+
+            Assert
+                .IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult) result;
+            Assert
+                .AreEqual("Cart", redirectResult.ControllerName);
+            Assert
+                .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
+            cartServiceMock
+                .Verify(c => c.Subtract(It.IsAny<int>()), Times.Once);
+            cartServiceMock
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void Remove_Void_Correct()
+        {
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(c => c.Remove(It.IsAny<int>()));
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.Remove(1);
+
+            Assert
+                .IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult) result;
+            Assert
+                .AreEqual("Cart", redirectResult.ControllerName);
+            Assert
+                .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
+            cartServiceMock
+                .Verify(c => c.Remove(It.IsAny<int>()), Times.Once);
+            cartServiceMock
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void Clear_Void_Correct()
+        {
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(c => c.Clear());
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.Clear();
+
+            Assert
+                .IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult) result;
+            Assert
+                .AreEqual("Cart", redirectResult.ControllerName);
+            Assert
+                .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
+            cartServiceMock
+                .Verify(c => c.Clear(), Times.Once);
+            cartServiceMock
+                .VerifyNoOtherCalls();
+        }
+
+        #endregion
+
         #region Тестирование метода оформления заказа
 
         [TestMethod]
@@ -111,11 +250,25 @@ namespace WebStore.Tests.Controllers
 
             var result = await controller.CheckOut(orderModel);
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert
+                .IsInstanceOfType(result, typeof(RedirectToActionResult));
             var redirectResult = (RedirectToActionResult) result;
-            Assert.AreEqual(nameof(CartController.OrderConfirmed), redirectResult.ActionName);
-            Assert.IsNull(redirectResult.ControllerName);
-            Assert.AreEqual(expectedOrderId, redirectResult.RouteValues["Id"]);
+            Assert
+                .AreEqual(nameof(CartController.OrderConfirmed), redirectResult.ActionName);
+            Assert
+                .IsNull(redirectResult.ControllerName);
+            Assert
+                .AreEqual(expectedOrderId, redirectResult.RouteValues["Id"]);
+            cartServiceMock
+                .Verify(c => c.GetWebModel());
+            cartServiceMock
+                .Verify(c => c.Clear());
+            cartServiceMock
+                .VerifyNoOtherCalls();
+            orderServiceMock
+                .Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()));
+            orderServiceMock
+                .VerifyNoOtherCalls();
         }
 
         #endregion
