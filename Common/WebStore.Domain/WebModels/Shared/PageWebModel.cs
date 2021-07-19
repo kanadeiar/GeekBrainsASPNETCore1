@@ -33,7 +33,10 @@ namespace WebStore.Domain.WebModels.Shared
         {
             PageNumber = pageNumber;
             TotalPages = Math.DivRem(count, pageSize, out _);
-            if (TotalPages <= 0) TotalPages = 1;
+            if (count % pageSize != 0)
+                TotalPages++;
+            if (TotalPages <= 0) 
+                TotalPages = 1;
             StartNumber = (pageNumber - 1) * pageSize + 1;
         }
 

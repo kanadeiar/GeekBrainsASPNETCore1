@@ -47,9 +47,9 @@ namespace WebStore.Controllers
             return View(catalogView);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var product = _productData.GetProductById(id);
+            var product = await _productData.GetProductById(id);
             if (product is null)
                 return NotFound();
 

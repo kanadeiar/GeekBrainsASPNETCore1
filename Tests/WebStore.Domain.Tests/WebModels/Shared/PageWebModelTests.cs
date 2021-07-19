@@ -31,6 +31,29 @@ namespace WebStore.Domain.Tests.WebModels.Shared
         }
 
         [TestMethod]
+        public void Create_Normal14_Creates_Correct()
+        {
+            const int count = 14;
+            const int expectedPageNumber = 1;
+            const int pageSize = 9;
+            const int expectedStartNumber = 1;
+            const int expectedPageCount = 2;
+
+            var model = new PageWebModel(count, expectedPageNumber, pageSize);
+
+            Assert.IsInstanceOfType(model, typeof(PageWebModel));
+            Assert.AreEqual(expectedPageNumber, model.PageNumber);
+            Assert.AreEqual(expectedStartNumber, model.StartNumber);
+            Assert.AreEqual(expectedPageCount, model.TotalPages);
+            Assert.IsTrue(model.HasNextPage);
+            Assert.IsFalse(model.HasNextNextPage);
+            Assert.IsFalse(model.HasLastPage);
+            Assert.IsFalse(model.HasFirstPage);
+            Assert.IsFalse(model.HasPreviousPage);
+            Assert.IsFalse(model.HasPrevPreviousPage);
+        }
+
+        [TestMethod]
         public void CreateLast_Normal_Creates_Correct()
         {
             const int count = 24;

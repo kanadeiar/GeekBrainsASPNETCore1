@@ -93,7 +93,7 @@ namespace WebStore.Tests.Controllers
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(p => p.GetProductById(It.IsAny<int>()))
-                .Returns<int>(id => new Product
+                .ReturnsAsync((int id) => new Product
                 {
                     Id = id,
                     Name = $"Товар {id}",
@@ -110,8 +110,8 @@ namespace WebStore.Tests.Controllers
             var result = controller.Details(expectedId);
             
             Assert
-                .IsInstanceOfType(result, typeof(ViewResult));
-            var viewResult = (ViewResult) result;
+                .IsInstanceOfType(result.Result, typeof(ViewResult));
+            var viewResult = (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(ProductWebModel));
             var webModel = (ProductWebModel) viewResult.Model;
@@ -131,13 +131,13 @@ namespace WebStore.Tests.Controllers
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(p => p.GetProductById(It.IsAny<int>()))
-                .Returns((Product) null);
+                .ReturnsAsync((Product) null);
             var controller = new CatalogController(productDataMock.Object);
 
             var result = controller.Details(1);
 
             Assert
-                .IsInstanceOfType(result, typeof(NotFoundResult));
+                .IsInstanceOfType(result.Result, typeof(NotFoundResult));
         }
 
         #endregion

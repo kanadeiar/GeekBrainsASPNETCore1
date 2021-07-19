@@ -285,7 +285,7 @@ namespace WebStore.Tests.Controllers
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
                 .Setup(o => o.GetOrderById(It.IsAny<int>()))
-                .Returns(async () => { return new Order { Name = expectedName }; });
+                .ReturnsAsync(new Order { Name = expectedName });
             var loggerStub = Mock
                 .Of<ILogger<CartController>>();
             var controller = new CartController(cartServiceStub, orderServiceMock.Object, loggerStub);

@@ -14,58 +14,58 @@ using WebStore.WebAPI.Client.Base;
 namespace WebStore.WebAPI.Client.Product
 {
     /// <summary> Апи клиент товаров </summary>
-    public class ProductApiClient : BaseSyncClient, IProductData
+    public class ProductApiClient : BaseClient, IProductData
     {
         public ProductApiClient(HttpClient client) : base(client, WebAPIInfo.ApiProduct) { }
 
 
-        public IEnumerable<Section> GetSections()
+        public async Task<IEnumerable<Section>> GetSections()
         {
-            return Get<IEnumerable<SectionDTO>>($"{Address}/section").FromDTO();
+            return (await GetAsync<IEnumerable<SectionDTO>>($"{Address}/section").ConfigureAwait(false)).FromDTO();
         }
 
-        public Section GetSection(int id)
+        public async Task<Section> GetSection(int id)
         {
-            return Get<SectionDTO>($"{Address}/section/{id}").FromDTO();
+            return (await GetAsync<SectionDTO>($"{Address}/section/{id}").ConfigureAwait(false)).FromDTO();
         }
 
-        public IEnumerable<Brand> GetBrands()
+        public async Task<IEnumerable<Brand>> GetBrands()
         {
-            return Get<IEnumerable<BrandDTO>>($"{Address}/brand").FromDTO();
+            return (await GetAsync<IEnumerable<BrandDTO>>($"{Address}/brand").ConfigureAwait(false)).FromDTO();
         }
 
-        public Brand GetBrand(int id)
+        public async Task<Brand> GetBrand(int id)
         {
-            return Get<BrandDTO>($"{Address}/brand/{id}").FromDTO();
+            return (await GetAsync<BrandDTO>($"{Address}/brand/{id}").ConfigureAwait(false)).FromDTO();
         }
 
         public async Task<IEnumerable<Domain.Entities.Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
-            var response = await PostAsync(Address, productFilter ?? new ProductFilter());
+            var response = await PostAsync(Address, productFilter ?? new ProductFilter()).ConfigureAwait(false);
             var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
             return products.FromDTO();
         }
 
-        public Domain.Entities.Product GetProductById(int id)
+        public async Task<Domain.Entities.Product> GetProductById(int id)
         {
-            return Get<ProductDTO>($"{Address}/{id}").FromDTO();
+            return (await GetAsync<ProductDTO>($"{Address}/{id}")).FromDTO();
         }
 
-        public int AddProduct(Domain.Entities.Product product)
+        public async Task<int> AddProduct(Domain.Entities.Product product)
         {
-            var response = Post($"{Address}/product", product.ToDTO());
-            var id = response.Content.ReadFromJsonAsync<int>().Result;
+            var response = await PostAsync($"{Address}/product", product.ToDTO()).ConfigureAwait(false);
+            var id = await response.Content.ReadFromJsonAsync<int>();
             return id;
         }
 
-        public void UpdateProduct(Domain.Entities.Product product)
+        public async Task UpdateProduct(Domain.Entities.Product product)
         {
-            Put($"{Address}/product", product.ToDTO());
+            await PutAsync($"{Address}/product", product.ToDTO()).ConfigureAwait(false);
         }
 
-        public bool DeleteProduct(int id)
+        public async Task<bool> DeleteProduct(int id)
         {
-            var result = Delete($"{Address}/product/{id}").IsSuccessStatusCode;
+            var result = (await DeleteAsync($"{Address}/product/{id}").ConfigureAwait(false)).IsSuccessStatusCode;
             return result;
         }
     }
