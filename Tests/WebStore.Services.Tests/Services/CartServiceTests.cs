@@ -31,7 +31,7 @@ namespace WebStore.Services.Tests.Services
             };
             _productDataMock = new Mock<IProductData>();
             _productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false))
+                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false).Result)
                 .Returns(Enumerable.Range(1, 5).Select(i => new Product
                 {
                     Id = i,
@@ -126,8 +126,8 @@ namespace WebStore.Services.Tests.Services
 
             var result = _cartService.GetWebModel();
 
-            Assert.AreEqual(expItemsCount, result.ItemsSum);
-            Assert.AreEqual(expFirstProductPrice, result.Items.First().Product.Price);
+            Assert.AreEqual(expItemsCount, result.Result.ItemsSum);
+            Assert.AreEqual(expFirstProductPrice, result.Result.Items.First().Product.Price);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using WebStore.Domain.DTO;
 using WebStore.Domain.DTO.Mappers;
 using WebStore.Domain.Entities;
@@ -38,10 +39,10 @@ namespace WebStore.WebAPI.Client.Product
             return Get<BrandDTO>($"{Address}/brand/{id}").FromDTO();
         }
 
-        public IEnumerable<Domain.Entities.Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
+        public async Task<IEnumerable<Domain.Entities.Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
-            var response = Post(Address, productFilter ?? new ProductFilter());
-            var products = response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>().Result;
+            var response = await PostAsync(Address, productFilter ?? new ProductFilter());
+            var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
             return products.FromDTO();
         }
 

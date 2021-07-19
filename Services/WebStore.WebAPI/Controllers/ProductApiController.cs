@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WebStore.Domain.DTO;
 using WebStore.Domain.DTO.Mappers;
 using WebStore.Domain.Models;
@@ -56,9 +57,9 @@ namespace WebStore.WebAPI.Controllers
         /// <param name="filter">Фильтр</param>
         /// <returns>Товары</returns>
         [HttpPost]
-        public IActionResult GetProducts(ProductFilter filter = null)
+        public async Task<IActionResult> GetProducts(ProductFilter filter = null)
         {
-            return Ok(_productData.GetProducts(filter, true).ToDTO());
+            return Ok((await _productData.GetProducts(filter, true)).ToDTO());
         }
 
         /// <summary> Получить товар по идентификатору </summary>

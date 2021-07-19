@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models.Interfaces;
 
@@ -17,7 +18,7 @@ namespace WebStore.Interfaces.Services
         /// <param name="id">Идентификатор</param>
         Brand GetBrand(int id);
         /// <summary> Все товары с фильтрацией по категориям и/или брендам </summary>
-        IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false);
+        Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false);
         /// <summary> Получение одного товара по ид </summary>
         Product GetProductById(int id);
         /// <summary> Добавить товар </summary>

@@ -29,7 +29,7 @@ namespace WebStore.Tests.Controllers
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
                 .Setup(c => c.GetWebModel())
-                .Returns(expectedCart);
+                .ReturnsAsync(expectedCart);
             var orderServiceStub = Mock
                 .Of<IOrderService>();
             var loggerStub = Mock
@@ -205,9 +205,9 @@ namespace WebStore.Tests.Controllers
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
                 .Setup(c => c.GetWebModel())
-                .Returns(new CartWebModel
-                {
-                    Items = new []{ (new ProductWebModel
+                .ReturnsAsync(new CartWebModel
+                    {
+                        Items = new[]{ (new ProductWebModel
                     {
                         Id = expectedProductId,
                         Name = expectedProductName,
@@ -216,7 +216,7 @@ namespace WebStore.Tests.Controllers
                         Section = "Test section",
                         ImageUrl = "TestImage.jpg",
                     }, expectedProductCount, expectedProductPrice * expectedProductCount) }
-                });
+                    });
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
                 .Setup(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()))
@@ -269,6 +269,36 @@ namespace WebStore.Tests.Controllers
                 .Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()));
             orderServiceMock
                 .VerifyNoOtherCalls();
+        }
+
+        #endregion
+
+        #region Тестирование метода подтверждения заказа
+
+        [TestMethod]
+        public async Task OrderConfirmed_Returns_Correct()
+        {
+            const int expectedOrderId = 1;
+            const string expectedName = "Test Name";
+            var cartServiceStub = Mock
+                .Of<ICartService>();
+            var orderServiceMock = new Mock<IOrderService>();
+            orderServiceMock
+                .Setup(o => o.GetOrderById(It.IsAny<int>()))
+                .Returns(async () => { return new Order { Name = expectedName }; });
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceStub, orderServiceMock.Object, loggerStub);
+
+            var result = await controller.OrderConfirmed(expectedOrderId);
+
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
+            var resultView = (ViewResult)result;
+            Assert
+                .AreEqual(expectedOrderId, resultView.ViewData["OrderId"]);
+            Assert
+                .AreEqual(expectedName, resultView.ViewData["Name"]);
         }
 
         #endregion

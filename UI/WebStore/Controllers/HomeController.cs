@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,10 +21,11 @@ namespace WebStore.Controllers
         {
             _Configuration = configuration;
         }
-        public IActionResult Index([FromServices] IProductData productData)
+        public async Task<IActionResult> Index([FromServices] IProductData productData)
         {
+            var gettedProducts = await productData.GetProducts();
             var products = _mapperProductToWeb
-                .Map<IEnumerable<ProductWebModel>>(productData.GetProducts().Take(6));
+                .Map<IEnumerable<ProductWebModel>>(gettedProducts.Take(6));
             ViewBag.Products = products;
             return View();
         }

@@ -24,15 +24,15 @@ namespace WebStore.Tests.Controllers
             var configurationStub = Mock.Of<IConfiguration>();
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(s => s.GetProducts(It.IsAny<ProductFilter>(), false))
+                .Setup(s => s.GetProducts(It.IsAny<ProductFilter>(), false).Result)
                 .Returns(Enumerable.Empty<Product>());
             var controller = new HomeController(configurationStub);
 
             var result = controller.Index(productDataMock.Object);
 
             Assert
-                .IsInstanceOfType(result, typeof(ViewResult));
-            var viewResult = (ViewResult) result;
+                .IsInstanceOfType(result.Result, typeof(ViewResult));
+            var viewResult = (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.ViewData["Products"], typeof(IEnumerable<ProductWebModel>));
         }

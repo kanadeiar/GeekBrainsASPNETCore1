@@ -30,7 +30,7 @@ namespace WebStore.Tests.Controllers
             const int expectedSection = 1;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false))
+                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false).Result)
                 .Returns<ProductFilter, bool>((p, b) => Enumerable.Range(1, expectedCountProducts)
                     .Select(id => new Product
                     {
@@ -46,8 +46,8 @@ namespace WebStore.Tests.Controllers
             var result = controller.Index(null, 1);
 
             Assert
-                .IsInstanceOfType(result, typeof(ViewResult));
-            var viewResult = (ViewResult) result;
+                .IsInstanceOfType(result.Result, typeof(ViewResult));
+            var viewResult =  (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(CatalogWebModel));
             var catalogWebModel = (CatalogWebModel) viewResult.Model;
@@ -75,7 +75,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsNull(firstWebModel.Section);
             productDataMock
-                .Verify(p => p.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
+                .Verify(p => p.GetProducts(It.IsAny<ProductFilter>(), false).Result, Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }

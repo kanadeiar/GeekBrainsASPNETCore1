@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
@@ -35,7 +36,7 @@ namespace WebStore.Services.Services
                 .Include(b => b.Products).FirstOrDefault(b => b.Id == id);
         }
         
-        public IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
+        public async Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             IQueryable<Product> query = (includes) 
                 ? _context.Products
@@ -56,8 +57,9 @@ namespace WebStore.Services.Services
                     query = query.Where(q => q.BrandId == brandId);
             }
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
-            return query;
+            return await query.ToArrayAsync();
         }
+
         public Product GetProductById(int id) => _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Section)

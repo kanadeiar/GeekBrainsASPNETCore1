@@ -37,9 +37,9 @@ namespace WebStore.Areas.Admin.Controllers
                 .ForMember("Section", o => o.MapFrom(p => _ProductData.GetSection((int) p.SectionId)))
                 .ForMember("Brand", o => o.MapFrom(p => _ProductData.GetBrand((int) p.BrandId)))));
         }
-        public IActionResult Index(string name, int page = 1, ProductSortState sortOrder = ProductSortState.NameAsc)
+        public async Task<IActionResult> Index(string name, int page = 1, ProductSortState sortOrder = ProductSortState.NameAsc)
         {
-            var products = _ProductData.GetProducts(new ProductFilter { Name = name }, true);
+            var products = await _ProductData.GetProducts(new ProductFilter { Name = name }, true);
 
             var pageSize = 10;
             var count = products!.Count();
