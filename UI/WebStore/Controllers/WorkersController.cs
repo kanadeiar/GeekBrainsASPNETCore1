@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,17 +26,17 @@ namespace WebStore.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_Workers.GetAll());
+            return View(await _Workers.GetAll());
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id <= 0) 
                 return BadRequest();
 
-            var worker = _Workers.Get(id);
+            var worker = await _Workers.Get(id);
 
             if (worker is null)
                 return NotFound();
@@ -44,14 +45,14 @@ namespace WebStore.Controllers
         }
 
         [Authorize(Roles = Role.Administrators)]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null)
                 return View(new EditWorkerWebModel());
             if (id <= 0) 
                 return BadRequest();
 
-            var worker = _Workers.Get((int)id);
+            var worker = await _Workers.Get((int)id);
             if (worker is null)
                 return NotFound();
             
@@ -59,7 +60,7 @@ namespace WebStore.Controllers
         }
 
         [HttpPost, Authorize(Roles = Role.Administrators)]
-        public IActionResult Edit(EditWorkerWebModel model)
+        public async Task<IActionResult> Edit(EditWorkerWebModel model)
         {            
             if (model is null)
                 return BadRequest();
@@ -75,9 +76,9 @@ namespace WebStore.Controllers
             var worker = _mapperWorkerFromWeb.Map<Worker>(model);
 
             if (worker.Id == 0)
-                _Workers.Add(worker);
+                await _Workers.Add(worker);
             else
-                _Workers.Update(worker);
+                await _Workers.Update(worker);
             #region Лог
             _logger.LogInformation($"Редактирование сотрудника id={model.Id} завершено");
             #endregion
@@ -85,12 +86,12 @@ namespace WebStore.Controllers
         }
 
         [Authorize(Roles = Role.Administrators)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0) 
                 return BadRequest();
 
-            var worker = _Workers.Get(id);
+            var worker = await _Workers.Get(id);
             if (worker is null)
                 return NotFound();
 
@@ -98,14 +99,14 @@ namespace WebStore.Controllers
         }
         
         [HttpPost, Authorize(Roles = Role.Administrators)]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (id <= 0) 
                 return BadRequest();
             #region Лог
             _logger.LogDebug($"Начало удаления сотрудника id={id}");
             #endregion
-            if (!_Workers.Delete(id))
+            if (!await _Workers.Delete(id))
                 return BadRequest();
             #region Лог
             _logger.LogDebug($"Окончание успешного удаления сотрудника id={id}");

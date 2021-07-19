@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.Services;
@@ -9,34 +10,34 @@ using WebStore.WebAPI.Client.Base;
 namespace WebStore.WebAPI.Client.Person
 {
     /// <summary> Апи клиент сотрудников </summary>
-    public class WorkerApiClient : BaseSyncClient, IWorkerData
+    public class WorkerApiClient : BaseClient, IWorkerData
     {
         public WorkerApiClient(HttpClient client) : base(client, WebAPIInfo.ApiWorker) { }
 
-        public IEnumerable<Worker> GetAll()
+        public async Task<IEnumerable<Worker>> GetAll()
         {
-            return Get<IEnumerable<Worker>>(Address);
+            return await GetAsync<IEnumerable<Worker>>(Address).ConfigureAwait(false);
         }
 
-        public Worker Get(int id)
+        public async Task<Worker> Get(int id)
         {
-            return Get<Worker>($"{Address}/{id}");
+            return await GetAsync<Worker>($"{Address}/{id}").ConfigureAwait(false);
         }
 
-        public int Add(Worker worker)
+        public async Task<int> Add(Worker worker)
         {
-            var response = Post(Address, worker);
-            return response.Content.ReadFromJsonAsync<int>().Result;
+            var response = await PostAsync(Address, worker).ConfigureAwait(false);
+            return await response.Content.ReadFromJsonAsync<int>();
         }
 
-        public void Update(Worker worker)
+        public async Task Update(Worker worker)
         {
-            Put(Address, worker);
+            await PutAsync(Address, worker);
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var result = Delete($"{Address}/{id}").IsSuccessStatusCode;
+            var result = (await DeleteAsync($"{Address}/{id}")).IsSuccessStatusCode;
             return result;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
@@ -20,29 +21,29 @@ namespace WebStore.Services.Services
             _logger = logger;
         }
 
-        public IEnumerable<Worker> GetAll() => _context.Workers;
+        public async Task<IEnumerable<Worker>> GetAll() => await _context.Workers.ToArrayAsync().ConfigureAwait(false);
 
-        public Worker Get(int id) => _context.Workers.Find(id);
+        public async Task<Worker> Get(int id) => await _context.Workers.FindAsync(id).ConfigureAwait(false);
 
-        public int Add(Worker worker)
+        public async Task<int> Add(Worker worker)
         {
             if (worker is null)
                 throw new ArgumentNullException(nameof(worker));
             _context.Workers.Add(worker);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
             _logger.LogInformation($"Пользователь {worker.LastName} {worker.FirstName} {worker.Patronymic} успешно добавлен в базу данных");
             #endregion
             return worker.Id;
         }
 
-        public void Update(Worker worker)
+        public async Task Update(Worker worker)
         {
             if (worker is null)
                 throw new ArgumentNullException(nameof(worker));
             if (_context.Workers.Local.Any(e => e == worker) == false) 
             {
-                var origin = _context.Workers.Find(worker.Id);
+                var origin = await _context.Workers.FindAsync(worker.Id).ConfigureAwait(false);
                 origin.LastName = worker.LastName;
                 origin.FirstName = worker.FirstName;
                 origin.Patronymic = worker.Patronymic;
@@ -54,18 +55,18 @@ namespace WebStore.Services.Services
             }
             else
                 _context.Entry(worker).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
             _logger.LogInformation($"Пользователь {worker.LastName} {worker.FirstName} {worker.Patronymic} успешно обновлен в базе данных");
             #endregion
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            if (Get(id) is not { } item) 
+            if (await Get(id) is not { } item) 
                 return false;
             _context.Workers.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
             _logger.LogInformation($"Пользователь {item.LastName} {item.FirstName} {item.Patronymic} успешно удален из базы данных");
             #endregion
