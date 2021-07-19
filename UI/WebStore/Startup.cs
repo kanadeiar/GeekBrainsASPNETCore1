@@ -11,6 +11,7 @@ using WebStore.Infrastructure.Middleware;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.WebAPI;
 using WebStore.Services.Data;
+using WebStore.Services.InCookies;
 using WebStore.Services.Services;
 using WebStore.WebAPI.Client.Identity;
 using WebStore.WebAPI.Client.Orders;
