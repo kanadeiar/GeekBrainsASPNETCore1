@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Polly;
-using Polly.Retry;
 using System.Net.Http;
 using System.Net.Http.Json;
+using Polly;
+using Polly.Retry;
 using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.WebAPI;
 using WebStore.WebAPI.Client.Base;
 
-namespace WebStore.WebAPI.Client.Values
+namespace WebStore.WebAPI.Client
 {
     public class ValuesClient : BaseClient, IValuesService
     {

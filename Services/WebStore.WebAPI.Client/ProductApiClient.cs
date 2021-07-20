@@ -11,7 +11,7 @@ using WebStore.Interfaces.Adresses;
 using WebStore.Interfaces.Services;
 using WebStore.WebAPI.Client.Base;
 
-namespace WebStore.WebAPI.Client.Product
+namespace WebStore.WebAPI.Client
 {
     /// <summary> Апи клиент товаров </summary>
     public class ProductApiClient : BaseClient, IProductData
