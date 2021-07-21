@@ -50,7 +50,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Add_Void_Correct()
+        public void Add_Act_Correct()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
@@ -77,7 +77,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Subtract_Void_Correct()
+        public void Subtract_Act_Correct()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
@@ -104,7 +104,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Remove_Void_Correct()
+        public void Remove_Act_Correct()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
@@ -131,7 +131,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Clear_Void_Correct()
+        public void Clear_Act_Correct()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
@@ -206,8 +206,8 @@ namespace WebStore.Tests.Controllers
             cartServiceMock
                 .Setup(c => c.GetWebModel())
                 .ReturnsAsync(new CartWebModel
-                    {
-                        Items = new[]{ (new ProductWebModel
+                {
+                    Items = new[]{ (new ProductWebModel
                     {
                         Id = expectedProductId,
                         Name = expectedProductName,
@@ -216,7 +216,7 @@ namespace WebStore.Tests.Controllers
                         Section = "Test section",
                         ImageUrl = "TestImage.jpg",
                     }, expectedProductCount, expectedProductPrice * expectedProductCount) }
-                    });
+                });
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
                 .Setup(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()))
