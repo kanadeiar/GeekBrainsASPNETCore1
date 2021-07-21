@@ -12,7 +12,7 @@ using WebStore.WebAPI.Client.Base;
 
 namespace WebStore.WebAPI.Client
 {
-    public class OrderApiClient : BaseSyncClient, IOrderService
+    public class OrderApiClient : BaseClient, IOrderService
     {
         public OrderApiClient(HttpClient client) : base(client, WebAPIInfo.ApiOrder) { }
 
