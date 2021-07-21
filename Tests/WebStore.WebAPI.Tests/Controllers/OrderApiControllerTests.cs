@@ -35,7 +35,7 @@ namespace WebStore.WebAPI.Tests.Controllers
                             Items = Array.Empty<OrderItem>(),
                         },
                     };
-                }); ;
+                });
             var controller = new OrderApiController(orderServiceMock.Object);
 
             var result = controller.GetUserOrders(expectedName).Result;
