@@ -13,7 +13,8 @@ namespace WebStore.Domain.Tests.Identity.ErrorCodes
 
             var actual = IdentityErrorCodes.GetDescription(IdentityErrorCodes.DefaultError);
 
-            Assert.AreEqual(actual, expectedValue);
+            Assert
+                .AreEqual(actual, expectedValue);
         }
     }
 }

@@ -35,13 +35,18 @@ namespace WebStore.WebAPI.Tests.Controllers
 
             var result = controller.GetUserOrders(expectedName).Result;
 
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert
+                .IsInstanceOfType(result, typeof(OkObjectResult));
             var objResult = (OkObjectResult) result;
-            Assert.IsInstanceOfType(objResult.Value, typeof(IEnumerable<OrderDTO>));
+            Assert
+                .IsInstanceOfType(objResult.Value, typeof(IEnumerable<OrderDTO>));
             var values = ((IEnumerable<OrderDTO>) objResult.Value).ToArray();
-            Assert.AreEqual(expectedName, values.FirstOrDefault()!.Name);
-            orderServiceMock.Verify(o => o.GetUserOrders(It.IsAny<string>()), Times.Once);
-            orderServiceMock.VerifyNoOtherCalls();
+            Assert
+                .AreEqual(expectedName, values.FirstOrDefault()!.Name);
+            orderServiceMock
+                .Verify(o => o.GetUserOrders(It.IsAny<string>()), Times.Once);
+            orderServiceMock
+                .VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -62,13 +67,18 @@ namespace WebStore.WebAPI.Tests.Controllers
 
             var result = controller.GetOrderById(expectedId).Result;
 
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert
+                .IsInstanceOfType(result, typeof(OkObjectResult));
             var objResult = (OkObjectResult) result;
-            Assert.IsInstanceOfType(objResult.Value, typeof(OrderDTO));
+            Assert
+                .IsInstanceOfType(objResult.Value, typeof(OrderDTO));
             var value = (OrderDTO) objResult.Value;
-            Assert.AreEqual(expectedId, value.Id);
-            orderServiceMock.Verify(o => o.GetOrderById(It.IsAny<int>()));
-            orderServiceMock.VerifyNoOtherCalls();
+            Assert
+                .AreEqual(expectedId, value.Id);
+            orderServiceMock
+                .Verify(o => o.GetOrderById(It.IsAny<int>()));
+            orderServiceMock
+                .VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -103,16 +113,23 @@ namespace WebStore.WebAPI.Tests.Controllers
 
             var result = controller.CreateOrder(expectedName, dto).Result;
             
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert
+                .IsInstanceOfType(result, typeof(OkObjectResult));
             var objResult = (OkObjectResult) result;
-            Assert.IsInstanceOfType(objResult.Value, typeof(OrderDTO));
+            Assert
+                .IsInstanceOfType(objResult.Value, typeof(OrderDTO));
             var value = (OrderDTO) objResult.Value;
-            Assert.AreEqual(expectedName, value.Name);
-            Assert.AreEqual(expectedPhone, value.Phone);
-            Assert.AreEqual(expectedAddress, value.Address);
-            orderServiceMock.Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
+            Assert
+                .AreEqual(expectedName, value.Name);
+            Assert
+                .AreEqual(expectedPhone, value.Phone);
+            Assert
+                .AreEqual(expectedAddress, value.Address);
+            orderServiceMock
+                .Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
                 It.IsAny<CreateOrderWebModel>()), Times.Once);
-            orderServiceMock.VerifyNoOtherCalls();
+            orderServiceMock
+                .VerifyNoOtherCalls();
         }
     }
 }

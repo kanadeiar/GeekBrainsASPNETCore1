@@ -65,10 +65,14 @@ namespace WebStore.WebAPI.Client.Tests
 
             var actual = client.GetUserOrders(expectedName).Result;
 
-            Assert.IsInstanceOfType(actual, typeof(IEnumerable<Order>));
-            Assert.AreEqual(expectedCount, actual.Count());
-            Assert.AreEqual(expectedId, actual.FirstOrDefault().Id);
-            Assert.AreEqual(expectedName, actual.FirstOrDefault().Name);
+            Assert
+                .IsInstanceOfType(actual, typeof(IEnumerable<Order>));
+            Assert
+                .AreEqual(expectedCount, actual.Count());
+            Assert
+                .AreEqual(expectedId, actual.FirstOrDefault().Id);
+            Assert
+                .AreEqual(expectedName, actual.FirstOrDefault().Name);
         }
 
         [TestMethod]
@@ -95,9 +99,12 @@ namespace WebStore.WebAPI.Client.Tests
 
             var actual = client.GetOrderById(expectedId).Result;
 
-            Assert.IsInstanceOfType(actual, typeof(Order));
-            Assert.AreEqual(expectedId, actual.Id);
-            Assert.AreEqual(expectedName, actual.Name);
+            Assert
+                .IsInstanceOfType(actual, typeof(Order));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
         }
 
         [TestMethod]
@@ -134,9 +141,12 @@ namespace WebStore.WebAPI.Client.Tests
 
             var actual = client.CreateOrder("Admin", cart, order).Result;
 
-            Assert.IsInstanceOfType(actual, typeof(Order));
-            Assert.AreEqual(expectedId, actual.Id);
-            Assert.AreEqual(expectedName, actual.Name);
+            Assert
+                .IsInstanceOfType(actual, typeof(Order));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
         }
 
     }

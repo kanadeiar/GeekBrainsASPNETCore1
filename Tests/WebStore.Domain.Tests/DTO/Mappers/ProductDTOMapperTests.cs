@@ -15,7 +15,8 @@ namespace WebStore.Domain.Tests.DTO.Mappers
 
             var actual = product.ToDTO();
 
-            Assert.IsNull(actual);
+            Assert
+                .IsNull(actual);
         }
 
         [TestMethod]
@@ -25,7 +26,8 @@ namespace WebStore.Domain.Tests.DTO.Mappers
 
             var actual = product.FromDTO();
 
-            Assert.IsNull(actual);
+            Assert
+                .IsNull(actual);
         }
 
         [TestMethod]
@@ -53,16 +55,26 @@ namespace WebStore.Domain.Tests.DTO.Mappers
 
             var actual = product.ToDTO();
 
-            Assert.IsInstanceOfType(actual, typeof(ProductDTO));
-            Assert.AreEqual(expectedId, actual.Id);
-            Assert.AreEqual(expectedName, actual.Name);
-            Assert.AreEqual(expectedOrder, actual.Order);
-            Assert.AreEqual(expectedBrandId, actual.BrandId);
-            Assert.AreEqual(expectedBrandId, actual.Brand.Id);
-            Assert.AreEqual(expectedSectionId, actual.SectionId);
-            Assert.AreEqual(expectedSectionId, actual.Section.Id);
-            Assert.AreEqual(expectedImageUrl, actual.ImageUrl);
-            Assert.AreEqual(expectedPrice, actual.Price);
+            Assert
+                .IsInstanceOfType(actual, typeof(ProductDTO));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
+            Assert
+                .AreEqual(expectedOrder, actual.Order);
+            Assert
+                .AreEqual(expectedBrandId, actual.BrandId);
+            Assert
+                .AreEqual(expectedBrandId, actual.Brand.Id);
+            Assert
+                .AreEqual(expectedSectionId, actual.SectionId);
+            Assert
+                .AreEqual(expectedSectionId, actual.Section.Id);
+            Assert
+                .AreEqual(expectedImageUrl, actual.ImageUrl);
+            Assert
+                .AreEqual(expectedPrice, actual.Price);
         }
 
         [TestMethod]
@@ -81,11 +93,16 @@ namespace WebStore.Domain.Tests.DTO.Mappers
 
             var actual = product.ToDTO();
 
-            Assert.IsInstanceOfType(actual, typeof(ProductDTO));
-            Assert.AreEqual(expectedId, actual.Id);
-            Assert.AreEqual(expectedName, actual.Name);
-            Assert.IsNull(actual.BrandId);
-            Assert.IsNull(actual.Brand);
+            Assert
+                .IsInstanceOfType(actual, typeof(ProductDTO));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
+            Assert
+                .IsNull(actual.BrandId);
+            Assert
+                .IsNull(actual.Brand);
         }
 
         [TestMethod]
@@ -113,16 +130,26 @@ namespace WebStore.Domain.Tests.DTO.Mappers
 
             var actual = product.FromDTO();
 
-            Assert.IsInstanceOfType(actual, typeof(Product));
-            Assert.AreEqual(expectedId, actual.Id);
-            Assert.AreEqual(expectedName, actual.Name);
-            Assert.AreEqual(expectedOrder, actual.Order);
-            Assert.AreEqual(expectedBrandId, actual.BrandId);
-            Assert.AreEqual(expectedBrandId, actual.Brand.Id);
-            Assert.AreEqual(expectedSectionId, actual.SectionId);
-            Assert.AreEqual(expectedSectionId, actual.Section.Id);
-            Assert.AreEqual(expectedImageUrl, actual.ImageUrl);
-            Assert.AreEqual(expectedPrice, actual.Price);
+            Assert
+                .IsInstanceOfType(actual, typeof(Product));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert.
+                AreEqual(expectedName, actual.Name);
+            Assert
+                .AreEqual(expectedOrder, actual.Order);
+            Assert
+                .AreEqual(expectedBrandId, actual.BrandId);
+            Assert
+                .AreEqual(expectedBrandId, actual.Brand.Id);
+            Assert
+                .AreEqual(expectedSectionId, actual.SectionId);
+            Assert
+                .AreEqual(expectedSectionId, actual.Section.Id);
+            Assert
+                .AreEqual(expectedImageUrl, actual.ImageUrl);
+            Assert
+                .AreEqual(expectedPrice, actual.Price);
         }
 
         [TestMethod]
@@ -140,11 +167,16 @@ namespace WebStore.Domain.Tests.DTO.Mappers
 
             var actual = product.FromDTO();
 
-            Assert.IsInstanceOfType(actual, typeof(Product));
-            Assert.AreEqual(expectedId, actual.Id);
-            Assert.AreEqual(expectedName, actual.Name);
-            Assert.IsNull(actual.BrandId);
-            Assert.IsNull(actual.Brand);
+            Assert
+                .IsInstanceOfType(actual, typeof(Product));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
+            Assert
+                .IsNull(actual.BrandId);
+            Assert
+                .IsNull(actual.Brand);
         }
     }
 }

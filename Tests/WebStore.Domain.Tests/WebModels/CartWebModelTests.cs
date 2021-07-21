@@ -23,7 +23,8 @@ namespace WebStore.Domain.Tests.WebModels
 
             var actualCount = cartWebModel.ItemsSum;
 
-            Assert.AreEqual(expectedCount, actualCount);
+            Assert
+                .AreEqual(expectedCount, actualCount);
         }
 
         [TestMethod]
@@ -40,7 +41,8 @@ namespace WebStore.Domain.Tests.WebModels
 
             var actualTotalPrice = cartWebModel.PriceSum;
 
-            Assert.AreEqual(expectedTotalPrice, actualTotalPrice);
+            Assert
+                .AreEqual(expectedTotalPrice, actualTotalPrice);
         }
     }
 }

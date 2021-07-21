@@ -117,8 +117,10 @@ namespace WebStore.Tests.Controllers
                 .AreEqual(expectedName, webModel.Name);
             Assert
                 .AreEqual(expectedPrice, webModel.Price);
-            productDataMock.Verify(p => p.GetProductById(It.IsAny<int>()), Times.Once);
-            productDataMock.VerifyNoOtherCalls();
+            productDataMock
+                .Verify(p => p.GetProductById(It.IsAny<int>()), Times.Once);
+            productDataMock
+                .VerifyNoOtherCalls();
         }
 
         [TestMethod]

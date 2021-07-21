@@ -175,7 +175,8 @@ namespace WebStore.Tests.Controllers
 
             var exception = Assert.ThrowsException<ApplicationException>(() => controller.Throw(expectedString));
 
-            Assert.AreEqual(expectedString, exception.Message);
+            Assert
+                .AreEqual(expectedString, exception.Message);
         }
 
         #endregion

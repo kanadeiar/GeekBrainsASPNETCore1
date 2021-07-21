@@ -16,15 +16,24 @@ namespace WebStore.Domain.Tests.WebModels.Product
 
             var model = new ProductSortWebModel(default);
 
-            Assert.IsInstanceOfType(model, typeof(ProductSortWebModel));
-            Assert.AreEqual(expectedPrevious, model.Previous);
-            Assert.AreEqual(expectedCurrent, model.Current);
-            Assert.AreEqual(expectedUp, model.Up);
-            Assert.AreEqual(expectedCurrent, model.NameSort);
-            Assert.AreEqual(ProductSortState.OrderAsc, model.OrderSort);
-            Assert.AreEqual(ProductSortState.SectionAsc, model.SectionSort);
-            Assert.AreEqual(ProductSortState.BrandAsc, model.BrandSort);
-            Assert.AreEqual(ProductSortState.PriceAsc, model.PriceSort);
+            Assert
+                .IsInstanceOfType(model, typeof(ProductSortWebModel));
+            Assert
+                .AreEqual(expectedPrevious, model.Previous);
+            Assert
+                .AreEqual(expectedCurrent, model.Current);
+            Assert
+                .AreEqual(expectedUp, model.Up);
+            Assert
+                .AreEqual(expectedCurrent, model.NameSort);
+            Assert
+                .AreEqual(ProductSortState.OrderAsc, model.OrderSort);
+            Assert
+                .AreEqual(ProductSortState.SectionAsc, model.SectionSort);
+            Assert
+                .AreEqual(ProductSortState.BrandAsc, model.BrandSort);
+            Assert
+                .AreEqual(ProductSortState.PriceAsc, model.PriceSort);
         }
     }
 }

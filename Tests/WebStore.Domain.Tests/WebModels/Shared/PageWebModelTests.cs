@@ -18,16 +18,26 @@ namespace WebStore.Domain.Tests.WebModels.Shared
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
-            Assert.IsInstanceOfType(model, typeof(PageWebModel));
-            Assert.AreEqual(expectedPageNumber, model.PageNumber);
-            Assert.AreEqual(expectedStartNumber, model.StartNumber);
-            Assert.AreEqual(expectedPageCount, model.TotalPages);
-            Assert.IsTrue(model.HasNextPage);
-            Assert.IsTrue(model.HasNextNextPage);
-            Assert.IsTrue(model.HasLastPage);
-            Assert.IsFalse(model.HasFirstPage);
-            Assert.IsFalse(model.HasPreviousPage);
-            Assert.IsFalse(model.HasPrevPreviousPage);
+            Assert
+                .IsInstanceOfType(model, typeof(PageWebModel));
+            Assert
+                .AreEqual(expectedPageNumber, model.PageNumber);
+            Assert
+                .AreEqual(expectedStartNumber, model.StartNumber);
+            Assert
+                .AreEqual(expectedPageCount, model.TotalPages);
+            Assert
+                .IsTrue(model.HasNextPage);
+            Assert
+                .IsTrue(model.HasNextNextPage);
+            Assert
+                .IsTrue(model.HasLastPage);
+            Assert
+                .IsFalse(model.HasFirstPage);
+            Assert
+                .IsFalse(model.HasPreviousPage);
+            Assert
+                .IsFalse(model.HasPrevPreviousPage);
         }
 
         [TestMethod]
@@ -41,16 +51,26 @@ namespace WebStore.Domain.Tests.WebModels.Shared
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
-            Assert.IsInstanceOfType(model, typeof(PageWebModel));
-            Assert.AreEqual(expectedPageNumber, model.PageNumber);
-            Assert.AreEqual(expectedStartNumber, model.StartNumber);
-            Assert.AreEqual(expectedPageCount, model.TotalPages);
-            Assert.IsTrue(model.HasNextPage);
-            Assert.IsFalse(model.HasNextNextPage);
-            Assert.IsFalse(model.HasLastPage);
-            Assert.IsFalse(model.HasFirstPage);
-            Assert.IsFalse(model.HasPreviousPage);
-            Assert.IsFalse(model.HasPrevPreviousPage);
+            Assert
+                .IsInstanceOfType(model, typeof(PageWebModel));
+            Assert
+                .AreEqual(expectedPageNumber, model.PageNumber);
+            Assert
+                .AreEqual(expectedStartNumber, model.StartNumber);
+            Assert
+                .AreEqual(expectedPageCount, model.TotalPages);
+            Assert
+                .IsTrue(model.HasNextPage);
+            Assert
+                .IsFalse(model.HasNextNextPage);
+            Assert
+                .IsFalse(model.HasLastPage);
+            Assert
+                .IsFalse(model.HasFirstPage);
+            Assert
+                .IsFalse(model.HasPreviousPage);
+            Assert
+                .IsFalse(model.HasPrevPreviousPage);
         }
 
         [TestMethod]
@@ -64,10 +84,14 @@ namespace WebStore.Domain.Tests.WebModels.Shared
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
-            Assert.IsInstanceOfType(model, typeof(PageWebModel));
-            Assert.AreEqual(expectedPageNumber, model.PageNumber);
-            Assert.AreEqual(expectedStartNumber, model.StartNumber);
-            Assert.AreEqual(expectedPageCount, model.TotalPages);
+            Assert
+                .IsInstanceOfType(model, typeof(PageWebModel));
+            Assert
+                .AreEqual(expectedPageNumber, model.PageNumber);
+            Assert
+                .AreEqual(expectedStartNumber, model.StartNumber);
+            Assert
+                .AreEqual(expectedPageCount, model.TotalPages);
         }
 
         [TestMethod]
@@ -81,16 +105,26 @@ namespace WebStore.Domain.Tests.WebModels.Shared
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
-            Assert.IsInstanceOfType(model, typeof(PageWebModel));
-            Assert.AreEqual(expectedPageNumber, model.PageNumber);
-            Assert.AreEqual(expectedStartNumber, model.StartNumber);
-            Assert.AreEqual(expectedPageCount, model.TotalPages);
-            Assert.IsTrue(model.HasNextPage);
-            Assert.IsTrue(model.HasNextNextPage);
-            Assert.IsTrue(model.HasLastPage);
-            Assert.IsTrue(model.HasPreviousPage);
-            Assert.IsTrue(model.HasPrevPreviousPage);
-            Assert.IsTrue(model.HasFirstPage);
+            Assert
+                .IsInstanceOfType(model, typeof(PageWebModel));
+            Assert
+                .AreEqual(expectedPageNumber, model.PageNumber);
+            Assert
+                .AreEqual(expectedStartNumber, model.StartNumber);
+            Assert
+                .AreEqual(expectedPageCount, model.TotalPages);
+            Assert
+                .IsTrue(model.HasNextPage);
+            Assert
+                .IsTrue(model.HasNextNextPage);
+            Assert
+                .IsTrue(model.HasLastPage);
+            Assert
+                .IsTrue(model.HasPreviousPage);
+            Assert
+                .IsTrue(model.HasPrevPreviousPage);
+            Assert
+                .IsTrue(model.HasFirstPage);
         }
 
         [TestMethod]
@@ -104,16 +138,26 @@ namespace WebStore.Domain.Tests.WebModels.Shared
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
-            Assert.IsInstanceOfType(model, typeof(PageWebModel));
-            Assert.AreEqual(expectedPageNumber, model.PageNumber);
-            Assert.AreEqual(expectedStartNumber, model.StartNumber);
-            Assert.AreEqual(expectedPageCount, model.TotalPages);
-            Assert.IsFalse(model.HasNextPage);
-            Assert.IsFalse(model.HasNextNextPage);
-            Assert.IsFalse(model.HasLastPage);
-            Assert.IsFalse(model.HasPreviousPage);
-            Assert.IsFalse(model.HasPrevPreviousPage);
-            Assert.IsFalse(model.HasFirstPage);
+            Assert
+                .IsInstanceOfType(model, typeof(PageWebModel));
+            Assert
+                .AreEqual(expectedPageNumber, model.PageNumber);
+            Assert
+                .AreEqual(expectedStartNumber, model.StartNumber);
+            Assert
+                .AreEqual(expectedPageCount, model.TotalPages);
+            Assert
+                .IsFalse(model.HasNextPage);
+            Assert
+                .IsFalse(model.HasNextNextPage);
+            Assert
+                .IsFalse(model.HasLastPage);
+            Assert
+                .IsFalse(model.HasPreviousPage);
+            Assert
+                .IsFalse(model.HasPrevPreviousPage);
+            Assert
+                .IsFalse(model.HasFirstPage);
         }
 
         [TestMethod]
@@ -127,16 +171,26 @@ namespace WebStore.Domain.Tests.WebModels.Shared
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
-            Assert.IsInstanceOfType(model, typeof(PageWebModel));
-            Assert.AreEqual(expectedPageNumber, model.PageNumber);
-            Assert.AreEqual(expectedStartNumber, model.StartNumber);
-            Assert.AreEqual(expectedPageCount, model.TotalPages);
-            Assert.IsFalse(model.HasNextPage);
-            Assert.IsFalse(model.HasNextNextPage);
-            Assert.IsFalse(model.HasLastPage);
-            Assert.IsFalse(model.HasPreviousPage);
-            Assert.IsFalse(model.HasPrevPreviousPage);
-            Assert.IsFalse(model.HasFirstPage);
+            Assert
+                .IsInstanceOfType(model, typeof(PageWebModel));
+            Assert
+                .AreEqual(expectedPageNumber, model.PageNumber);
+            Assert
+                .AreEqual(expectedStartNumber, model.StartNumber);
+            Assert
+                .AreEqual(expectedPageCount, model.TotalPages);
+            Assert
+                .IsFalse(model.HasNextPage);
+            Assert
+                .IsFalse(model.HasNextNextPage);
+            Assert
+                .IsFalse(model.HasLastPage);
+            Assert
+                .IsFalse(model.HasPreviousPage);
+            Assert
+                .IsFalse(model.HasPrevPreviousPage);
+            Assert
+                .IsFalse(model.HasFirstPage);
         }
     }
 }

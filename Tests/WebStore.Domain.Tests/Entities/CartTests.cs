@@ -30,7 +30,8 @@ namespace WebStore.Domain.Tests.Entities
 
             var actualCount = cart.ItemsSum;
 
-            Assert.AreEqual(expectedCount, actualCount);
+            Assert
+                .AreEqual(expectedCount, actualCount);
         }
     }
 }

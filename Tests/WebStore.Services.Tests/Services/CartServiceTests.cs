@@ -45,7 +45,9 @@ namespace WebStore.Services.Tests.Services
                     Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
                 }));
             _cartStoreMock = new Mock<ICartStore>();
-            _cartStoreMock.Setup(c => c.Cart).Returns(_cart);
+            _cartStoreMock
+                .Setup(c => c.Cart)
+                .Returns(_cart);
             var loggerStub = Mock
                 .Of<ILogger<CartService>>();
             _cartService = new CartService(_cartStoreMock.Object, _productDataMock.Object, loggerStub);
@@ -60,9 +62,12 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Add(expId);
 
-            Assert.AreEqual(expCount, _cart.ItemsSum);
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expId, _cart.Items.First().ProductId);
+            Assert
+                .AreEqual(expCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expId, _cart.Items.First().ProductId);
         }
 
         [TestMethod]
@@ -75,9 +80,12 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Remove(removedId);
 
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expItemsCount, _cart.ItemsSum);
-            Assert.AreEqual(expFirstProductId, _cart.Items.First().ProductId);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expItemsCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expFirstProductId, _cart.Items.First().ProductId);
         }
 
         [TestMethod]
@@ -98,11 +106,15 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Subtract(minusId);
 
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expItemsCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expItemsCount, _cart.ItemsSum);
             var items = _cart.Items.ToImmutableArray();
-            Assert.AreEqual(minusId, items[1].ProductId);
-            Assert.AreEqual(expCountItem, items[1].Quantity);
+            Assert
+                .AreEqual(minusId, items[1].ProductId);
+            Assert
+                .AreEqual(expCountItem, items[1].Quantity);
         }
 
         [TestMethod]
@@ -114,8 +126,10 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Subtract(minusId);
 
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expItemsCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expItemsCount, _cart.ItemsSum);
         }
 
         [TestMethod]
@@ -126,8 +140,10 @@ namespace WebStore.Services.Tests.Services
 
             var result = _cartService.GetWebModel();
 
-            Assert.AreEqual(expItemsCount, result.Result.ItemsSum);
-            Assert.AreEqual(expFirstProductPrice, result.Result.Items.First().Product.Price);
+            Assert
+                .AreEqual(expItemsCount, result.Result.ItemsSum);
+            Assert
+                .AreEqual(expFirstProductPrice, result.Result.Items.First().Product.Price);
         }
     }
 }

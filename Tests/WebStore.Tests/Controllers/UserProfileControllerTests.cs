@@ -57,15 +57,22 @@ namespace WebStore.Tests.Controllers
 
             var result = controller.Orders(orderServiceMock.Object).Result;
 
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
             var viewResult = (ViewResult)result;
-            Assert.IsInstanceOfType(viewResult.Model, typeof(IEnumerable<UserOrderWebModel>));
+            Assert
+                .IsInstanceOfType(viewResult.Model, typeof(IEnumerable<UserOrderWebModel>));
             var orders = (IEnumerable<UserOrderWebModel>)viewResult.Model;
-            Assert.AreEqual(expectedCount, orders.Count());
-            Assert.AreEqual(expectedId, orders.FirstOrDefault().Id);
-            Assert.AreEqual(expectedName, orders.FirstOrDefault().Name);
-            orderServiceMock.Verify(o => o.GetUserOrders(userName), Times.Once);
-            orderServiceMock.VerifyNoOtherCalls();
+            Assert
+                .AreEqual(expectedCount, orders.Count());
+            Assert
+                .AreEqual(expectedId, orders.FirstOrDefault().Id);
+            Assert
+                .AreEqual(expectedName, orders.FirstOrDefault().Name);
+            orderServiceMock
+                .Verify(o => o.GetUserOrders(userName), Times.Once);
+            orderServiceMock
+                .VerifyNoOtherCalls();
         }
 
     }
