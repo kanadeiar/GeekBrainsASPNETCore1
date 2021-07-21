@@ -10,7 +10,10 @@ using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Orders;
+using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.Cart;
 
 namespace WebStore.WebAPI.Client.Tests
 {
@@ -100,7 +103,40 @@ namespace WebStore.WebAPI.Client.Tests
         [TestMethod]
         public void CreateOrder_Returns_Correct()
         {
+            const int expectedId = 1;
+            const string expectedName = "Test";
+            var jsonResponse = JsonConvert.SerializeObject(
+            new Order
+            {
+                Id = expectedId,
+                Name = expectedName,
+                Items = Array.Empty<OrderItem>(),
+            });
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse),
+                });
+            var client = new OrderApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+            var cart = new CartWebModel
+            {
+                Items = Enumerable.Range(1, 1).Select(i => (new ProductWebModel { Id = i, Name = $"TestName{i}" }, i, 1.5m)),
+            };
+            var order = new CreateOrderWebModel()
+            {
+                Name = "Test",
+                Address = "Test",
+                Phone = "123",
+            };
 
+            var actual = client.CreateOrder("Admin", cart, order).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(Order));
+            Assert.AreEqual(expectedId, actual.Id);
+            Assert.AreEqual(expectedName, actual.Name);
         }
 
     }
