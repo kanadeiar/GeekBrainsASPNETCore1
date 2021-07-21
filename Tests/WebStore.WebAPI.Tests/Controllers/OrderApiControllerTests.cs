@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -22,15 +23,19 @@ namespace WebStore.WebAPI.Tests.Controllers
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
                 .Setup(o => o.GetUserOrders(It.IsAny<string>()))
-                .ReturnsAsync((string name) => new []
+                .ReturnsAsync((string name) =>
                 {
-                    new Order
+                    Task.Delay(1000).Wait();
+                    return new[]
                     {
-                        Id = 1,
-                        Name = expectedName,
-                        Items = Array.Empty<OrderItem>(),
-                    },
-                });
+                        new Order
+                        {
+                            Id = 1,
+                            Name = expectedName,
+                            Items = Array.Empty<OrderItem>(),
+                        },
+                    };
+                }); ;
             var controller = new OrderApiController(orderServiceMock.Object);
 
             var result = controller.GetUserOrders(expectedName).Result;
@@ -57,11 +62,15 @@ namespace WebStore.WebAPI.Tests.Controllers
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
                 .Setup(o => o.GetOrderById(It.IsAny<int>()))
-                .ReturnsAsync((int i) => new Order
+                .ReturnsAsync((int i) =>
                 {
-                    Id = 1,
-                    Name = expectedName,
-                    Items = Array.Empty<OrderItem>(),
+                    Task.Delay(1000).Wait();
+                    return new Order
+                    {
+                        Id = 1,
+                        Name = expectedName,
+                        Items = Array.Empty<OrderItem>(),
+                    };
                 });
             var controller = new OrderApiController(orderServiceMock.Object);
 
@@ -91,14 +100,16 @@ namespace WebStore.WebAPI.Tests.Controllers
             orderServiceMock
                 .Setup(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
                     It.IsAny<CreateOrderWebModel>()))
-                .ReturnsAsync((string name, CartWebModel cart, CreateOrderWebModel order) => 
-                    new Order
+                .ReturnsAsync((string name, CartWebModel cart, CreateOrderWebModel order) => {
+                    Task.Delay(1000).Wait();
+                    return new Order
                     {
                         Name = order.Name,
                         Phone = order.Phone,
                         Address = order.Address,
                         Items = Array.Empty<OrderItem>(),
-                    });
+                    };
+                });
             var controller = new OrderApiController(orderServiceMock.Object);
             var dto = new CreateOrderDTO
             {
