@@ -357,7 +357,7 @@ namespace WebStore.WebAPI.Tests.Controllers
         }
 
         [TestMethod]
-        public void DeleteElse_Return_CorrectNotFount()
+        public void DeleteFailed_Return_CorrectNotFount()
         {
             const int expectedId = 1;
             const bool expectedValue = false;

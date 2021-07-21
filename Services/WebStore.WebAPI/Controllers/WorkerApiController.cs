@@ -8,11 +8,11 @@ namespace WebStore.WebAPI.Controllers
 {
     /// <summary> Апи контроллер сотрудников </summary>
     [Route(WebAPIInfo.ApiWorker), ApiController]
-    public class PersonApiController : ControllerBase
+    public class WorkerApiController : ControllerBase
     {
         private readonly IWorkerData _workerData;
         /// <summary> Конструктор </summary>
-        public PersonApiController(IWorkerData workerData)
+        public WorkerApiController(IWorkerData workerData)
         {
             _workerData = workerData;
         }
