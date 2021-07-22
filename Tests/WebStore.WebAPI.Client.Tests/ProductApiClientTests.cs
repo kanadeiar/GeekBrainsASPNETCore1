@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,9 +12,7 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using WebStore.Domain.DTO;
 using WebStore.Domain.Entities;
-using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Models;
-using WebStore.Interfaces.Services;
 
 namespace WebStore.WebAPI.Client.Tests
 {
@@ -56,6 +53,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.FirstOrDefault().Id);
             Assert
                 .AreEqual(expectedName, actual.FirstOrDefault().Name);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -77,7 +76,8 @@ namespace WebStore.WebAPI.Client.Tests
                 {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(jsonResponse),
-                });
+                })
+                .Verifiable();
             var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
 
             var actual = client.GetSection(expectedId).Result;
@@ -305,5 +305,56 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedNewName, callbackNewName);
         }
 
+        [TestMethod]
+        public void DeleteProductOk_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const bool expectedValue = true;
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync((HttpRequestMessage m, CancellationToken c) => {
+                    Task.Delay(1000).Wait();
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Content = new StringContent(expectedValue.ToString()),
+                    };
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.DeleteProduct(expectedId).Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(bool));
+            Assert
+                .AreEqual(expectedValue, actual);
+        }
+
+        [TestMethod]
+        public void DeleteProductNotFound_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const bool expectedValue = false;
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync((HttpRequestMessage m, CancellationToken c) => {
+                    Task.Delay(1000).Wait();
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.NotFound,
+                        Content = new StringContent(expectedValue.ToString()),
+                    };
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.DeleteProduct(expectedId).Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(bool));
+            Assert
+                .AreEqual(expectedValue, actual);
+        }
     }
 }

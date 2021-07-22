@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -21,7 +23,14 @@ namespace WebStore.WebAPI.Client
 
         public async Task<IEnumerable<Section>> GetSections()
         {
-            return (await GetAsync<IEnumerable<SectionDTO>>($"{Address}/section").ConfigureAwait(false)).FromDTO();
+            //return (await GetAsync<IEnumerable<SectionDTO>>($"{Address}/section").ConfigureAwait(false)).FromDTO();
+            return Enumerable.Range(1, 3).Select(
+                id => new Section()
+                {
+                    Id = id,
+                    Name = "TestSection",
+                    Products = Array.Empty<Product>(),
+                });
         }
 
         public async Task<Section> GetSection(int id)
