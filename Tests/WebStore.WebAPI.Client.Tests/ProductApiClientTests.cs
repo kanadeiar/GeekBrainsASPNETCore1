@@ -10,8 +10,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
+using WebStore.Domain.DTO;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Orders;
+using WebStore.Domain.Models;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.WebAPI.Client.Tests
@@ -86,6 +88,118 @@ namespace WebStore.WebAPI.Client.Tests
             Assert
                 .AreEqual(expectedName, actual.Name);
         }
+
+        [TestMethod]
+        public void GetBrands_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const string expectedName = "TestBrand";
+            const int expectedCount = 3;
+            var jsonResponse = JsonConvert.SerializeObject(
+                Enumerable.Range(1, expectedCount).Select(
+                    id => new Brand()
+                    {
+                        Id = id,
+                        Name = expectedName,
+                        Products = Array.Empty<Product>(),
+                    }));
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage 
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse),
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.GetBrands().Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(IEnumerable<Brand>));
+            Assert
+                .AreEqual(expectedCount, actual.Count());
+            Assert
+                .AreEqual(expectedId, actual.FirstOrDefault().Id);
+            Assert
+                .AreEqual(expectedName, actual.FirstOrDefault().Name);
+        }
+
+        [TestMethod]
+        public void GetBrand_Returns_Corrent()
+        {
+            const int expectedId = 1;
+            const string expectedName = "TestBrand";
+            var jsonResponse = JsonConvert.SerializeObject(
+                new Brand()
+                {
+                    Id = expectedId,
+                    Name = expectedName,
+                    Products = Array.Empty<Product>(),
+                });
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse),
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.GetBrand(expectedId).Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(Brand));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
+        }
+
+        [TestMethod]
+        public void GetProductsFilter_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const string expectedName = "TestProduct";
+            const int expectedCount = 3;
+            var jsonResponse = JsonConvert.SerializeObject(
+                Enumerable.Range(1, expectedCount).Select(
+                    id => new ProductDTO()
+                    {
+                        Id = id,
+                        Name = expectedName,
+                        SectionId = 1,
+                        Section = new SectionDTO { Id = 1 },
+                        BrandId = 1,
+                        Brand = new BrandDTO { Id = 1 },
+                    }));
+            var filter = new ProductFilter
+            {
+                Ids = new[] { 1, 2, 3 },
+            };
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse),
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.GetProducts(filter).Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(IEnumerable<Product>));
+            Assert
+                .AreEqual(expectedCount, actual.Count());
+            Assert
+                .AreEqual(expectedId, actual.FirstOrDefault().Id);
+            Assert
+                .AreEqual(expectedName, actual.FirstOrDefault().Name);
+        }
+
 
     }
 }

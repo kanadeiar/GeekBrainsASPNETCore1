@@ -39,26 +39,26 @@ namespace WebStore.WebAPI.Client
             return (await GetAsync<BrandDTO>($"{Address}/brand/{id}").ConfigureAwait(false)).FromDTO();
         }
 
-        public async Task<IEnumerable<Domain.Entities.Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
+        public async Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             var response = await PostAsync(Address, productFilter ?? new ProductFilter()).ConfigureAwait(false);
             var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
             return products.FromDTO();
         }
 
-        public async Task<Domain.Entities.Product> GetProductById(int id)
+        public async Task<Product> GetProductById(int id)
         {
             return (await GetAsync<ProductDTO>($"{Address}/{id}")).FromDTO();
         }
 
-        public async Task<int> AddProduct(Domain.Entities.Product product)
+        public async Task<int> AddProduct(Product product)
         {
             var response = await PostAsync($"{Address}/product", product.ToDTO()).ConfigureAwait(false);
             var id = await response.Content.ReadFromJsonAsync<int>();
             return id;
         }
 
-        public async Task UpdateProduct(Domain.Entities.Product product)
+        public async Task UpdateProduct(Product product)
         {
             await PutAsync($"{Address}/product", product.ToDTO()).ConfigureAwait(false);
         }
