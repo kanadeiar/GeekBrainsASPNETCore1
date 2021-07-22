@@ -9,8 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
-using RichardSzalay.MockHttp;
-using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
