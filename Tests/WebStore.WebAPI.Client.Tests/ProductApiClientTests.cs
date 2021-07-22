@@ -88,6 +88,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.Id);
             Assert
                 .AreEqual(expectedName, actual.Name);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -124,6 +126,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.FirstOrDefault().Id);
             Assert
                 .AreEqual(expectedName, actual.FirstOrDefault().Name);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -156,6 +160,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.Id);
             Assert
                 .AreEqual(expectedName, actual.Name);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -199,6 +205,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.FirstOrDefault().Id);
             Assert
                 .AreEqual(expectedName, actual.FirstOrDefault().Name);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -234,6 +242,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.Id);
             Assert
                 .AreEqual(expectedName, actual.Name);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -269,6 +279,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .IsInstanceOfType(actual, typeof(int));
             Assert
                 .AreEqual(expectedId, actual);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -303,6 +315,8 @@ namespace WebStore.WebAPI.Client.Tests
 
             Assert
                 .AreEqual(expectedNewName, callbackNewName);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -329,6 +343,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .IsInstanceOfType(actual, typeof(bool));
             Assert
                 .AreEqual(expectedValue, actual);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
 
         [TestMethod]
@@ -355,6 +371,8 @@ namespace WebStore.WebAPI.Client.Tests
                 .IsInstanceOfType(actual, typeof(bool));
             Assert
                 .AreEqual(expectedValue, actual);
+            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler.VerifyNoOtherCalls();
         }
     }
 }
