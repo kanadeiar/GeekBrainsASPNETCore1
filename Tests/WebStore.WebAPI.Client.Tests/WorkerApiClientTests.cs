@@ -141,22 +141,23 @@ namespace WebStore.WebAPI.Client.Tests
         {
             const int expectedId = 1;
             const string expectedNewFam = "Ivanov";
-            const string ExpectedNewName = "Ivan";
+            const string expectedNewName = "Ivan";
             string callbackNewFam = default;
             string callbackNewName = default;
             var worker = new Worker
             {
                 Id = expectedId,
                 LastName = expectedNewFam,
-                FirstName = ExpectedNewName,
+                FirstName = expectedNewName,
             };
             var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync((HttpRequestMessage m, CancellationToken c) => {
                     Task.Delay(1000).Wait();
-                    //callbackNewFam = (m.Content.ReadFromJsonAsync<Worker>()).Result.LastName;
-                    //callbackNewName = (m.Content.ReadFromJsonAsync<Worker>()).Result.FirstName;
+                    var resultNormal = m.Content.ReadFromJsonAsync<Worker>().Result;
+                    callbackNewFam = resultNormal.LastName;
+                    callbackNewName = resultNormal.FirstName;
                     return new HttpResponseMessage
                     {
                         StatusCode = HttpStatusCode.OK,
@@ -166,10 +167,66 @@ namespace WebStore.WebAPI.Client.Tests
 
             client.Update(worker).Wait();
 
-            //Assert
-            //    .AreEqual(expectedNewFam, callbackNewFam);
-            //Assert
-            //    .AreEqual(ExpectedNewName, callbackNewName);
+            Assert
+                .AreEqual(expectedNewFam, callbackNewFam);
+            Assert
+                .AreEqual(expectedNewName, callbackNewName);
+            mockMessageHandler.Protected()
+                .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void DeleteOk_Return_Correct()
+        {
+            const int expectedId = 1;
+            const bool expectedValue = true;
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync((HttpRequestMessage m, CancellationToken c) => {
+                    Task.Delay(1000).Wait();
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Content = new StringContent(expectedValue.ToString()),
+                    };
+                });
+            var client = new WorkerApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.Delete(expectedId).Result;
+
+            Assert
+                .AreEqual(expectedValue, actual);
+            mockMessageHandler.Protected()
+                .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void DeleteProductNotFound_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const bool expectedValue = false;
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync((HttpRequestMessage m, CancellationToken c) => {
+                    Task.Delay(1000).Wait();
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.NotFound,
+                        Content = new StringContent(expectedValue.ToString()),
+                    };
+                });
+            var client = new WorkerApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.Delete(expectedId).Result;
+
+            Assert
+                .AreEqual(expectedValue, actual);
             mockMessageHandler.Protected()
                 .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
             mockMessageHandler

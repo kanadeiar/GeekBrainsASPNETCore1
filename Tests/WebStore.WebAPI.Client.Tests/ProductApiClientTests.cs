@@ -356,8 +356,6 @@ namespace WebStore.WebAPI.Client.Tests
             var actual = client.DeleteProduct(expectedId).Result;
 
             Assert
-                .IsInstanceOfType(actual, typeof(bool));
-            Assert
                 .AreEqual(expectedValue, actual);
             mockMessageHandler.Protected()
                 .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
@@ -385,8 +383,6 @@ namespace WebStore.WebAPI.Client.Tests
 
             var actual = client.DeleteProduct(expectedId).Result;
 
-            Assert
-                .IsInstanceOfType(actual, typeof(bool));
             Assert
                 .AreEqual(expectedValue, actual);
             mockMessageHandler.Protected()
