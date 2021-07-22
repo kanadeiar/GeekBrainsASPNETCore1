@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -200,6 +201,109 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedName, actual.FirstOrDefault().Name);
         }
 
+        [TestMethod]
+        public void GetProductById_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const string expectedName = "TestProduct";
+            var jsonResponse = JsonConvert.SerializeObject(
+                new ProductDTO()
+                {
+                    Id = expectedId,
+                    Name = expectedName,
+                    SectionId = 1,
+                    Section = new SectionDTO { Id = 1 },
+                    BrandId = 1,
+                    Brand = new BrandDTO { Id = 1 },
+                });
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse),
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.GetProductById(expectedId).Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(Product));
+            Assert
+                .AreEqual(expectedId, actual.Id);
+            Assert
+                .AreEqual(expectedName, actual.Name);
+        }
+
+        [TestMethod]
+        public void AddProduct_Returns_Correct()
+        {
+            const int expectedId = 1;
+            const string expectedName = "TestProduct";
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(() => {
+                    Task.Delay(1000).Wait();
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Content = new StringContent(expectedId.ToString()),
+                    };
+                });
+            var product = new Product
+            {
+                Id = expectedId,
+                Name = expectedName,
+                SectionId = 1,
+                Section = new Section { Id = 1 },
+                BrandId = 1,
+                Brand = new Brand { Id = 1 },
+            };
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            var actual = client.AddProduct(product).Result;
+
+            Assert
+                .IsInstanceOfType(actual, typeof(int));
+            Assert
+                .AreEqual(expectedId, actual);
+        }
+
+        [TestMethod]
+        public void UpdateProduct_Act_Correct()
+        {
+            const int expectedId = 1;
+            const string expectedNewName = "TestProduct";
+            string callbackNewName = default;
+            var product = new Product
+            {
+                Id = expectedId,
+                Name = expectedNewName,
+                SectionId = 1,
+                Section = new Section { Id = 1 },
+                BrandId = 1,
+                Brand = new Brand { Id = 1 },
+            };
+            var mockMessageHandler = new Mock<HttpMessageHandler>();
+            mockMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync((HttpRequestMessage m, CancellationToken c) => {
+                    Task.Delay(1000).Wait();
+                    callbackNewName = (m.Content.ReadFromJsonAsync<ProductDTO>()).Result.Name;
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                    };
+                });
+            var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
+
+            client.UpdateProduct(product).Wait();
+
+            Assert
+                .AreEqual(expectedNewName, callbackNewName);
+        }
 
     }
 }

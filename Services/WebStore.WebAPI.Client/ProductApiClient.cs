@@ -60,7 +60,7 @@ namespace WebStore.WebAPI.Client
 
         public async Task UpdateProduct(Product product)
         {
-            await PutAsync($"{Address}/product", product.ToDTO()).ConfigureAwait(false);
+            var _ = await PutAsync($"{Address}/product", product.ToDTO()).ConfigureAwait(false);
         }
 
         public async Task<bool> DeleteProduct(int id)
