@@ -23,14 +23,7 @@ namespace WebStore.WebAPI.Client
 
         public async Task<IEnumerable<Section>> GetSections()
         {
-            //return (await GetAsync<IEnumerable<SectionDTO>>($"{Address}/section").ConfigureAwait(false)).FromDTO();
-            return Enumerable.Range(1, 3).Select(
-                id => new Section()
-                {
-                    Id = id,
-                    Name = "TestSection",
-                    Products = Array.Empty<Product>(),
-                });
+            return (await GetAsync<IEnumerable<SectionDTO>>($"{Address}/section").ConfigureAwait(false)).FromDTO();
         }
 
         public async Task<Section> GetSection(int id)
