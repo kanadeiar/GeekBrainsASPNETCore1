@@ -51,12 +51,18 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(IEnumerable<Worker>));
             var workers = (IEnumerable<Worker>) viewResult.Model;
-            Assert.AreEqual(expectedCount, workers.Count());
-            Assert.AreEqual(expectedId, workers.FirstOrDefault().Id);
-            Assert.AreEqual(expectedFam, workers.FirstOrDefault().LastName);
-            Assert.AreEqual(expectedName, workers.FirstOrDefault().FirstName);
-            workerDataMock.Verify(s => s.GetAll(), Times.Once);
-            workerDataMock.VerifyNoOtherCalls();
+            Assert
+                .AreEqual(expectedCount, workers.Count());
+            Assert
+                .AreEqual(expectedId, workers.FirstOrDefault().Id);
+            Assert
+                .AreEqual(expectedFam, workers.FirstOrDefault().LastName);
+            Assert
+                .AreEqual(expectedName, workers.FirstOrDefault().FirstName);
+            workerDataMock
+                .Verify(s => s.GetAll(), Times.Once);
+            workerDataMock
+                .VerifyNoOtherCalls();
         }
 
         #region Детальное отображение работника
@@ -64,14 +70,14 @@ namespace WebStore.Tests.Controllers
         [TestMethod]
         public void DetailsMinus_Return_BadRequest()
         {
-            const int expectedId = 1;
+            const int expectedId = -1;
             var workerDataStub = Mock
                 .Of<IWorkerData>();
             var loggerStub = Mock
                 .Of<ILogger<WorkersController>>();
             var controller = new WorkersController(workerDataStub, loggerStub);
 
-            var result = controller.Details(-1).Result;
+            var result = controller.Details(expectedId).Result;
 
             Assert
                 .IsInstanceOfType(result, typeof(BadRequestResult));
@@ -89,7 +95,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<WorkersController>>();
             var controller = new WorkersController(workerDataMock.Object, loggerStub);
 
-            var result = controller.Details(1).Result;
+            var result = controller.Details(expectedId).Result;
 
             Assert
                 .IsInstanceOfType(result, typeof(NotFoundResult));
@@ -155,8 +161,10 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(EditWorkerWebModel));
             var workerModel = (EditWorkerWebModel) viewResult.Model;
-            Assert.IsNull(workerModel.LastName);
-            Assert.IsNull(workerModel.FirstName);
+            Assert
+                .IsNull(workerModel.LastName);
+            Assert
+                .IsNull(workerModel.FirstName);
         }
 
         [TestMethod]
@@ -173,7 +181,6 @@ namespace WebStore.Tests.Controllers
 
             Assert
                 .IsInstanceOfType(result, typeof(BadRequestResult));
-            var viewResult = (BadRequestResult) result;
         }
 
         [TestMethod]
@@ -225,18 +232,67 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(EditWorkerWebModel));
             var workerModel = (EditWorkerWebModel) viewResult.Model;
-            Assert.AreEqual(expectedId, workerModel.Id);
-            Assert.AreEqual(expectedFam, workerModel.LastName);
-            Assert.AreEqual(expectedName, workerModel.FirstName);
-            workerDataMock.Verify(s => s.Get(expectedId), Times.Once);
-            workerDataMock.VerifyNoOtherCalls();
+            Assert
+                .AreEqual(expectedId, workerModel.Id);
+            Assert
+                .AreEqual(expectedFam, workerModel.LastName);
+            Assert
+                .AreEqual(expectedName, workerModel.FirstName);
+            workerDataMock
+                .Verify(s => s.Get(expectedId), Times.Once);
+            workerDataMock
+                .VerifyNoOtherCalls();
         }
 
         #endregion
 
         #region Отображение завершающей фазы редактирования работника
 
-        
+        [TestMethod]
+        public void EditModelNull_Returns_BadRequest()
+        {            
+            var workerDataStub = Mock
+                .Of<IWorkerData>();
+            var loggerStub = Mock
+                .Of<ILogger<WorkersController>>();
+            EditWorkerWebModel model = null;
+            var controller = new WorkersController(workerDataStub, loggerStub);
+
+            var result = controller.Edit(model).Result;
+
+            Assert
+                .IsInstanceOfType(result, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void EditModelAndrey_Returns_ModelError()
+        {
+            var expectedTypeError = nameof(EditWorkerWebModel.FirstName);
+            var expectedErrorsCount = 1;
+            var expectedErrorMessage = "Ленин - плохое имя для работника!";
+            var workerDataStub = Mock
+                .Of<IWorkerData>();
+            var loggerStub = Mock
+                .Of<ILogger<WorkersController>>();
+            var model = new EditWorkerWebModel
+            {
+                FirstName = "Ленин"
+            };
+            var controller = new WorkersController(workerDataStub, loggerStub);
+
+            var result = controller.Edit(model).Result;
+
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
+            var viewResult = (ViewResult)result;
+            Assert
+                .IsFalse(controller.ModelState.IsValid);
+            var errors = controller.ModelState[expectedTypeError].Errors;
+            Assert
+                .AreEqual(expectedErrorsCount, errors.Count);
+            Assert
+                .AreEqual(expectedErrorMessage, errors.FirstOrDefault().ErrorMessage);
+        }
 
         #endregion
     }

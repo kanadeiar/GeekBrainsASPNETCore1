@@ -61,13 +61,13 @@ namespace WebStore.Controllers
 
         [HttpPost, Authorize(Roles = Role.Administrators)]
         public async Task<IActionResult> Edit(EditWorkerWebModel model)
-        {            
+        {
             if (model is null)
                 return BadRequest();
-            if (model.FirstName == "Андрей")
-                ModelState.AddModelError(nameof(model.FirstName), "Андрей - плохое имя для работника!");
-            if (model.LastName == "Иванов" && model.FirstName == "Иван" && model.Patronymic == "Иванович")
-                ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию имя и отчество Иванов Иван Иванович");
+            if (model.FirstName == "Ленин")
+                ModelState.AddModelError(nameof(model.FirstName), "Ленин - плохое имя для работника!");
+            if (model.LastName == "Путин" && model.FirstName == "Владимир")
+                ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию & имя тестового работника Владимир & Путин");
             if (!ModelState.IsValid)
                 return View(model);
             #region Лог
