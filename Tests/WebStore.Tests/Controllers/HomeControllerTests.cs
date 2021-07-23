@@ -21,7 +21,8 @@ namespace WebStore.Tests.Controllers
         [TestMethod]
         public void Index_Returns_CorrectView()
         {
-            var configurationStub = Mock.Of<IConfiguration>();
+            var configurationStub = Mock
+                .Of<IConfiguration>();
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(s => s.GetProducts(It.IsAny<ProductFilter>(), false).Result)
@@ -35,6 +36,8 @@ namespace WebStore.Tests.Controllers
             var viewResult = (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.ViewData["Products"], typeof(IEnumerable<ProductWebModel>));
+            productDataMock.Verify(s => s.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
+            productDataMock.VerifyNoOtherCalls();
         }
 
         #endregion
