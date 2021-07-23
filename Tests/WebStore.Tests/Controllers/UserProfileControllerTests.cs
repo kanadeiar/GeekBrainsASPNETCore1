@@ -16,6 +16,8 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class UserProfileControllerTests
     {
+        #region Тестирование отображения данных пользователя
+
         [TestMethod]
         public void Index_Returns_Correct()
         {
@@ -75,5 +77,6 @@ namespace WebStore.Tests.Controllers
                 .VerifyNoOtherCalls();
         }
 
+        #endregion
     }
 }

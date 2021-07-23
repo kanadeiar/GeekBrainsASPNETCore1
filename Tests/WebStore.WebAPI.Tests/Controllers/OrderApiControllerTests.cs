@@ -16,6 +16,8 @@ namespace WebStore.WebAPI.Tests.Controllers
     [TestClass]
     public class OrderApiControllerTests
     {
+        #region Тестирование апи контроллера заказов
+
         [TestMethod]
         public void GetUserOrders_Returns_Correct()
         {
@@ -138,9 +140,11 @@ namespace WebStore.WebAPI.Tests.Controllers
                 .AreEqual(expectedAddress, value.Address);
             orderServiceMock
                 .Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
-                It.IsAny<CreateOrderWebModel>()), Times.Once);
+                    It.IsAny<CreateOrderWebModel>()), Times.Once);
             orderServiceMock
                 .VerifyNoOtherCalls();
         }
+
+        #endregion
     }
 }

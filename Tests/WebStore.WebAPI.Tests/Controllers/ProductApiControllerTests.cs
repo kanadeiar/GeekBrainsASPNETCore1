@@ -18,6 +18,8 @@ namespace WebStore.WebAPI.Tests.Controllers
     [TestClass]
     public class ProductApiControllerTests
     {
+        #region Тестирование веб апи контроллера товаров
+
         [TestMethod]
         public void GetSections_Returns_Correct()
         {
@@ -381,5 +383,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             productDataMock
                 .VerifyNoOtherCalls();
         }
+
+        #endregion
     }
 }

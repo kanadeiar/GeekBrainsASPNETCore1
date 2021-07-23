@@ -53,6 +53,8 @@ namespace WebStore.Services.Tests.Services
             _cartService = new CartService(_cartStoreMock.Object, _productDataMock.Object, loggerStub);
         }
 
+        #region Тестирование корзины
+
         [TestMethod]
         public void Add_Correct()
         {
@@ -145,5 +147,7 @@ namespace WebStore.Services.Tests.Services
             Assert
                 .AreEqual(expFirstProductPrice, result.Result.Items.First().Product.Price);
         }
+
+        #endregion
     }
 }

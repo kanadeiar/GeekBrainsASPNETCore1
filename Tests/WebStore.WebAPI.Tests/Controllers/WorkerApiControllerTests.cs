@@ -15,6 +15,8 @@ namespace WebStore.WebAPI.Tests.Controllers
     [TestClass]
     public class WorkerApiControllerTests
     {
+        #region Тестирование веб апи контроллера работников
+
         [TestMethod]
         public void GetAll_Returns_Correct()
         {
@@ -225,5 +227,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             workerDataMock
                 .VerifyNoOtherCalls();
         }
+
+        #endregion
     }
 }

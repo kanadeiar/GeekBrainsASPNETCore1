@@ -19,6 +19,8 @@ namespace WebStore.Tests.Controllers
     [TestClass]
     public class WorkersControllerTests
     {
+        #region Отображение работников
+
         [TestMethod]
         public void Index_Returns_Correct()
         {
@@ -64,6 +66,8 @@ namespace WebStore.Tests.Controllers
             workerDataMock
                 .VerifyNoOtherCalls();
         }
+
+        #endregion
 
         #region Детальное отображение работника
 
