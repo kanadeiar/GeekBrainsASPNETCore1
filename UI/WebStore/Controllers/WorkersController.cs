@@ -101,7 +101,7 @@ namespace WebStore.Controllers
         [HttpPost, Authorize(Roles = Role.Administrators)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (id <= 0) 
+            if (id < 0) 
                 return BadRequest();
             #region Лог
             _logger.LogDebug($"Начало удаления сотрудника id={id}");
