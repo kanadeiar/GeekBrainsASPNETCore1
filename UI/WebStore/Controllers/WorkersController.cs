@@ -67,7 +67,7 @@ namespace WebStore.Controllers
             if (model.FirstName == "Ленин")
                 ModelState.AddModelError(nameof(model.FirstName), "Ленин - плохое имя для работника!");
             if (model.LastName == "Путин" && model.FirstName == "Владимир")
-                ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию & имя тестового работника Владимир & Путин");
+                ModelState.AddModelError(string.Empty, "Нельзя иметь фамилию & имя тестового работника Владимир & Путин!");
             if (!ModelState.IsValid)
                 return View(model);
             #region Лог

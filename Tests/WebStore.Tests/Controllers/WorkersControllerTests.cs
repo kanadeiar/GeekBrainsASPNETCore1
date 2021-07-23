@@ -265,7 +265,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void EditModelAndrey_Returns_ModelError()
+        public void EditModelLenin_Returns_ModelError()
         {
             var expectedTypeError = nameof(EditWorkerWebModel.FirstName);
             var expectedErrorsCount = 1;
@@ -276,7 +276,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<WorkersController>>();
             var model = new EditWorkerWebModel
             {
-                FirstName = "Ленин"
+                FirstName = "Ленин",
             };
             var controller = new WorkersController(workerDataStub, loggerStub);
 
@@ -284,7 +284,6 @@ namespace WebStore.Tests.Controllers
 
             Assert
                 .IsInstanceOfType(result, typeof(ViewResult));
-            var viewResult = (ViewResult)result;
             Assert
                 .IsFalse(controller.ModelState.IsValid);
             var errors = controller.ModelState[expectedTypeError].Errors;
@@ -292,6 +291,80 @@ namespace WebStore.Tests.Controllers
                 .AreEqual(expectedErrorsCount, errors.Count);
             Assert
                 .AreEqual(expectedErrorMessage, errors.FirstOrDefault().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void EditModelVladimirPutin_Returns_ModelError()
+        {
+            var expectedTypeError = string.Empty;
+            var expectedErrorsCount = 1;
+            var expectedErrorMessage = "Нельзя иметь фамилию & имя тестового работника Владимир & Путин!";
+            var workerDataStub = Mock
+                .Of<IWorkerData>();
+            var loggerStub = Mock
+                .Of<ILogger<WorkersController>>();
+            var model = new EditWorkerWebModel
+            {
+                LastName = "Путин",
+                FirstName = "Владимир",
+            };
+            var controller = new WorkersController(workerDataStub, loggerStub);
+
+            var result = controller.Edit(model).Result;
+
+            Assert
+                .IsInstanceOfType(result, typeof(ViewResult));
+            Assert
+                .IsFalse(controller.ModelState.IsValid);
+            var errors = controller.ModelState[expectedTypeError].Errors;
+            Assert
+                .AreEqual(expectedErrorsCount, errors.Count);
+            Assert
+                .AreEqual(expectedErrorMessage, errors.FirstOrDefault().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void EditModelId0_Add_And_Returns_Correct()
+        {
+            const int expectedId = 0;
+            const string expectedFam = "Иванов";
+            const string expectedName = "Иван";
+            var workerDataMock = new Mock<IWorkerData>();
+            workerDataMock
+                .Setup(w => w.Add(It.IsAny<Worker>()))
+                .ReturnsAsync((Worker w) => 
+                { 
+                    return w.Id; 
+                });
+            var loggerStub = Mock
+                .Of<ILogger<WorkersController>>();
+            var model = new EditWorkerWebModel
+            {
+                Id = expectedId,
+                LastName = expectedFam,
+                FirstName = expectedName,
+            };
+            var controller = new WorkersController(workerDataMock.Object, loggerStub);
+
+            var result = controller.Edit(model).Result;
+
+            Assert
+                .IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult)result;
+            Assert
+                .AreEqual(nameof(WorkersController.Index), redirectResult.ActionName);
+            Assert
+                .IsNull(redirectResult.ControllerName);
+            workerDataMock
+                .Verify(w => w.Add(It.IsAny<Worker>()));
+            workerDataMock
+                .VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void EditModelId1_Update_And_Returns_Correct()
+        {
+
         }
 
         #endregion
