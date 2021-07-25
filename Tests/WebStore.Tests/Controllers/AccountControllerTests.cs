@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,7 +22,7 @@ namespace WebStore.Tests.Controllers
         #region Регистрация пользователя
 
         [TestMethod]
-        public void Register_Returns_Correct()
+        public void Register_SendCorrectRequest_ShouldView()
         {
             var loggerStub = Mock
                 .Of<ILogger<AccountController>>();
@@ -39,7 +38,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterModelInvalid_Returns_View()
+        public void RegisterModel_SendInvalidModelRequest_ShouldView()
         {
             var expectedName = "TestName";
             var expectedPassword = "123";
@@ -64,7 +63,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void RegisterModelSucceeded_Returns_Correct()
+        public void RegisterModelSucceeded_SendSuccessRequest_ShouldView()
         {
             var expectedName = "TestName";
             var expectedPassword = "123";
@@ -78,13 +77,13 @@ namespace WebStore.Tests.Controllers
             };
             var userManagerMock = new Mock<UserManagerMock>();
             userManagerMock
-                .Setup(u => u.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .Setup(_ => _.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
             userManagerMock
-                .Setup(u => u.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()));
+                .Setup(_ => _.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()));
             var signInManagerMock = new Mock<SignInManagerMock>();
             signInManagerMock
-                .Setup(s => s.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null));
+                .Setup(_ => _.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null));
             var controller = new AccountController(userManagerMock.Object, signInManagerMock.Object, loggerStub)
             {
                 ControllerContext = new ControllerContext
@@ -106,19 +105,19 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(nameof(HomeController.Index), redirectResult.ActionName);
             userManagerMock
-                .Verify(u => u.CreateAsync(It.IsAny<User>(), It.IsAny<string>()));
+                .Verify(_ => _.CreateAsync(It.IsAny<User>(), It.IsAny<string>()));
             userManagerMock
-                .Verify(u => u.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()));
+                .Verify(_ => _.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()));
             userManagerMock
                 .Verify();
             signInManagerMock
-                .Verify(s => s.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null));
+                .Verify(_ => _.SignInAsync(It.IsAny<User>(), It.IsAny<bool>(), null));
             signInManagerMock
                 .Verify();
         }
 
         [TestMethod]
-        public void RegisterModelError_Returns_View()
+        public void RegisterModelError_SendAddErrorRequest_ShouldView()
         {
             var expectedTypeError = string.Empty;
             var expectedName = "TestName";
@@ -139,7 +138,7 @@ namespace WebStore.Tests.Controllers
                 new IdentityError {Code = expectedErrorCode, Description = expectedErrorDescription}
             };
             userManagerMock
-                .Setup(u => u.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .Setup(_ => _.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed(errors));
             var controller = new AccountController(userManagerMock.Object, new SignInManagerMock(), loggerStub)
             {
@@ -161,7 +160,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedErrorCode, returnErrors.FirstOrDefault().ErrorMessage);
             userManagerMock
-                .Verify(u  => u.CreateAsync(It.IsAny<User>(), It.IsAny<string>()));
+                .Verify(_  => _.CreateAsync(It.IsAny<User>(), It.IsAny<string>()));
             userManagerMock
                 .Verify();
         }
@@ -171,7 +170,7 @@ namespace WebStore.Tests.Controllers
         #region Вход пользователей
 
         [TestMethod]
-        public void Login_Returns_Correct()
+        public void Login_SendCorrectRequest_ShouldView()
         {
             const string expectedReturnUrl = "testUrl";
             var loggerStub = Mock
@@ -190,7 +189,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void LoginModelInvalid_Returns_View()
+        public void LoginModel_SendInvalidRequest_ShouldView()
         {
             const string expectedErrorCode = "Test";
             const string expectedErrorMessage = "Message";
@@ -210,7 +209,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void LoginModelReturnUrl_Returns_Redirect()
+        public void LoginModel_SendReturnUrlRequest_ShouldRedirect()
         {
             const string expectedUserName = "TestUser";
             const string expectedPassword = "123";
@@ -219,7 +218,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<AccountController>>();
             var signInManagerMock = new Mock<SignInManagerMock>();
             signInManagerMock
-                .Setup(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
+                .Setup(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Success);
             LoginWebModel model = new LoginWebModel
@@ -238,14 +237,14 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedReturnUrl, redirectResult.Url);
             signInManagerMock
-                .Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
+                .Verify(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                 It.IsAny<bool>()));
             signInManagerMock
                 .Verify();
         }
 
         [TestMethod]
-        public void LoginModel_Returns_Redirect()
+        public void LoginModel_SendRootUrlRequest_ShouldRedirect()
         {
             const string expectedUserName = "TestUser";
             const string expectedPassword = "123";
@@ -254,7 +253,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<AccountController>>();
             var signInManagerMock = new Mock<SignInManagerMock>();
             signInManagerMock
-                .Setup(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
+                .Setup(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Success);
             LoginWebModel model = new LoginWebModel
@@ -272,14 +271,14 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedReturnUrl, redirectResult.Url);
             signInManagerMock
-                .Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
+                .Verify(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                 It.IsAny<bool>()));
             signInManagerMock
                 .Verify();
         }
 
         [TestMethod]
-        public void LoginModelFailed_Returns()
+        public void LoginModel_SendFailedRequest_ShouldView()
         {
             var expectedErrorCode = "Ошибка в имени пользователя, либо в пароле при входе в систему Identity";
             const string expectedUserName = "TestUser";
@@ -288,7 +287,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<AccountController>>();
             var signInManagerMock = new Mock<SignInManagerMock>();
             signInManagerMock
-                .Setup(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
+                .Setup(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Failed);
             LoginWebModel model = new LoginWebModel
@@ -308,7 +307,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedErrorCode, returnErrors.FirstOrDefault().ErrorMessage);
             signInManagerMock
-                .Verify(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
+                .Verify(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                 It.IsAny<bool>()));
             signInManagerMock
                 .Verify();
@@ -319,7 +318,7 @@ namespace WebStore.Tests.Controllers
         #region Выход из системы и доступ отказан
 
         [TestMethod]
-        public void LogoutReturnUrl_Returns_Redirect()
+        public void LogoutReturnUrl_SendRequest_ShouldRedirect()
         {
             const string expectedName = "TestUser";
             const string expectedReturnUrl = "testUrl";
@@ -327,7 +326,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<AccountController>>();
             var signInManagerMock = new Mock<SignInManagerMock>();
             signInManagerMock
-                .Setup(s => s.SignOutAsync());
+                .Setup(_ => _.SignOutAsync());
             var controller = new AccountController(new UserManagerMock(), signInManagerMock.Object, loggerStub)
             {
                 ControllerContext = new ControllerContext
@@ -347,13 +346,13 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedReturnUrl, redirectResult.Url);
             signInManagerMock
-                .Verify(s => s.SignOutAsync());
+                .Verify(_ => _.SignOutAsync());
             signInManagerMock
                 .Verify();
         }
 
         [TestMethod]
-        public void Logout_Returns_Redirect()
+        public void Logout_SendRootRequest_ShouldRedirect()
         {
             const string expectedName = "TestUser";
             const string expectedReturnUrl = "/";
@@ -361,7 +360,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ILogger<AccountController>>();
             var signInManagerMock = new Mock<SignInManagerMock>();
             signInManagerMock
-                .Setup(s => s.SignOutAsync());
+                .Setup(_ => _.SignOutAsync());
             var controller = new AccountController(new UserManagerMock(), signInManagerMock.Object, loggerStub)
             {
                 ControllerContext = new ControllerContext
@@ -381,13 +380,13 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedReturnUrl, redirectResult.Url);
             signInManagerMock
-                .Verify(s => s.SignOutAsync());
+                .Verify(_ => _.SignOutAsync());
             signInManagerMock
                 .Verify();
         }
 
         [TestMethod]
-        public void AccessDenied_Returns_Correct()
+        public void AccessDenied_SendRequest_ShouldView()
         {
             var loggerStub = Mock
                 .Of<ILogger<AccountController>>();

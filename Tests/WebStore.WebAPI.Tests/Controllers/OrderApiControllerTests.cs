@@ -19,12 +19,12 @@ namespace WebStore.WebAPI.Tests.Controllers
         #region Тестирование апи контроллера заказов
 
         [TestMethod]
-        public void GetUserOrders_Returns_Correct()
+        public void GetUserOrders_SendRequest_ShouldOkObject()
         {
             const string expectedName = "Test Name";
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
-                .Setup(o => o.GetUserOrders(It.IsAny<string>()))
+                .Setup(_ => _.GetUserOrders(It.IsAny<string>()))
                 .ReturnsAsync((string name) =>
                 {
                     Task.Delay(1000).Wait();
@@ -33,7 +33,7 @@ namespace WebStore.WebAPI.Tests.Controllers
                         new Order
                         {
                             Id = 1,
-                            Name = expectedName,
+                            Name = name,
                             Items = Array.Empty<OrderItem>(),
                         },
                     };
@@ -51,25 +51,25 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, values.FirstOrDefault()!.Name);
             orderServiceMock
-                .Verify(o => o.GetUserOrders(It.IsAny<string>()), Times.Once);
+                .Verify(_ => _.GetUserOrders(It.IsAny<string>()), Times.Once);
             orderServiceMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetUserById_Returns_Correct()
+        public void GetUserById_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "Test Name";
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
-                .Setup(o => o.GetOrderById(It.IsAny<int>()))
+                .Setup(_ => _.GetOrderById(It.IsAny<int>()))
                 .ReturnsAsync((int i) =>
                 {
                     Task.Delay(1000).Wait();
                     return new Order
                     {
-                        Id = 1,
+                        Id = i,
                         Name = expectedName,
                         Items = Array.Empty<OrderItem>(),
                     };
@@ -87,20 +87,20 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedId, value.Id);
             orderServiceMock
-                .Verify(o => o.GetOrderById(It.IsAny<int>()));
+                .Verify(_ => _.GetOrderById(It.IsAny<int>()));
             orderServiceMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void CreateOrder_Returns_Correct()
+        public void CreateOrder_SendRequest_ShouldOkObject()
         {
             const string expectedName = "Test name";
             const string expectedPhone = "999";
             const string expectedAddress = "Address";
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
-                .Setup(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
+                .Setup(_ => _.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
                     It.IsAny<CreateOrderWebModel>()))
                 .ReturnsAsync((string name, CartWebModel cart, CreateOrderWebModel order) => {
                     Task.Delay(1000).Wait();
@@ -139,7 +139,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedAddress, value.Address);
             orderServiceMock
-                .Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
+                .Verify(_ => _.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(),
                     It.IsAny<CreateOrderWebModel>()), Times.Once);
             orderServiceMock
                 .VerifyNoOtherCalls();

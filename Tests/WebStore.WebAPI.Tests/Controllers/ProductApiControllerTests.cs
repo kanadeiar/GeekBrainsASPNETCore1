@@ -21,13 +21,13 @@ namespace WebStore.WebAPI.Tests.Controllers
         #region Тестирование веб апи контроллера товаров
 
         [TestMethod]
-        public void GetSections_Returns_Correct()
+        public void GetSections_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "TestSection";
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetSections())
+                .Setup(_ => _.GetSections())
                 .ReturnsAsync(() =>
                 {
                     Task.Delay(1000).Wait();
@@ -50,31 +50,31 @@ namespace WebStore.WebAPI.Tests.Controllers
             var viewResult = (OkObjectResult) result;
             Assert
                 .IsInstanceOfType(viewResult.Value, typeof(IEnumerable<SectionDTO>));
-            var sections = (IEnumerable<SectionDTO>)viewResult.Value;
+            var sections = (IEnumerable<SectionDTO>) viewResult.Value;
             Assert
                 .AreEqual(expectedId, sections.FirstOrDefault().Id);
             Assert
                 .AreEqual(expectedName, sections.FirstOrDefault().Name);
             productDataMock
-                .Verify(p => p.GetSections(), Times.Once);
+                .Verify(_ => _.GetSections(), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetSectionById_Returns_Correct()
+        public void GetSectionById_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "TestSection";
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetSection(expectedId))
+                .Setup(_ => _.GetSection(expectedId))
                 .ReturnsAsync((int i) =>
                 {
                     Task.Delay(1000).Wait();
                     return new Section
                     {
-                        Id = expectedId,
+                        Id = i,
                         Name = expectedName,
                         Products = Array.Empty<Product>(),
                     };
@@ -94,19 +94,19 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, section.Name);
             productDataMock
-                .Verify(p => p.GetSection(expectedId), Times.Once);
+                .Verify(_ => _.GetSection(expectedId), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetBrands_Returns_Correct()
+        public void GetBrands_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "TestBrand";
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetBrands())
+                .Setup(_ => _.GetBrands())
                 .ReturnsAsync(() =>
                 {
                     Task.Delay(1000).Wait();
@@ -135,25 +135,25 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, brands.FirstOrDefault().Name);
             productDataMock
-                .Verify(p => p.GetBrands(), Times.Once);
+                .Verify(_ => _.GetBrands(), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetBrandById_Returns_Correct()
+        public void GetBrandById_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "TestBrand";
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetBrand(expectedId))
+                .Setup(_ => _.GetBrand(expectedId))
                 .ReturnsAsync((int i) =>
                 {
                     Task.Delay(1000).Wait();
                     return new Brand()
                     {
-                        Id = expectedId,
+                        Id = i,
                         Name = expectedName,
                         Products = Array.Empty<Product>(),
                     };
@@ -173,27 +173,27 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, brand.Name);
             productDataMock
-                .Verify(p => p.GetBrand(expectedId), Times.Once);
+                .Verify(_ => _.GetBrand(expectedId), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetProductsFilter_Returns_Correct()
+        public void GetProductsFilter_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "TestProduct";
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), true))
-                .ReturnsAsync((ProductFilter f, bool b) =>
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), true))
+                .ReturnsAsync((ProductFilter f, bool _) =>
                 {
                     Task.Delay(1000).Wait();
                     return new[]
                     {
                         new Product
                         {
-                            Id = expectedId,
+                            Id = f.Ids.FirstOrDefault(),
                             Name = expectedName,
                             OrderItems = Array.Empty<OrderItem>(),
                         },
@@ -201,7 +201,7 @@ namespace WebStore.WebAPI.Tests.Controllers
                 });
             var filter = new ProductFilter
             {
-                Ids = new[] {1},
+                Ids = new[] { 1 },
             };
             var controller = new ProductApiController(productDataMock.Object);
 
@@ -218,25 +218,25 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, products.FirstOrDefault().Name);
             productDataMock
-                .Verify(p => p.GetProducts(filter, true), Times.Once);
+                .Verify(_ => _.GetProducts(filter, true), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetProduct_Returns_Correct()
+        public void GetProduct_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedName = "TestProduct";
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProductById(It.IsAny<int>()))
+                .Setup(_ => _.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync((int i) =>
                 {
                     Task.Delay(1000).Wait();
                     return new Product
                     {
-                        Id = expectedId,
+                        Id = i,
                         Name = expectedName,
                         OrderItems = Array.Empty<OrderItem>(),
                     };
@@ -256,13 +256,13 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, product.Name);
             productDataMock
-                .Verify(p => p.GetProductById(expectedId), Times.Once);
+                .Verify(_ => _.GetProductById(expectedId), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Add_Return_Correct()
+        public void Add_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             var product = new ProductDTO
@@ -276,7 +276,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             };
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.AddProduct(It.IsAny<Product>()))
+                .Setup(_ => _.AddProduct(It.IsAny<Product>()))
                 .ReturnsAsync((Product p) =>
                 {
                     Task.Delay(1000).Wait();
@@ -294,13 +294,13 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedId, (int)viewResult.Value);
             productDataMock
-                .Verify(p => p.AddProduct(It.IsAny<Product>()));
+                .Verify(_ => _.AddProduct(It.IsAny<Product>()));
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Update_Act_Correct()
+        public void Update_SendRequest_ShouldOk()
         {
             const int expectedId = 1;
             const string expectedNewName = "NewTestName";
@@ -316,7 +316,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             };
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.UpdateProduct(It.IsAny<Product>()))
+                .Setup(_ => _.UpdateProduct(It.IsAny<Product>()))
                 .Callback((Product p) => { callbackNewName = p.Name; });
             var controller = new ProductApiController(productDataMock.Object);
 
@@ -327,19 +327,19 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedNewName, callbackNewName);
             productDataMock
-                .Verify(p => p.UpdateProduct(It.IsAny<Product>()));
+                .Verify(_ => _.UpdateProduct(It.IsAny<Product>()));
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void DeleteOk_Return_Correct()
+        public void DeleteOk_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const bool expectedValue = true;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.DeleteProduct(It.IsAny<int>()))
+                .Setup(_ => _.DeleteProduct(It.IsAny<int>()))
                 .ReturnsAsync(true);
             var controller = new ProductApiController(productDataMock.Object);
 
@@ -353,19 +353,19 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedValue, (bool)objectResult.Value);
             productDataMock
-                .Verify(p => p.DeleteProduct(expectedId));
+                .Verify(_ => _.DeleteProduct(expectedId));
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void DeleteFailed_Return_CorrectNotFount()
+        public void DeleteFailed_SendFalseRequest_ShouldNotFound()
         {
             const int expectedId = 1;
             const bool expectedValue = false;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.DeleteProduct(It.IsAny<int>()))
+                .Setup(_ => _.DeleteProduct(It.IsAny<int>()))
                 .ReturnsAsync(false);
             var controller = new ProductApiController(productDataMock.Object);
 
@@ -379,7 +379,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedValue, (bool)objectResult.Value);
             productDataMock
-                .Verify(p => p.DeleteProduct(expectedId));
+                .Verify(_ => _.DeleteProduct(expectedId));
             productDataMock
                 .VerifyNoOtherCalls();
         }

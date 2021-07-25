@@ -19,7 +19,7 @@ namespace WebStore.Tests.Controllers
         #region Тестирование отображения данных пользователя
 
         [TestMethod]
-        public void Index_Returns_Correct()
+        public void Index_SendRequest_ShouldCorrectView()
         {
             var controller = new UserProfileController();
 
@@ -30,7 +30,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Orders_Returns_Correct()
+        public void Orders_SendRequest_ShouldCorrectView()
         {
             const int expectedId = 1;
             const string expectedName = "Test Order";
@@ -38,8 +38,8 @@ namespace WebStore.Tests.Controllers
             const string userName = "TestUser";
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
-                .Setup(o => o.GetUserOrders(userName))
-                .ReturnsAsync((string s) =>
+                .Setup(_ => _.GetUserOrders(userName))
+                .ReturnsAsync((string _) =>
                     Enumerable.Range(1, expectedCount).Select(id => new Order
                     {
                         Id = id,
@@ -72,7 +72,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedName, orders.FirstOrDefault().Name);
             orderServiceMock
-                .Verify(o => o.GetUserOrders(userName), Times.Once);
+                .Verify(_ => _.GetUserOrders(userName), Times.Once);
             orderServiceMock
                 .VerifyNoOtherCalls();
         }

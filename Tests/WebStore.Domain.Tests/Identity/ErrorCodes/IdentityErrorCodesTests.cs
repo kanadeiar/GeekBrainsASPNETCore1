@@ -7,7 +7,7 @@ namespace WebStore.Domain.Tests.Identity.ErrorCodes
     public class IdentityErrorCodesTests
     {
         [TestMethod]
-        public void GetDescription_Get_Correct()
+        public void GetDescription_1Description_ShouldCorrect()
         {
             var expectedValue = "Произошла неизвестная ошибка";
 

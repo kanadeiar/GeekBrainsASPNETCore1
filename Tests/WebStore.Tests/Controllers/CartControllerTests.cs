@@ -20,12 +20,12 @@ namespace WebStore.Tests.Controllers
         #region Тестирование основных методов
 
         [TestMethod]
-        public void Index_Returns_CorrectModel()
+        public void Index_SendRequest_ShouldView()
         {
             var expectedCart = new CartWebModel();
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.GetWebModel())
+                .Setup(_ => _.GetWebModel())
                 .ReturnsAsync(expectedCart);
             var orderServiceStub = Mock
                 .Of<IOrderService>();
@@ -41,17 +41,17 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreSame(expectedCart, model.Cart);
             cartServiceMock
-                .Verify(c => c.GetWebModel(), Times.Once);
+                .Verify(_ => _.GetWebModel(), Times.Once);
             cartServiceMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Add_Act_Correct()
+        public void Add_SendRequestId1_ShouldRedirect()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.Add(It.IsAny<int>()));
+                .Setup(_ => _.Add(It.IsAny<int>()));
             var orderServiceStub = Mock
                 .Of<IOrderService>();
             var loggerStub = Mock
@@ -68,17 +68,17 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
             cartServiceMock
-                .Verify(c => c.Add(It.IsAny<int>()), Times.Once);
+                .Verify(_ => _.Add(It.IsAny<int>()), Times.Once);
             cartServiceMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Subtract_Act_Correct()
+        public void Subtract_SendRequestId1_ShouldRedirect()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.Subtract(It.IsAny<int>()));
+                .Setup(_ => _.Subtract(It.IsAny<int>()));
             var orderServiceStub = Mock
                 .Of<IOrderService>();
             var loggerStub = Mock
@@ -95,17 +95,17 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
             cartServiceMock
-                .Verify(c => c.Subtract(It.IsAny<int>()), Times.Once);
+                .Verify(_ => _.Subtract(It.IsAny<int>()), Times.Once);
             cartServiceMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Remove_Act_Correct()
+        public void Remove_SendRequestId1_ShouldRedirect()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.Remove(It.IsAny<int>()));
+                .Setup(_ => _.Remove(It.IsAny<int>()));
             var orderServiceStub = Mock
                 .Of<IOrderService>();
             var loggerStub = Mock
@@ -122,17 +122,17 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
             cartServiceMock
-                .Verify(c => c.Remove(It.IsAny<int>()), Times.Once);
+                .Verify(_ => _.Remove(It.IsAny<int>()), Times.Once);
             cartServiceMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Clear_Act_Correct()
+        public void Clear_Do_ShouldRedirect()
         {
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.Clear());
+                .Setup(_ => _.Clear());
             var orderServiceStub = Mock
                 .Of<IOrderService>();
             var loggerStub = Mock
@@ -149,7 +149,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(nameof(CartController.Index), redirectResult.ActionName);
             cartServiceMock
-                .Verify(c => c.Clear(), Times.Once);
+                .Verify(_ => _.Clear(), Times.Once);
             cartServiceMock
                 .VerifyNoOtherCalls();
         }
@@ -159,7 +159,7 @@ namespace WebStore.Tests.Controllers
         #region Тестирование метода оформления заказа
 
         [TestMethod]
-        public async Task CheckOut_ModelStateInvalid_Returns_CorrectView()
+        public async Task CheckOut_SendInvalidModelStateRequest_ShouldCorrectView()
         {
             const string expectedOrderName = "Test name order";
             var cartServiceStub = Mock
@@ -188,7 +188,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task CheckOut_ModelStateValid_CallService_And_Redirect()
+        public async Task CheckOut_SendRequest_ShouldCreateAndRedirect()
         {
             const int expectedProductId = 1;
             const string expectedProductName = "Test product";
@@ -201,7 +201,7 @@ namespace WebStore.Tests.Controllers
             const string expectedUserName = "TestUser";
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock
-                .Setup(c => c.GetWebModel())
+                .Setup(_ => _.GetWebModel())
                 .ReturnsAsync(new CartWebModel
                 {
                     Items = new[]{ (new ProductWebModel
@@ -216,7 +216,7 @@ namespace WebStore.Tests.Controllers
                 });
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
-                .Setup(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()))
+                .Setup(_ => _.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()))
                 .ReturnsAsync(new Order
                 {
                     Id = expectedOrderId,
@@ -257,13 +257,13 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedOrderId, redirectResult.RouteValues["Id"]);
             cartServiceMock
-                .Verify(c => c.GetWebModel());
+                .Verify(_ => _.GetWebModel());
             cartServiceMock
-                .Verify(c => c.Clear());
+                .Verify(_ => _.Clear());
             cartServiceMock
                 .VerifyNoOtherCalls();
             orderServiceMock
-                .Verify(o => o.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()));
+                .Verify(_ => _.CreateOrder(It.IsAny<string>(), It.IsAny<CartWebModel>(), It.IsAny<CreateOrderWebModel>()));
             orderServiceMock
                 .VerifyNoOtherCalls();
         }
@@ -273,7 +273,7 @@ namespace WebStore.Tests.Controllers
         #region Тестирование метода подтверждения заказа
 
         [TestMethod]
-        public async Task OrderConfirmed_Returns_Correct()
+        public async Task OrderConfirmed_SendRequest_ShouldView()
         {
             const int expectedOrderId = 1;
             const string expectedName = "Test Name";
@@ -281,7 +281,7 @@ namespace WebStore.Tests.Controllers
                 .Of<ICartService>();
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
-                .Setup(o => o.GetOrderById(It.IsAny<int>()))
+                .Setup(_ => _.GetOrderById(It.IsAny<int>()))
                 .ReturnsAsync(new Order { Name = expectedName });
             var loggerStub = Mock
                 .Of<ILogger<CartController>>();

@@ -18,7 +18,7 @@ namespace WebStore.WebAPI.Client.Tests
     public class WorkerApiClientTests
     {
         [TestMethod]
-        public void GetAll_Returns_Correct()
+        public void GetAll_3Worker_ShouldEnumerable()
         {
             const int expectedId = 1;
             const string expectedFam = "Ivanov";
@@ -61,7 +61,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void Get_Returns_Correct()
+        public void Get_1Worker_ShouldOne()
         {
             const int expectedId = 1;
             const string expectedFam = "Ivanov";
@@ -100,7 +100,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void Add_Returns_Correct()
+        public void Add_CorrectWorker_ShouldCorrectId()
         {
             const int expectedId = 1;
             const string fam = "Ivanov";
@@ -137,7 +137,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void Update_Act_Correct()
+        public void Update_CorrectWorker_ShouldCorrectNewName()
         {
             const int expectedId = 1;
             const string expectedNewFam = "Ivanov";
@@ -178,7 +178,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void DeleteOk_Return_Correct()
+        public void DeleteOk_CorrectId_ShouldTrue()
         {
             const int expectedId = 1;
             const bool expectedValue = true;
@@ -206,7 +206,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void DeleteProductNotFound_Returns_Correct()
+        public void DeleteProductNotFound_NotCorrectId_ShouldFalse()
         {
             const int expectedId = 1;
             const bool expectedValue = false;

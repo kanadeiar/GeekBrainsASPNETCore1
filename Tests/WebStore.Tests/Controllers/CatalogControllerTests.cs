@@ -17,7 +17,7 @@ namespace WebStore.Tests.Controllers
         #region Тестирование списка товаров
 
         [TestMethod]
-        public void Index_Section1_Returns_CorrectView()
+        public void Index_SendSection1Request_ShouldCorrectView()
         {
             const int expectedCountProducts = 3;
             const int expectedIdFirst = 1;
@@ -26,8 +26,8 @@ namespace WebStore.Tests.Controllers
             const int expectedSection = 1;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false).Result)
-                .Returns<ProductFilter, bool>((p, b) => Enumerable.Range(1, expectedCountProducts)
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
+                .Returns<ProductFilter, bool>((_, _) => Enumerable.Range(1, expectedCountProducts)
                     .Select(id => new Product
                     {
                         Id = id,
@@ -71,7 +71,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsNull(firstWebModel.Section);
             productDataMock
-                .Verify(p => p.GetProducts(It.IsAny<ProductFilter>(), false).Result, Times.Once);
+                .Verify(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result, Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
@@ -81,14 +81,14 @@ namespace WebStore.Tests.Controllers
         #region Тестирование детального отображения товара
 
         [TestMethod]
-        public void Details_Returns_CorrectView()
+        public void Details_SendRequest_ShouldCorrectView()
         {
             const int expectedId = 1;
             const string expectedName = "Товар 1";
             const decimal expectedPrice = 10m;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProductById(It.IsAny<int>()))
+                .Setup(_ => _.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync((int id) => new Product
                 {
                     Id = id,
@@ -118,17 +118,17 @@ namespace WebStore.Tests.Controllers
             Assert
                 .AreEqual(expectedPrice, webModel.Price);
             productDataMock
-                .Verify(p => p.GetProductById(It.IsAny<int>()), Times.Once);
+                .Verify(_ => _.GetProductById(It.IsAny<int>()), Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Details_Returns_NotFound()
+        public void Details_SendNullRequest_ShouldNotFound()
         {
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProductById(It.IsAny<int>()))
+                .Setup(_ => _.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync((Product) null);
             var controller = new CatalogController(productDataMock.Object);
 

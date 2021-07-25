@@ -8,7 +8,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
     public class PageWebModelTests
     {
         [TestMethod]
-        public void Create_Normal_Creates_Correct()
+        public void Create_Correct24Elements_ShouldCorrect()
         {
             const int count = 24;
             const int expectedPageNumber = 1;
@@ -41,7 +41,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
         }
 
         [TestMethod]
-        public void Create_Normal14_Creates_Correct()
+        public void Create_Correct14_ShouldCorrect()
         {
             const int count = 14;
             const int expectedPageNumber = 1;
@@ -74,7 +74,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
         }
 
         [TestMethod]
-        public void CreateLast_Normal_Creates_Correct()
+        public void CreateLast_Page4_ShouldCorrect()
         {
             const int count = 24;
             const int expectedPageNumber = 4;
@@ -95,7 +95,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
         }
 
         [TestMethod]
-        public void Create_Max_Creates_Correct()
+        public void Create_MaxSize_ShouldCorrect()
         {
             const int count = Int32.MaxValue;
             const int pageSize = 999;
@@ -128,7 +128,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
         }
 
         [TestMethod]
-        public void Create_Min_Create_Correct()
+        public void Create_MinSize_ShouldCorrect()
         {
             const int count = 2;
             const int pageSize = 9;
@@ -161,7 +161,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
         }
 
         [TestMethod]
-        public void Create_Zero_Create_Correct()
+        public void Create_ZeroSize_ShouldCorrect()
         {
             const int count = 0;
             const int pageSize = 9;

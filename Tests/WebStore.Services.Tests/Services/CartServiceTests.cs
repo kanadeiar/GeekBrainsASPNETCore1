@@ -31,7 +31,7 @@ namespace WebStore.Services.Tests.Services
             };
             _productDataMock = new Mock<IProductData>();
             _productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false).Result)
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
                 .Returns(Enumerable.Range(1, 5).Select(i => new Product
                 {
                     Id = i,
@@ -46,7 +46,7 @@ namespace WebStore.Services.Tests.Services
                 }));
             _cartStoreMock = new Mock<ICartStore>();
             _cartStoreMock
-                .Setup(c => c.Cart)
+                .Setup(_ => _.Cart)
                 .Returns(_cart);
             var loggerStub = Mock
                 .Of<ILogger<CartService>>();
@@ -56,7 +56,7 @@ namespace WebStore.Services.Tests.Services
         #region Тестирование корзины
 
         [TestMethod]
-        public void Add_Correct()
+        public void Add_Id1_ShouldCorrect()
         {
             _cart.Items.Clear();
             const int expId = 1;
@@ -73,7 +73,7 @@ namespace WebStore.Services.Tests.Services
         }
 
         [TestMethod]
-        public void Remove_Correct()
+        public void Remove_Id1_ShouldCorrect()
         {
             const int removedId = 1;
             const int expFirstProductId = 2;
@@ -91,7 +91,7 @@ namespace WebStore.Services.Tests.Services
         }
 
         [TestMethod]
-        public void Clear_Correct()
+        public void Clear_Do_ShouldCorrect()
         {
             _cartService.Clear();
 
@@ -99,7 +99,7 @@ namespace WebStore.Services.Tests.Services
         }
 
         [TestMethod]
-        public void Subtract_Correct()
+        public void Subtract_Id2_ShouldCorrect()
         {
             const int minusId = 2;
             const int expCountItem = 1;
@@ -120,7 +120,7 @@ namespace WebStore.Services.Tests.Services
         }
 
         [TestMethod]
-        public void RemoveItem_When_Decrement_to_0()
+        public void RemoveItem_Id1_ShouldRemoveCorrect()
         {
             const int minusId = 1;
             const int expCount = 4;
@@ -135,7 +135,7 @@ namespace WebStore.Services.Tests.Services
         }
 
         [TestMethod]
-        public void GetWebModel_WorkCorrect()
+        public void GetWebModel_15ItemsCount_ShouldCorrect()
         {
             const int expItemsCount = 15;
             const decimal expFirstProductPrice = 1.1m;

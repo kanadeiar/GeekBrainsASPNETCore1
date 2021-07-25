@@ -19,11 +19,11 @@ namespace WebStore.WebAPI.Client.Tests
     public class OrderApiClientTests
     {
         [TestMethod]
-        public void GetUserOrders_Returns_Correct()
+        public void GetUserOrders_3Order_ShouldEnumerable()
         {
             const int expectedId = 1;
             const string expectedName = "Test";
-            const int expectedCount = 1;
+            const int expectedCount = 3;
             var jsonResponse = JsonConvert.SerializeObject(new[]
                 {
                     new Order
@@ -31,26 +31,10 @@ namespace WebStore.WebAPI.Client.Tests
                         Id = expectedId,
                         Name = expectedName,
                         Items = Array.Empty<OrderItem>(),
-                    }
+                    },
+                    new Order { Items = Array.Empty<OrderItem>() },
+                    new Order { Items = Array.Empty<OrderItem>() },
                 });
-            #region Вариант с использованием библиотеки MockHttp
-
-            //var jsonReturn = JsonConvert.SerializeObject(new[]
-            //{
-            //    new Order
-            //    {
-            //        Id = 1,
-            //        Name = expectedName,
-            //        Items = Array.Empty<OrderItem>(),
-            //    }
-            //});
-            //var mockHttp = new MockHttpMessageHandler();
-            //mockHttp
-            //    .When("*")
-            //    .Respond("application/json",jsonReturn);
-            //var client = new OrderApiClient(new HttpClient(mockHttp) {BaseAddress = new Uri( "http://localost/") });
-
-            #endregion
             var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -71,12 +55,14 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.FirstOrDefault().Id);
             Assert
                 .AreEqual(expectedName, actual.FirstOrDefault().Name);
-            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
-            mockMessageHandler.VerifyNoOtherCalls();
+            mockMessageHandler
+                .Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler
+                .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetOrderById_Returns_Correct()
+        public void GetOrderById_1Order_ShouldOne()
         {
             const int expectedId = 1;
             const string expectedName = "Test";
@@ -105,12 +91,14 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.Id);
             Assert
                 .AreEqual(expectedName, actual.Name);
-            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
-            mockMessageHandler.VerifyNoOtherCalls();
+            mockMessageHandler
+                .Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler
+                .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void CreateOrder_Returns_Correct()
+        public void CreateOrder_CreateAdmin_ShouldOne()
         {
             const int expectedId = 1;
             const string expectedName = "Test";
@@ -132,7 +120,7 @@ namespace WebStore.WebAPI.Client.Tests
             var client = new OrderApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
             var cart = new CartWebModel
             {
-                Items = Enumerable.Range(1, 1).Select(i => (new ProductWebModel { Id = i, Name = $"TestName{i}" }, i, 1.5m)),
+                Items = Enumerable.Range(1, 1).Select(i => ( new ProductWebModel { Id = i, Name = $"TestName{i}" }, i, 1.5m )),
             };
             var order = new CreateOrderWebModel()
             {
@@ -149,8 +137,10 @@ namespace WebStore.WebAPI.Client.Tests
                 .AreEqual(expectedId, actual.Id);
             Assert
                 .AreEqual(expectedName, actual.Name);
-            mockMessageHandler.Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
-            mockMessageHandler.VerifyNoOtherCalls();
+            mockMessageHandler
+                .Protected().Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            mockMessageHandler
+                .VerifyNoOtherCalls();
         }
 
     }

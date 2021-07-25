@@ -9,7 +9,7 @@ namespace WebStore.Domain.Tests.DTO.Mappers
     public class ProductDTOMapperTests
     {
         [TestMethod]
-        public void ToDTO_Null_Return_Null()
+        public void ToDTO_ProductNull_ShouldNull()
         {
             Product product = null;
 
@@ -20,7 +20,7 @@ namespace WebStore.Domain.Tests.DTO.Mappers
         }
 
         [TestMethod]
-        public void FromDTO_Null_Return_Null()
+        public void FromDTO_DTONull_ShouldNull()
         {
             ProductDTO product = null;
 
@@ -31,7 +31,7 @@ namespace WebStore.Domain.Tests.DTO.Mappers
         }
 
         [TestMethod]
-        public void ToDTO_Returns_Correct()
+        public void ToDTO_CorrectProduct_ShouldCorrect()
         {
             const int expectedId = 1;
             const string expectedName = "Test Name";
@@ -78,7 +78,7 @@ namespace WebStore.Domain.Tests.DTO.Mappers
         }
 
         [TestMethod]
-        public void ToDTOWithNull_Returns_Correct()
+        public void ToDTO_WithNullProduct_ShouldCorrect()
         {
             const int expectedId = 1;
             const string expectedName = "Test Name";
@@ -106,7 +106,7 @@ namespace WebStore.Domain.Tests.DTO.Mappers
         }
 
         [TestMethod]
-        public void FromDTO_Returns_Correct()
+        public void FromDTO_CorrectDTO_ShouldCorrect()
         {
             const int expectedId = 1;
             const string expectedName = "Test Name";
@@ -153,7 +153,7 @@ namespace WebStore.Domain.Tests.DTO.Mappers
         }
 
         [TestMethod]
-        public void FromDTOWithNull_Returns_Correct()
+        public void FromDTO_WithNullDTO_ShouldCorrect()
         {
             const int expectedId = 1;
             const string expectedName = "Test Name";

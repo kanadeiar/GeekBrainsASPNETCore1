@@ -8,7 +8,7 @@ namespace WebStore.Domain.Tests.WebModels.Product
     public class ProductSortWebModelTests
     {
         [TestMethod]
-        public void CreateFirst_Created_Correct()
+        public void CreateFirst_CorrectCreate_ShouldCorrect()
         {
             const ProductSortState expectedPrevious = ProductSortState.NameAsc;
             const ProductSortState expectedCurrent = ProductSortState.NameDesc;

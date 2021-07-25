@@ -20,7 +20,7 @@ namespace WebStore.WebAPI.Client.Tests
     public class ProductApiClientTests
     {
         [TestMethod]
-        public void GetSections_Returns_Correct()
+        public void GetSections_3Section_ShouldEnumerable()
         {
             const int expectedId = 1;
             const string expectedName = "TestSection";
@@ -60,7 +60,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void GetSection_Returns_Correct()
+        public void GetSection_1Section_ShouldOne()
         {
             const int expectedId = 1;
             const string expectedName = "TestSection";
@@ -97,7 +97,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void GetBrands_Returns_Correct()
+        public void GetBrands_3Brands_ShouldEnumerable()
         {
             const int expectedId = 1;
             const string expectedName = "TestBrand";
@@ -137,7 +137,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void GetBrand_Returns_Corrent()
+        public void GetBrand_1Brand_ShouldOneBrand()
         {
             const int expectedId = 1;
             const string expectedName = "TestBrand";
@@ -173,7 +173,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void GetProductsFilter_Returns_Correct()
+        public void GetProductsFilter_WithIdsFilter_Should3Products()
         {
             const int expectedId = 1;
             const string expectedName = "TestProduct";
@@ -220,7 +220,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void GetProductById_Returns_Correct()
+        public void GetProductById_Id1_ShouldProduct()
         {
             const int expectedId = 1;
             const string expectedName = "TestProduct";
@@ -259,7 +259,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void AddProduct_Returns_Correct()
+        public void AddProduct_CorrectProduct_ShouldCorrectId()
         {
             const int expectedId = 1;
             const string expectedName = "TestProduct";
@@ -298,7 +298,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void UpdateProduct_Act_Correct()
+        public void UpdateProduct_CorrectProduct_ShouldCorrectNewName()
         {
             const int expectedId = 1;
             const string expectedNewName = "TestProduct";
@@ -336,7 +336,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void DeleteProductOk_Returns_Correct()
+        public void DeleteProductOk_CorrectId_ShouldTrue()
         {
             const int expectedId = 1;
             const bool expectedValue = true;
@@ -364,7 +364,7 @@ namespace WebStore.WebAPI.Client.Tests
         }
 
         [TestMethod]
-        public void DeleteProductNotFound_Returns_Correct()
+        public void DeleteProductNotFound_NotCorrectId_ShouldFalse()
         {
             const int expectedId = 1;
             const bool expectedValue = false;

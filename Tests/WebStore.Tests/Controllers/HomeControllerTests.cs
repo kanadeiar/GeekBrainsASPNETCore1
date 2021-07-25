@@ -19,13 +19,13 @@ namespace WebStore.Tests.Controllers
         #region Тест главного действия
 
         [TestMethod]
-        public void Index_Returns_CorrectView()
+        public void Index_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock
                 .Of<IConfiguration>();
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(s => s.GetProducts(It.IsAny<ProductFilter>(), false).Result)
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
                 .Returns(Enumerable.Empty<Product>());
             var controller = new HomeController(configurationStub);
 
@@ -36,7 +36,7 @@ namespace WebStore.Tests.Controllers
             var viewResult = (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.ViewData["Products"], typeof(IEnumerable<ProductWebModel>));
-            productDataMock.Verify(s => s.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
+            productDataMock.Verify(_ => _.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
             productDataMock.VerifyNoOtherCalls();
         }
 
@@ -45,7 +45,7 @@ namespace WebStore.Tests.Controllers
         #region Тесты второстепенных действий
 
         [TestMethod]
-        public void ProductDetails_Returns_CorrectView()
+        public void ProductDetails_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -56,7 +56,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Checkout_Returns_CorrectView()
+        public void Checkout_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -68,7 +68,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Cart_Returns_CorrectView()
+        public void Cart_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -80,7 +80,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Login_Returns_CorrectView()
+        public void Login_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -92,7 +92,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Blog_Returns_CorrectView()
+        public void Blog_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -104,7 +104,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void BlogSingle_Returns_CorrectView()
+        public void BlogSingle_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -116,7 +116,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void ContactUs_Returns_CorrectView()
+        public void ContactUs_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -128,7 +128,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Error_Returns_CorrectView()
+        public void Error_SendRequest_ShouldCorrectView()
         {
             var configurationStub = Mock.Of<IConfiguration>();
             var controller = new HomeController(configurationStub);
@@ -140,7 +140,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Second_Returns_CorrectString()
+        public void Second_SendRequest_ShouldCorrectString()
         {
             const string expectedString = "Test string";
             var configurationStub = Mock.Of<IConfiguration>();
@@ -160,7 +160,7 @@ namespace WebStore.Tests.Controllers
         #region Тесты действия с выбрасыванием исключения
 
         [TestMethod, ExpectedException(typeof(ApplicationException))]
-        public void Throw_thrown_ApplicationException()
+        public void Throw_SendWithThrownRequest_ShouldApplicationException()
         {
             const string expectedString = "TestErrorMessage";
             var configurationStub = Mock.Of<IConfiguration>();
@@ -170,7 +170,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [TestMethod]
-        public void Throw_Thrown_ApplicationException()
+        public void ThrowTwo_SendWithThrownRequest_ShouldApplicationException()
         {
             const string expectedString = "TestErrorMessage";
             var configurationStub = Mock.Of<IConfiguration>();

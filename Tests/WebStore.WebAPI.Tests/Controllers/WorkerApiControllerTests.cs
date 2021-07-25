@@ -18,14 +18,14 @@ namespace WebStore.WebAPI.Tests.Controllers
         #region Тестирование веб апи контроллера работников
 
         [TestMethod]
-        public void GetAll_Returns_Correct()
+        public void GetAll_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedFam = "Ivanov";
             const string expectedName = "Ivan";
             var workerDataMock = new Mock<IWorkerData>();
             workerDataMock
-                .Setup(w => w.GetAll())
+                .Setup(_ => _.GetAll())
                 .ReturnsAsync(() =>
                 {
                     Task.Delay(1000).Wait();
@@ -56,20 +56,20 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, workers.FirstOrDefault().FirstName);
             workerDataMock
-                .Verify(w => w.GetAll(), Times.Once);
+                .Verify(_ => _.GetAll(), Times.Once);
             workerDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void GetById_Returns_Correct()
+        public void GetById_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string expectedFam = "Ivanov";
             const string expectedName = "Ivan";
             var workerDataMock = new Mock<IWorkerData>();
             workerDataMock
-                .Setup(w => w.Get(It.IsAny<int>()))
+                .Setup(_ => _.Get(It.IsAny<int>()))
                 .ReturnsAsync((int i) =>
                 {
                     Task.Delay(1000).Wait();
@@ -97,20 +97,20 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedName, worker.FirstName);
             workerDataMock
-                .Verify(w => w.Get(It.IsAny<int>()), Times.Once);
+                .Verify(_ => _.Get(It.IsAny<int>()), Times.Once);
             workerDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Add_Returns_Correct()
+        public void Add_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const string fam = "Ivanov";
             const string name = "Ivan";
             var workerDataMock = new Mock<IWorkerData>();
             workerDataMock
-                .Setup(w => w.Add(It.IsAny<Worker>()))
+                .Setup(_ => _.Add(It.IsAny<Worker>()))
                 .ReturnsAsync((Worker w) =>
                 {
                     Task.Delay(1000).Wait();
@@ -132,13 +132,13 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedId, (int)objResult.Value);
             workerDataMock
-                .Verify(w => w.Add(It.IsAny<Worker>()), Times.Once);
+                .Verify(_ => _.Add(It.IsAny<Worker>()), Times.Once);
             workerDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Update_Act_Correct()
+        public void Update_SendRequest_ShouldOk()
         {
             const int expectedId = 1;
             const string expectedNewFam = "Ivanov";
@@ -147,7 +147,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             string callbackNewName = default;
             var workerDataMock = new Mock<IWorkerData>();
             workerDataMock
-                .Setup(w => w.Update(It.IsAny<Worker>()))
+                .Setup(_ => _.Update(It.IsAny<Worker>()))
                 .Callback((Worker p) =>
                 {
                     Task.Delay(1000).Wait();
@@ -171,19 +171,19 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedNewName, callbackNewName);
             workerDataMock
-                .Verify(w => w.Update(It.IsAny<Worker>()));
+                .Verify(_ => _.Update(It.IsAny<Worker>()));
             workerDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void DeleteOk_Return_Correct()
+        public void DeleteOk_SendRequest_ShouldOkObject()
         {
             const int expectedId = 1;
             const bool expectedValue = true;
             var workerDataMock = new Mock<IWorkerData>();
             workerDataMock
-                .Setup(w => w.Delete(expectedId))
+                .Setup(_ => _.Delete(expectedId))
                 .ReturnsAsync(true);
             var controller = new WorkerApiController(workerDataMock.Object);
 
@@ -197,19 +197,19 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedValue, (bool)objResult.Value);
             workerDataMock
-                .Verify(w => w.Delete(expectedId));
+                .Verify(_ => _.Delete(expectedId));
             workerDataMock
                 .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void DeleteFailed_Return_CorrectNotFount()
+        public void DeleteFailed_SendFakeRequest_ShouldNotFound()
         {
             const int expectedId = 1;
             const bool expectedValue = false;
             var workerDataMock = new Mock<IWorkerData>();
             workerDataMock
-                .Setup(w => w.Delete(expectedId))
+                .Setup(_ => _.Delete(expectedId))
                 .ReturnsAsync(false);
             var controller = new WorkerApiController(workerDataMock.Object);
 
@@ -223,7 +223,7 @@ namespace WebStore.WebAPI.Tests.Controllers
             Assert
                 .AreEqual(expectedValue, (bool)objResult.Value);
             workerDataMock
-                .Verify(w => w.Delete(expectedId));
+                .Verify(_ => _.Delete(expectedId));
             workerDataMock
                 .VerifyNoOtherCalls();
         }
