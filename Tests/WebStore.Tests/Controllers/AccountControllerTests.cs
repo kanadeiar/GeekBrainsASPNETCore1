@@ -195,7 +195,7 @@ namespace WebStore.Tests.Controllers
             const string expectedErrorMessage = "Message";
             var loggerStub = Mock
                 .Of<ILogger<AccountController>>();
-            LoginWebModel expectedModel = new LoginWebModel();
+            var expectedModel = new LoginWebModel();
             var controller = new AccountController(new UserManagerMock(), new SignInManagerMock(), loggerStub);
             controller.ModelState.AddModelError(expectedErrorCode, expectedErrorMessage);
 
@@ -221,7 +221,7 @@ namespace WebStore.Tests.Controllers
                 .Setup(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Success);
-            LoginWebModel model = new LoginWebModel
+            var model = new LoginWebModel
             {
                 UserName = expectedUserName,
                 Password = expectedPassword,
@@ -256,7 +256,7 @@ namespace WebStore.Tests.Controllers
                 .Setup(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Success);
-            LoginWebModel model = new LoginWebModel
+            var model = new LoginWebModel
             {
                 UserName = expectedUserName,
                 Password = expectedPassword,
@@ -290,7 +290,7 @@ namespace WebStore.Tests.Controllers
                 .Setup(_ => _.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(),
                     It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Failed);
-            LoginWebModel model = new LoginWebModel
+            var model = new LoginWebModel
             {
                 UserName = expectedUserName,
                 Password = expectedPassword,
