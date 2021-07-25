@@ -27,35 +27,14 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
         [TestMethod]
         public async Task GetProducts_SendRequest_ReplaceContext_ShouldOk()
         {
-            Mock<IProductData> productDataMock = null;
             var webHost = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureTestServices(services =>
                     {
-                        //var descriptor = services
-                        //    .SingleOrDefault(_ => _.ServiceType == typeof(IWorkerData));
                         var descriptor = services
                             .SingleOrDefault(_ => _.ServiceType == typeof(DbContextOptions<WebStoreContext>));
                         services.Remove(descriptor);
-                        //productDataMock = new Mock<IProductData>();
-                        //productDataMock
-                        //    .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), It.IsAny<bool>()))
-                        //    .ReturnsAsync((ProductFilter filter, bool _) =>
-                        //    {
-                        //        return Enumerable.Range(1, 3)
-                        //            .Select(i => new Product
-                        //            {
-                        //                Id = i, 
-                        //                Name = "Товар",
-                        //                SectionId = 1,
-                        //                Section = new Section { Id = 1 },
-                        //                BrandId = 1,
-                        //                Brand = new Brand { Id = 1 },
-                        //                OrderItems = Array.Empty<OrderItem>(),
-                        //            });
-                        //    });
-                        //services.AddTransient(_ => productDataMock.Object);
                         services.AddDbContext<WebStoreContext>(options =>
                         {
                             options.UseInMemoryDatabase(nameof(WebStoreContext));
@@ -76,18 +55,13 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
                     Brand = new Brand (),
                     OrderItems = Array.Empty<OrderItem>(),
                 }));
-            testContext!.SaveChanges();
-
+            await testContext!.SaveChangesAsync();
             var filter = new ProductFilter();
             var httpClient = webHost.CreateClient();
 
             var response = await httpClient.PostAsJsonAsync("Api/Product", filter);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            //productDataMock.Verify(_ => _.GetProducts(It.IsAny<ProductFilter>(), It.IsAny<bool>()));
-            //productDataMock.Verify();
         }
-
-
     }
 }
