@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\WebStore.WebAPI\WebStore.WebAPI.csproj" />
     <ProjectReference Include="..\..\UI\WebStore\WebStore.csproj" />
   </ItemGroup>
 
