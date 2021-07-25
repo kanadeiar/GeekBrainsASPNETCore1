@@ -32,6 +32,7 @@ namespace WebStore.Dal.DataInit
             _roleManager = roleManager;
             _logger = logger;
         }
+        public WebStoreDataInit() { }
         /// <summary> Пересоздание базы данных </summary>
         public IWebStoreDataInit RecreateDatabase()
         {
@@ -44,6 +45,8 @@ namespace WebStore.Dal.DataInit
         /// <summary> Заполнение начальными данными </summary>
         public IWebStoreDataInit InitData()
         {
+            if (_context is null)
+                return this;
             var timer = Stopwatch.StartNew();
             if (_context.Database.GetPendingMigrations().Any())
             {
