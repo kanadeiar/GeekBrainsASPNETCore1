@@ -23,14 +23,15 @@ namespace WebStore.Domain.Tests.Entities
         }
 
         [TestMethod]
-        public void ItemsCount_Returns_Correct()
+        public void ItemsCount_5CartItem_Should5()
         {
             var cart = _cart;
-            var expectedCount = _cart.Items.Sum(i => i.Quantity);
+            const int expectedCount = 15;
 
             var actualCount = cart.ItemsSum;
 
-            Assert.AreEqual(expectedCount, actualCount);
+            Assert
+                .AreEqual(expectedCount, actualCount);
         }
     }
 }

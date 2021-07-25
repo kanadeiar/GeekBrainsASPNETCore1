@@ -10,7 +10,7 @@ namespace WebStore.Domain.Tests.WebModels
     public class CartWebModelTests
     {
         [TestMethod]
-        public void CartWebModel_ItemsCount_Returns_Correct()
+        public void CartWebModel_3Items_ShouldCorrectItemsSum()
         {
             const int expectedCount = 3;
             var cartWebModel = new CartWebModel
@@ -23,11 +23,12 @@ namespace WebStore.Domain.Tests.WebModels
 
             var actualCount = cartWebModel.ItemsSum;
 
-            Assert.AreEqual(expectedCount, actualCount);
+            Assert
+                .AreEqual(expectedCount, actualCount);
         }
 
         [TestMethod]
-        public void CartWebModel_Returns_Correct_TotalPrice()
+        public void CartWebModel_3Items_ShouldCorrectPriceSum()
         {
             var cartWebModel = new CartWebModel
             {
@@ -40,7 +41,8 @@ namespace WebStore.Domain.Tests.WebModels
 
             var actualTotalPrice = cartWebModel.PriceSum;
 
-            Assert.AreEqual(expectedTotalPrice, actualTotalPrice);
+            Assert
+                .AreEqual(expectedTotalPrice, actualTotalPrice);
         }
     }
 }

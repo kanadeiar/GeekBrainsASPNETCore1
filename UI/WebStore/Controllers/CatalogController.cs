@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
@@ -20,7 +21,7 @@ namespace WebStore.Controllers
         {
             _productData = productData;
         }
-        public IActionResult Index(int? brandId, int? sectionId, int page = 1)
+        public async Task<IActionResult> Index(int? brandId, int? sectionId, int page = 1)
         {
             var filter = new ProductFilter()
             {
@@ -28,7 +29,7 @@ namespace WebStore.Controllers
                 BrandId = brandId,
             };
 
-            var products = _productData.GetProducts(filter);
+            var products = await _productData.GetProducts(filter);
 
             int pageSize = 9;
             var count = products.Count();
@@ -46,9 +47,9 @@ namespace WebStore.Controllers
             return View(catalogView);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var product = _productData.GetProductById(id);
+            var product = await _productData.GetProductById(id);
             if (product is null)
                 return NotFound();
 

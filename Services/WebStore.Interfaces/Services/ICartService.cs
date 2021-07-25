@@ -1,4 +1,5 @@
-﻿using WebStore.Domain.WebModels.Cart;
+﻿using System.Threading.Tasks;
+using WebStore.Domain.WebModels.Cart;
 
 namespace WebStore.Interfaces.Services
 {
@@ -8,6 +9,6 @@ namespace WebStore.Interfaces.Services
         void Subtract(int id);
         void Remove(int id);
         void Clear();
-        CartWebModel GetWebModel();
+        Task<CartWebModel> GetWebModel();
     }
 }

@@ -21,7 +21,7 @@ namespace WebStore.Controllers
         }
         public IActionResult Index()
         {
-            return View(new CartOrderWebModel{Cart = _cartService.GetWebModel()});
+            return View(new CartOrderWebModel{ Cart = _cartService.GetWebModel().Result });
         }
         public IActionResult Add(int id)
         {
@@ -61,9 +61,9 @@ namespace WebStore.Controllers
         {
             if (!ModelState.IsValid)
                 return View(nameof(Index), 
-                    new CartOrderWebModel {Cart = _cartService.GetWebModel(), Order = model});
+                    new CartOrderWebModel {Cart = _cartService.GetWebModel().Result, Order = model});
 
-            var order = await _orderService.CreateOrder(User.Identity!.Name, _cartService.GetWebModel(), model);
+            var order = await _orderService.CreateOrder(User.Identity!.Name, _cartService.GetWebModel().Result, model);
             
             _cartService.Clear();
 

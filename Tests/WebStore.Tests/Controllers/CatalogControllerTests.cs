@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -21,7 +17,7 @@ namespace WebStore.Tests.Controllers
         #region Тестирование списка товаров
 
         [TestMethod]
-        public void Index_Section1_Returns_CorrectView()
+        public void Index_SendSection1Request_ShouldCorrectView()
         {
             const int expectedCountProducts = 3;
             const int expectedIdFirst = 1;
@@ -30,8 +26,8 @@ namespace WebStore.Tests.Controllers
             const int expectedSection = 1;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false))
-                .Returns<ProductFilter, bool>((p, b) => Enumerable.Range(1, expectedCountProducts)
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
+                .Returns<ProductFilter, bool>((_, _) => Enumerable.Range(1, expectedCountProducts)
                     .Select(id => new Product
                     {
                         Id = id,
@@ -46,8 +42,8 @@ namespace WebStore.Tests.Controllers
             var result = controller.Index(null, 1);
 
             Assert
-                .IsInstanceOfType(result, typeof(ViewResult));
-            var viewResult = (ViewResult) result;
+                .IsInstanceOfType(result.Result, typeof(ViewResult));
+            var viewResult =  (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(CatalogWebModel));
             var catalogWebModel = (CatalogWebModel) viewResult.Model;
@@ -75,7 +71,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsNull(firstWebModel.Section);
             productDataMock
-                .Verify(p => p.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
+                .Verify(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result, Times.Once);
             productDataMock
                 .VerifyNoOtherCalls();
         }
@@ -85,15 +81,15 @@ namespace WebStore.Tests.Controllers
         #region Тестирование детального отображения товара
 
         [TestMethod]
-        public void Details_Returns_CorrectView()
+        public void Details_SendRequest_ShouldCorrectView()
         {
             const int expectedId = 1;
             const string expectedName = "Товар 1";
             const decimal expectedPrice = 10m;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProductById(It.IsAny<int>()))
-                .Returns<int>(id => new Product
+                .Setup(_ => _.GetProductById(It.IsAny<int>()))
+                .ReturnsAsync((int id) => new Product
                 {
                     Id = id,
                     Name = $"Товар {id}",
@@ -110,8 +106,8 @@ namespace WebStore.Tests.Controllers
             var result = controller.Details(expectedId);
             
             Assert
-                .IsInstanceOfType(result, typeof(ViewResult));
-            var viewResult = (ViewResult) result;
+                .IsInstanceOfType(result.Result, typeof(ViewResult));
+            var viewResult = (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(ProductWebModel));
             var webModel = (ProductWebModel) viewResult.Model;
@@ -121,23 +117,25 @@ namespace WebStore.Tests.Controllers
                 .AreEqual(expectedName, webModel.Name);
             Assert
                 .AreEqual(expectedPrice, webModel.Price);
-            productDataMock.Verify(p => p.GetProductById(It.IsAny<int>()), Times.Once);
-            productDataMock.VerifyNoOtherCalls();
+            productDataMock
+                .Verify(_ => _.GetProductById(It.IsAny<int>()), Times.Once);
+            productDataMock
+                .VerifyNoOtherCalls();
         }
 
         [TestMethod]
-        public void Details_Returns_NotFound()
+        public void Details_SendNullRequest_ShouldNotFound()
         {
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(p => p.GetProductById(It.IsAny<int>()))
-                .Returns((Product) null);
+                .Setup(_ => _.GetProductById(It.IsAny<int>()))
+                .ReturnsAsync((Product) null);
             var controller = new CatalogController(productDataMock.Object);
 
             var result = controller.Details(1);
 
             Assert
-                .IsInstanceOfType(result, typeof(NotFoundResult));
+                .IsInstanceOfType(result.Result, typeof(NotFoundResult));
         }
 
         #endregion

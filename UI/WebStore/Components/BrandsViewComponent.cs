@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.WebModels;
 using WebStore.Interfaces.Services;
@@ -12,9 +13,9 @@ namespace WebStore.Components
         {
             _productData = productData;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var brandsViews = _productData.GetBrands().OrderBy(b => b.Order).Select(b => new BrandWebModel
+            var brandsViews = (await _productData.GetBrands()).OrderBy(b => b.Order).Select(b => new BrandWebModel
             {
                 Id = b.Id,
                 Name = b.Name,

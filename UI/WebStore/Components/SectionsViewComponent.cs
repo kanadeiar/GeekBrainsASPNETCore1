@@ -16,9 +16,9 @@ namespace WebStore.Components
             _productData = productData;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var all = _productData.GetSections();
+            var all = await _productData.GetSections();
             
             var parents = all.Where(p => p.ParentId == null);
             var patentsViews = parents.Select(p => new SectionWebModel

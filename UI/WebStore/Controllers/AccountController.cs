@@ -111,7 +111,6 @@ namespace WebStore.Controllers
             return View();
         }
 
-
         #endregion
 
         #region Выход из системы

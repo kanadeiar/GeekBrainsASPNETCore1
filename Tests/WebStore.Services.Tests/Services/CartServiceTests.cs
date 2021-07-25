@@ -31,7 +31,7 @@ namespace WebStore.Services.Tests.Services
             };
             _productDataMock = new Mock<IProductData>();
             _productDataMock
-                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>(), false))
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
                 .Returns(Enumerable.Range(1, 5).Select(i => new Product
                 {
                     Id = i,
@@ -45,14 +45,18 @@ namespace WebStore.Services.Tests.Services
                     Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
                 }));
             _cartStoreMock = new Mock<ICartStore>();
-            _cartStoreMock.Setup(c => c.Cart).Returns(_cart);
+            _cartStoreMock
+                .Setup(_ => _.Cart)
+                .Returns(_cart);
             var loggerStub = Mock
                 .Of<ILogger<CartService>>();
             _cartService = new CartService(_cartStoreMock.Object, _productDataMock.Object, loggerStub);
         }
 
+        #region Тестирование корзины
+
         [TestMethod]
-        public void Add_Correct()
+        public void Add_Id1_ShouldCorrect()
         {
             _cart.Items.Clear();
             const int expId = 1;
@@ -60,13 +64,16 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Add(expId);
 
-            Assert.AreEqual(expCount, _cart.ItemsSum);
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expId, _cart.Items.First().ProductId);
+            Assert
+                .AreEqual(expCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expId, _cart.Items.First().ProductId);
         }
 
         [TestMethod]
-        public void Remove_Correct()
+        public void Remove_Id1_ShouldCorrect()
         {
             const int removedId = 1;
             const int expFirstProductId = 2;
@@ -75,13 +82,16 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Remove(removedId);
 
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expItemsCount, _cart.ItemsSum);
-            Assert.AreEqual(expFirstProductId, _cart.Items.First().ProductId);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expItemsCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expFirstProductId, _cart.Items.First().ProductId);
         }
 
         [TestMethod]
-        public void Clear_Correct()
+        public void Clear_Do_ShouldCorrect()
         {
             _cartService.Clear();
 
@@ -89,7 +99,7 @@ namespace WebStore.Services.Tests.Services
         }
 
         [TestMethod]
-        public void Subtract_Correct()
+        public void Subtract_Id2_ShouldCorrect()
         {
             const int minusId = 2;
             const int expCountItem = 1;
@@ -98,15 +108,19 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Subtract(minusId);
 
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expItemsCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expItemsCount, _cart.ItemsSum);
             var items = _cart.Items.ToImmutableArray();
-            Assert.AreEqual(minusId, items[1].ProductId);
-            Assert.AreEqual(expCountItem, items[1].Quantity);
+            Assert
+                .AreEqual(minusId, items[1].ProductId);
+            Assert
+                .AreEqual(expCountItem, items[1].Quantity);
         }
 
         [TestMethod]
-        public void RemoveItem_When_Decrement_to_0()
+        public void RemoveItem_Id1_ShouldRemoveCorrect()
         {
             const int minusId = 1;
             const int expCount = 4;
@@ -114,20 +128,26 @@ namespace WebStore.Services.Tests.Services
 
             _cartService.Subtract(minusId);
 
-            Assert.AreEqual(expCount, _cart.Items.Count);
-            Assert.AreEqual(expItemsCount, _cart.ItemsSum);
+            Assert
+                .AreEqual(expCount, _cart.Items.Count);
+            Assert
+                .AreEqual(expItemsCount, _cart.ItemsSum);
         }
 
         [TestMethod]
-        public void GetWebModel_WorkCorrect()
+        public void GetWebModel_15ItemsCount_ShouldCorrect()
         {
             const int expItemsCount = 15;
             const decimal expFirstProductPrice = 1.1m;
 
             var result = _cartService.GetWebModel();
 
-            Assert.AreEqual(expItemsCount, result.ItemsSum);
-            Assert.AreEqual(expFirstProductPrice, result.Items.First().Product.Price);
+            Assert
+                .AreEqual(expItemsCount, result.Result.ItemsSum);
+            Assert
+                .AreEqual(expFirstProductPrice, result.Result.Items.First().Product.Price);
         }
+
+        #endregion
     }
 }

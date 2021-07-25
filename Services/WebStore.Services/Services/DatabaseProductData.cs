@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
@@ -21,21 +22,21 @@ namespace WebStore.Services.Services
             _logger = logger;
         }
 
-        public IEnumerable<Section> GetSections() => _context.Sections.Include(s => s.Products);
-        public Section GetSection(int id)
+        public async Task<IEnumerable<Section>> GetSections() => await _context.Sections.Include(s => s.Products).ToArrayAsync().ConfigureAwait(false);
+        public async Task<Section> GetSection(int id)
         {
-            return _context.Sections
-                .Include(s => s.Products).FirstOrDefault(s => s.Id == id);
+            return await _context.Sections
+                .Include(s => s.Products).FirstOrDefaultAsync(s => s.Id == id).ConfigureAwait(false);
         }
         
-        public IEnumerable<Brand> GetBrands() => _context.Brands.Include(s => s.Products);
-        public Brand GetBrand(int id)
+        public async Task<IEnumerable<Brand>> GetBrands() => await _context.Brands.Include(s => s.Products).ToArrayAsync().ConfigureAwait(false);
+        public async Task<Brand> GetBrand(int id)
         {
-            return _context.Brands
-                .Include(b => b.Products).FirstOrDefault(b => b.Id == id);
+            return await _context.Brands
+                .Include(b => b.Products).FirstOrDefaultAsync(b => b.Id == id).ConfigureAwait(false);
         }
         
-        public IEnumerable<Product> GetProducts(IProductFilter productFilter = null, bool includes = false)
+        public async Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             IQueryable<Product> query = (includes) 
                 ? _context.Products
@@ -56,26 +57,27 @@ namespace WebStore.Services.Services
                     query = query.Where(q => q.BrandId == brandId);
             }
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
-            return query;
+            return await query.ToArrayAsync().ConfigureAwait(false);
         }
-        public Product GetProductById(int id) => _context.Products
+
+        public async Task<Product> GetProductById(int id) => await _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Section)
-                .SingleOrDefault(p => p.Id == id);
+                .SingleOrDefaultAsync(p => p.Id == id).ConfigureAwait(false);
 
-        public int AddProduct(Product product)
+        public async Task<int> AddProduct(Product product)
         {
             if (product is null)
                 throw new ArgumentNullException(nameof(product));
             _context.Add(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
             _logger.LogInformation($"Товар {product.Id} {product.Name} успешно добавлен в базу данных");
             #endregion
             return product.Id;
         }
 
-        public void UpdateProduct(Product product)
+        public async Task UpdateProduct(Product product)
         {
             if (product is null)
                 throw new ArgumentNullException(nameof(product));
@@ -83,7 +85,7 @@ namespace WebStore.Services.Services
                 _context.Update(product);
             else
             {
-                var origin = _context.Products.Find(product.Id);
+                var origin = await _context.Products.FindAsync(product.Id).ConfigureAwait(false);
                 origin.Name = product.Name;
                 origin.Order = product.Order;
                 origin.SectionId = product.SectionId;
@@ -92,15 +94,15 @@ namespace WebStore.Services.Services
                 origin.ImageUrl = product.ImageUrl;
                 _context.Update(origin);
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
             _logger.LogInformation($"Товар {product.Id} {product.Name} успешно обновлен в базе данных");
             #endregion
         }
 
-        public bool DeleteProduct(int id)
+        public async Task<bool> DeleteProduct(int id)
         {
-            if (GetProductById(id) is not { } product)
+            if (await GetProductById(id).ConfigureAwait(false) is not { } product)
             {
                 #region Лог
                 _logger.LogError($"Товар с идентификатором {id} не удалось удалить из базы данных");
@@ -108,7 +110,7 @@ namespace WebStore.Services.Services
                 return false;
             }                
             _context.Remove(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             #region Лог
             _logger.LogInformation($"Товар {id} {product.Name} успешно удален из базы данных");
             #endregion

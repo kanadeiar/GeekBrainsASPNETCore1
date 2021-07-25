@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities;
@@ -84,9 +85,9 @@ namespace WebStore.Services.Services
             _cartStore.Cart = cart;
         }
 
-        public CartWebModel GetWebModel()
+        public async Task<CartWebModel> GetWebModel()
         {
-            var products = _productData.GetProducts(new ProductFilter
+            var products = await _productData.GetProducts(new ProductFilter
             {
                 Ids = _cartStore.Cart.Items.Select(i => i.ProductId).ToArray()
             });

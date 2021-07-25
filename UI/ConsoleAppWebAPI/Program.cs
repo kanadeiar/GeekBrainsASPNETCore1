@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using WebStore.WebAPI.Client.Values;
+using WebStore.WebAPI.Client;
 
 namespace ConsoleAppWebAPI
 {
