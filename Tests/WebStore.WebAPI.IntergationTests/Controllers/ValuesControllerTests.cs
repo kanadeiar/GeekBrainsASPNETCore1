@@ -10,7 +10,7 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
     public class ValuesControllerTests
     {
         [TestMethod]
-        public async Task Get_SendRequest_ShouldOk()
+        public async Task Get_SendRequest_StandardHost_ShouldOk()
         {
             WebApplicationFactory<Startup> webHost = new WebApplicationFactory<Startup>().WithWebHostBuilder(_ => {});
             HttpClient httpClient = webHost.CreateClient();
