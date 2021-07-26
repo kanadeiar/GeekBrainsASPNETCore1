@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
@@ -21,8 +22,9 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
     public class ProductApiControllerTests
     {
         [TestMethod]
-        public async Task GetProducts_SendRequest_ReplaceContext_ShouldOk()
+        public async Task GetProduct_SendRequest_ReplaceContext_ShouldOk()
         {
+            const int expectedId = 1;
             var webHost = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
                 {
@@ -52,12 +54,58 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
                     OrderItems = Array.Empty<OrderItem>(),
                 }));
             await testContext!.SaveChangesAsync();
+            var httpClient = webHost.CreateClient();
+
+            var response = await httpClient.GetAsync($"Api/Product/{expectedId}");
+
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            var result = await response.Content.ReadFromJsonAsync<Product>();
+            Assert.AreEqual(expectedId, result.Id);
+        }
+
+        [TestMethod]
+        public async Task GetProducts_SendRequest_ReplaceContext_ShouldOk()
+        {
+            const int expectedId = 1;
+            const int expectedCount = 3;
+            var webHost = new WebApplicationFactory<Startup>()
+                .WithWebHostBuilder(builder =>
+                {
+                    builder.ConfigureTestServices(services =>
+                    {
+                        var descriptor = services
+                            .SingleOrDefault(_ => _.ServiceType == typeof(DbContextOptions<WebStoreContext>));
+                        services.Remove(descriptor);
+                        services.AddDbContext<WebStoreContext>(options =>
+                        {
+                            options.UseInMemoryDatabase(nameof(WebStoreContext));
+                        });
+                        var descriptorInitializer =
+                            services.SingleOrDefault(_ => _.ServiceType == typeof(IWebStoreDataInit));
+                        services.Remove(descriptorInitializer);
+                        services.AddTransient(_ => Mock.Of<IWebStoreDataInit>());
+                    });
+                });
+            var testContext = webHost
+                .Services.CreateScope().ServiceProvider.GetService<WebStoreContext>();
+            testContext!.Products.AddRange(
+                Enumerable.Range(1, expectedCount).Select(i => new Product
+                {
+                    Name = "Товар",
+                    Section = new Section (),
+                    Brand = new Brand (),
+                    OrderItems = Array.Empty<OrderItem>(),
+                }));
+            await testContext!.SaveChangesAsync();
             var filter = new ProductFilter();
             var httpClient = webHost.CreateClient();
 
             var response = await httpClient.PostAsJsonAsync("Api/Product", filter);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<Product>>();
+            //Assert.AreEqual(expectedCount, result.Count()); TODO: как-то странно здесь работает тест
+            Assert.AreEqual(expectedId, result.FirstOrDefault().Id);
         }
     }
 }
