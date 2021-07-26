@@ -19,6 +19,7 @@ namespace WebStore.IntegrationTests.WebStoreWebAPITestDrivers.Controllers
     /// <summary> Драйвер для веб апи сервиса </summary>
     public class WebStoreContextDriver
     {
+        /// <summary> Получение всех товаров </summary>
         public async Task<HttpResponseMessage> GetProducts(ProductFilter filter = null, int count = 3)
         {
             var webHost = new WebApplicationFactory<WebAPI.Startup>()
