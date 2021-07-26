@@ -20,7 +20,7 @@
         </li>
         <li><a asp-controller="Home" asp-action="Error">404</a></li>
         <li><a asp-controller="Workers" asp-action="Index">Сотрудники</a></li>
-        <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
+        <li><a my-active-route asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
         <li><a asp-controller="WebAPI" asp-action="Index" class="@IsActive("WebAPI")">WebAPI</a></li>
     </ul>
 </div>
