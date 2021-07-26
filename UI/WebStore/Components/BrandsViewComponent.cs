@@ -13,7 +13,7 @@ namespace WebStore.Components
         {
             _productData = productData;
         }
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string brandId)
         {
             var brandsViews = (await _productData.GetBrands()).OrderBy(b => b.Order).Select(b => new BrandWebModel
             {

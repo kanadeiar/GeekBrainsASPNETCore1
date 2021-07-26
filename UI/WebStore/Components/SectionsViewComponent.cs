@@ -16,7 +16,7 @@ namespace WebStore.Components
             _productData = productData;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string sectionId)
         {
             var all = await _productData.GetSections();
             
