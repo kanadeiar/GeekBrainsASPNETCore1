@@ -16,8 +16,11 @@ namespace WebStore.Components
             _productData = productData;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string sectionId)
+        public async Task<IViewComponentResult> InvokeAsync(string SectionId)
         {
+            var sectionId = int.TryParse(SectionId, out var id) ? id : (int?)null;
+            int? parentSectionId = null;
+
             var all = await _productData.GetSections();
             
             var parents = all.Where(p => p.ParentId == null);
@@ -34,6 +37,9 @@ namespace WebStore.Components
                 var children = all.Where(c => c.ParentId == patentsView.Id);
                 foreach (var child in children)
                 {
+                    if (child.Id == sectionId)
+                        parentSectionId = child.ParentId;
+
                     patentsView.Children.Add(new SectionWebModel
                     {
                         Id = child.Id,
@@ -46,6 +52,9 @@ namespace WebStore.Components
                 patentsView.Children.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
             }
             patentsViews.Sort((a, b) => Comparer<int>.Default.Compare(a.Order, b.Order));
+
+            ViewBag.SectionId = sectionId;
+            ViewBag.ParentSectionId = parentSectionId;
 
             return View(patentsViews);
         }

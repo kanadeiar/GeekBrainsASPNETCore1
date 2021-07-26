@@ -17,12 +17,12 @@
                         </a>
                     </h4>
                 </div>
-                <div id="@parent.GetHashCode()" class="panel-collapse collapse">
+                <div id="@parent.GetHashCode()" class="panel-collapse collapse @(parent.Id == ViewBag.ParentSectionId ? "in" : null)">
                     <div class="panel-body">
                         <ul>
                             @foreach (var child in parent.Children)
                             {
-                            <li>
+                            <li @(child.Id == ViewBag.SectionId ? "class=active" : null)>
                                 <a asp-controller="Catalog" asp-action="Index" asp-route-sectionId="@child.Id">
                                     <span class="pull-right">(@child.CountProduct)</span>
                                     @child.Name
@@ -38,7 +38,7 @@
         {
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
+                    <h4 class="panel-title @(parent.Id == ViewBag.SectionId ? "active" : null)">
                         <a asp-controller="Catalog" asp-action="Index" asp-route-sectionId="@parent.Id">
                             <span class="pull-right">(@parent.CountProduct)</span>
                             @parent.Name
