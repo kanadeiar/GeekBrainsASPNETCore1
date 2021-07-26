@@ -15,6 +15,7 @@ namespace WebStore.Components
         }
         public async Task<IViewComponentResult> InvokeAsync(string BrandId)
         {
+            ViewBag.BrandId = int.TryParse(BrandId, out var id) ? id : (int?) null;
             var brandsViews = (await _productData.GetBrands()).OrderBy(b => b.Order).Select(b => new BrandWebModel
             {
                 Id = b.Id,
