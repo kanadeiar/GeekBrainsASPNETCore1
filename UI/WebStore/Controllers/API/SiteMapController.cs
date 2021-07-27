@@ -24,19 +24,12 @@ namespace WebStore.Controllers.API
                 new (Url.Action("Details", "Catalog")),
                 new (Url.Action("Index", "WebAPI")),
             };
-            var sectionsNodes = (await productData.GetSections()).Select(s =>
-                new SitemapNode(Url.Action("Index", "Catalog", new {SectionId = s.Id})));
-            nodes.AddRange(sectionsNodes);
-            foreach (var brand in await productData.GetBrands())
-            {
-                var brandNode = new SitemapNode(Url.Action("Index", "Catalog", new {BrandId = brand.Id}));
-                nodes.Add(brandNode);
-            }
-            foreach (var product in await productData.GetProducts())
-            {
-                var brandNode = new SitemapNode(Url.Action("Details", "Catalog", new {product.Id}));
-                nodes.Add(brandNode);
-            }
+            nodes.AddRange((await productData.GetSections())
+                .Select(s => new SitemapNode(Url.Action("Index", "Catalog", new { SectionId = s.Id } ))) );
+            nodes.AddRange((await productData.GetBrands())
+                .Select(b => new SitemapNode(Url.Action("Index", "Catalog", new { BrandId = b.Id } ))) );
+            nodes.AddRange((await productData.GetProducts())
+                .Select(p => new SitemapNode(Url.Action("Details", "Catalog", new { p.Id } ))) );
             return new SitemapProvider().CreateSitemap(new SitemapModel(nodes));
         }
     }
