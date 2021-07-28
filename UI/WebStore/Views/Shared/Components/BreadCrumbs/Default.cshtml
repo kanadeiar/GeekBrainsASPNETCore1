@@ -2,8 +2,11 @@
 
 <div class="breadcrumbs">
     <ol class="breadcrumb">
-        <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
-        <li class="active"><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+        @if (Model.Controller is { })
+        {
+            <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
+            <li class="active"><a asp-controller="@Model.Controller" asp-action="@Model.ControllerAction">@Model.ControllerText</a></li>
+        }
         @if (Model.Section is { } section)
         {
             if (section.Parent is { } parent)
@@ -30,7 +33,7 @@
         }
         @if (Model.Product is { })
         {
-            <li>Model.Product</li>
+            <li>@Model.Product</li>
         }
     </ol>
 </div>

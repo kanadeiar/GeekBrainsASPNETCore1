@@ -1,14 +1,15 @@
 ﻿@model WebStore.Domain.WebModels.CatalogWebModel
 
 @{
-    ViewBag.Title = "Каталог товаров";
+    ViewBag.Title = "Каталог";
 }
 
 <section>
     <div class="container">
-        
-        <vc:bread-crumbs/>
 
+        <vc:bread-crumbs/>
+        
+        <h1>@ViewBag.Title</h1>
         <div class="row">
             <div class="col-sm-3">
                 <partial name="Partial/_LeftSidebarPartial"/>

@@ -6,9 +6,12 @@
 }
 
 <div class="container">
+
+    <vc:bread-crumbs />
+
     <h1>@ViewBag.Title</h1>
     <hr />
-    <a asp-controller="Home" asp-action="Index">Главная страница</a> 
+    <a asp-controller="Home" asp-action="Index">Главная страница</a>
     <hr />
     @if (User.IsInRole(Role.Administrators))
     {
