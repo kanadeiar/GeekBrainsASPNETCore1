@@ -26,7 +26,7 @@ namespace WebStore.Tests.Controllers
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
-                .Returns(Enumerable.Empty<Product>());
+                .Returns(new ProductPage{Products = Enumerable.Empty<Product>(), TotalCount = 0 });
             var controller = new HomeController(configurationStub);
 
             var result = controller.Index(productDataMock.Object);

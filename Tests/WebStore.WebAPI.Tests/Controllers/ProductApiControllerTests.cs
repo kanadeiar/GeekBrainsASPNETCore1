@@ -189,16 +189,21 @@ namespace WebStore.WebAPI.Tests.Controllers
                 .ReturnsAsync((ProductFilter f, bool _) =>
                 {
                     Task.Delay(1000).Wait();
-                    return new[]
+                    return new ProductPage
                     {
-                        new Product
+                        Products = new[]
                         {
-                            Id = f.Ids.FirstOrDefault(),
-                            Name = expectedName,
-                            OrderItems = Array.Empty<OrderItem>(),
-                        },
+                            new Product
+                            {
+                                Id = expectedId,
+                                Name = expectedName,
+                            },
+                            new Product(),
+                            new Product(),
+                        }
                     };
                 });
+
             var filter = new ProductFilter
             {
                 Ids = new[] { 1 },

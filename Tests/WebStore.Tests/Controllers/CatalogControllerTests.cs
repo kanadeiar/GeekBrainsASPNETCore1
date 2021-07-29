@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using WebStore.Controllers;
@@ -27,17 +28,24 @@ namespace WebStore.Tests.Controllers
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
-                .Returns<ProductFilter, bool>((_, _) => Enumerable.Range(1, expectedCountProducts)
-                    .Select(id => new Product
+                .Returns<ProductFilter, bool>((_, _) => 
+                    new ProductPage
                     {
-                        Id = id,
-                        Name = $"Товар {id}",
-                        Order = id,
-                        Price = expectedPriceFirst,
-                        ImageUrl = $"Image_{id}.jpg",
-                    })
+                        Products = Enumerable.Range(1, expectedCountProducts)
+                            .Select(id => new Product
+                            {
+                                Id = id,
+                                Name = $"Товар {id}",
+                                Order = id,
+                                Price = expectedPriceFirst,
+                                ImageUrl = $"Image_{id}.jpg",
+                            }),
+                        TotalCount = expectedCountProducts,
+                    }
                 );
-            var controller = new CatalogController(productDataMock.Object);
+            var configurationStub = Mock
+                .Of<IConfiguration>();
+            var controller = new CatalogController(productDataMock.Object, configurationStub);
 
             var result = controller.Index(null, 1);
 
@@ -101,7 +109,9 @@ namespace WebStore.Tests.Controllers
                     SectionId = 1,
                     Section = new Section { Id = 1, Name = "Категория 1", Order = 1 }
                 });
-            var controller = new CatalogController(productDataMock.Object);
+            var configurationStub = Mock
+                .Of<IConfiguration>();
+            var controller = new CatalogController(productDataMock.Object, configurationStub);
 
             var result = controller.Details(expectedId);
             
@@ -130,7 +140,9 @@ namespace WebStore.Tests.Controllers
             productDataMock
                 .Setup(_ => _.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync((Product) null);
-            var controller = new CatalogController(productDataMock.Object);
+            var configurationStub = Mock
+                .Of<IConfiguration>();
+            var controller = new CatalogController(productDataMock.Object, configurationStub);
 
             var result = controller.Details(1);
 

@@ -206,13 +206,13 @@ namespace WebStore.WebAPI.Client.Tests
             var actual = client.GetProducts(filter).Result;
 
             Assert
-                .IsInstanceOfType(actual, typeof(IEnumerable<Product>));
+                .IsInstanceOfType(actual, typeof(ProductPage));
             Assert
-                .AreEqual(expectedCount, actual.Count());
+                .AreEqual(expectedCount, actual.Products.Count());
             Assert
-                .AreEqual(expectedId, actual.FirstOrDefault().Id);
+                .AreEqual(expectedId, actual.Products.FirstOrDefault().Id);
             Assert
-                .AreEqual(expectedName, actual.FirstOrDefault().Name);
+                .AreEqual(expectedName, actual.Products.FirstOrDefault().Name);
             mockMessageHandler.Protected()
                 .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
             mockMessageHandler

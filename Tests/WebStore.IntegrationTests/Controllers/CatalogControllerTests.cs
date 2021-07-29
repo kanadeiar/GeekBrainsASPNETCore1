@@ -42,17 +42,21 @@ namespace WebStore.IntegrationTests.Controllers
                             .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), It.IsAny<bool>()))
                             .ReturnsAsync((ProductFilter filter, bool _) =>
                             {
-                                return Enumerable.Range(1, 3)
-                                    .Select(i => new Product
-                                    {
-                                        Id = i, 
-                                        Name = "Товар",
-                                        SectionId = 1,
-                                        Section = new Section { Id = 1 },
-                                        BrandId = 1,
-                                        Brand = new Brand { Id = 1 },
-                                        OrderItems = Array.Empty<OrderItem>(),
-                                    });
+                                return new ProductPage
+                                {
+                                    Products = Enumerable.Range(1, 3)
+                                        .Select(i => new Product
+                                        {
+                                            Id = i,
+                                            Name = "Товар",
+                                            SectionId = 1,
+                                            Section = new Section {Id = 1},
+                                            BrandId = 1,
+                                            Brand = new Brand {Id = 1},
+                                            OrderItems = Array.Empty<OrderItem>(),
+                                        }),
+                                    TotalCount = 3,
+                                };
                             });
                         services.AddTransient(_ => productDataMock.Object);
                     });
