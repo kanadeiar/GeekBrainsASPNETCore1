@@ -33,6 +33,11 @@ namespace WebStore.Controllers
                 _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(4).Take(4)),
                 _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(2).Take(4)),
             };
+            ViewBag.RecommendedProducts = new[]
+            {
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Take(3)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(3).Take(3)),
+            };
             return View();
         }
         public IActionResult ProductDetails()
