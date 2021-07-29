@@ -87,10 +87,10 @@ namespace WebStore.Services.Services
 
         public async Task<CartWebModel> GetWebModel()
         {
-            var products = await _productData.GetProducts(new ProductFilter
+            var products = (await _productData.GetProducts(new ProductFilter
             {
                 Ids = _cartStore.Cart.Items.Select(i => i.ProductId).ToArray()
-            });
+            }))?.Products;
             var productViews = _mapperProductToView
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
 

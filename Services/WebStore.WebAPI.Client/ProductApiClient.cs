@@ -39,11 +39,11 @@ namespace WebStore.WebAPI.Client
             return (await GetAsync<BrandDTO>($"{Address}/brand/{id}").ConfigureAwait(false)).FromDTO();
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
+        public async Task<ProductPage> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             var response = await PostAsync(Address, productFilter ?? new ProductFilter()).ConfigureAwait(false);
-            var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDTO>>();
-            return products.FromDTO();
+            var productPage = await response.Content.ReadFromJsonAsync<ProductPageDTO>();
+            return productPage.FromDTO();
         }
 
         public async Task<Product> GetProductById(int id)

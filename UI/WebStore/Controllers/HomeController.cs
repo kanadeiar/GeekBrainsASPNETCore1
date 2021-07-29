@@ -25,7 +25,7 @@ namespace WebStore.Controllers
         {
             var gettedProducts = await productData.GetProducts();
             var products = _mapperProductToWeb
-                .Map<IEnumerable<ProductWebModel>>(gettedProducts.Take(6));
+                .Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Take(6));
             ViewBag.Products = products;
             return View();
         }

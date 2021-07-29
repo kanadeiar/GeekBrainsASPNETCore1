@@ -9,6 +9,10 @@ namespace WebStore.Domain.Models
         public int? SectionId { get; set; }
         /// <summary> Бренд </summary>
         public int? BrandId { get; set; }
+        /// <summary> Страница </summary>
+        public int Page { get; set; }
+        /// <summary> Размер страницы </summary>
+        public int? PageSize { get; set; }
         /// <summary> Идентификаторы </summary>
         public int[] Ids { get; set; }
         /// <summary> Название </summary>

@@ -78,7 +78,7 @@ namespace WebStore.Services.Services
                     Quantity = i.Quantity
                 }).ToArray();
             order.Items = orderItems;
-
+            
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 

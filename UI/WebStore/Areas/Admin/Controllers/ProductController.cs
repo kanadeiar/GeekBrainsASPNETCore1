@@ -21,7 +21,7 @@ namespace WebStore.Areas.Admin.Controllers
     [Area("Admin"), Authorize(Roles = Role.Administrators)]
     public class ProductController : Controller
     {
-        private readonly IProductData _ProductData;
+        private readonly IProductData _productData;
         private readonly IWebHostEnvironment _appEnvironment;
         private readonly ILogger<ProductController> _logger;
 
@@ -33,24 +33,27 @@ namespace WebStore.Areas.Admin.Controllers
 
         public ProductController(IProductData productData, IWebHostEnvironment appEnvironment, ILogger<ProductController> logger)
         {
-            _ProductData = productData;
+            _productData = productData;
             _appEnvironment = appEnvironment;
             _logger = logger;
 
             _mapperProductFromWeb = new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()
-                .ForMember("Section", o => o.MapFrom(p => _ProductData.GetSection((int) p.SectionId).Result))
-                .ForMember("Brand", o => o.MapFrom(p => _ProductData.GetBrand((int) p.BrandId).Result))));
+                .ForMember("Section", o => o.MapFrom(p => _productData.GetSection((int) p.SectionId).Result))
+                .ForMember("Brand", o => o.MapFrom(p => _productData.GetBrand((int) p.BrandId).Result))));
         }
 
         /// <summary> Обзор всех товаров в админке </summary>
         /// <param name="name">Фильтр по названию</param> <param name="page">Страница в пагинаторе</param> <param name="sortOrder">Вид сортировки</param>
         public async Task<IActionResult> Index(string name, int page = 1, ProductSortState sortOrder = ProductSortState.NameAsc)
         {
-            var products = await _ProductData.GetProducts(new ProductFilter { Name = name }, true);
-
-            var pageSize = 10;
-            var count = products!.Count();
-            products = products!.Skip((page - 1) * pageSize).Take(pageSize);
+            int pageSize = 9;
+            var filter = new ProductFilter
+            {
+                Page = page,
+                PageSize = pageSize,
+            };
+            var productsPage = await _productData.GetProducts(filter);
+            var products = productsPage.Products;
 
             products = sortOrder switch
             {
@@ -70,7 +73,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 Filter = new ProductFilterWebModel(name),
                 Sort = new ProductSortWebModel(sortOrder),
-                Page = new PageWebModel(count, page, pageSize),
+                Page = new PageWebModel(productsPage.TotalCount, page, pageSize),
                 Products = _mapperProductToWeb.Map<IEnumerable<EditProductWebModel>>(products.ToList()),
             };
             return View(webModel);
@@ -79,8 +82,8 @@ namespace WebStore.Areas.Admin.Controllers
         /// <summary> Создание нового товара </summary>
         public async Task<IActionResult> Create()
         {
-            ViewBag.Sections = new SelectList(await _ProductData.GetSections(), "Id", "Name");
-            ViewBag.Brands = new SelectList(await _ProductData.GetBrands(), "Id", "Name");
+            ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
+            ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
             return View("Edit", new EditProductWebModel());
         }
 
@@ -88,10 +91,10 @@ namespace WebStore.Areas.Admin.Controllers
         {
             if (id <= 0)
                 return BadRequest();
-            if (await _ProductData.GetProductById(id) is { } product)
+            if (await _productData.GetProductById(id) is { } product)
             {
-                ViewBag.Sections = new SelectList(await _ProductData.GetSections(), "Id", "Name");
-                ViewBag.Brands = new SelectList(await _ProductData.GetBrands(), "Id", "Name");
+                ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
+                ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
                 return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
             }
             return NotFound();
@@ -105,8 +108,8 @@ namespace WebStore.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Sections = new SelectList(await _ProductData.GetSections(), "Id", "Name");
-                ViewBag.Brands = new SelectList(await _ProductData.GetBrands(), "Id", "Name");
+                ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
+                ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
                 return View(model);
             }
 
@@ -121,9 +124,9 @@ namespace WebStore.Areas.Admin.Controllers
             }
 
             if (product.Id == 0)
-                await _ProductData.AddProduct(product);
+                await _productData.AddProduct(product);
             else
-                await _ProductData.UpdateProduct(product);
+                await _productData.UpdateProduct(product);
 
             return RedirectToAction("Index", "Product");
         }
@@ -132,10 +135,10 @@ namespace WebStore.Areas.Admin.Controllers
         {
             if (id <= 0)
                 return BadRequest();
-            if (await _ProductData.GetProductById(id) is { } product)
+            if (await _productData.GetProductById(id) is { } product)
             {
-                ViewBag.Sections = new SelectList(await _ProductData.GetSections(), "Id", "Name");
-                ViewBag.Brands = new SelectList(await _ProductData.GetBrands(), "Id", "Name");
+                ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
+                ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
                 return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
             }
             return NotFound();
@@ -146,7 +149,7 @@ namespace WebStore.Areas.Admin.Controllers
         {
             if (id <= 0)
                 return BadRequest();
-            var result = await _ProductData.DeleteProduct(id);
+            var result = await _productData.DeleteProduct(id);
             if (!result)
                 _logger.LogError($"Не удалось удалить товар с id={id}");
 
