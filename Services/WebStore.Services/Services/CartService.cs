@@ -98,7 +98,7 @@ namespace WebStore.Services.Services
             {
                 Items = _cartStore.Cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))
-                    .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
+                    .Select(p => (productViews[p.ProductId], p.Quantity ))
             };
         }
     }

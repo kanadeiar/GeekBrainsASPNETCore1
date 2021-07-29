@@ -212,7 +212,7 @@ namespace WebStore.Tests.Controllers
                         Brand = "Test brand",
                         Section = "Test section",
                         ImageUrl = "TestImage.jpg",
-                    }, expectedProductCount, expectedProductPrice * expectedProductCount) }
+                    }, expectedProductCount) }
                 });
             var orderServiceMock = new Mock<IOrderService>();
             orderServiceMock
