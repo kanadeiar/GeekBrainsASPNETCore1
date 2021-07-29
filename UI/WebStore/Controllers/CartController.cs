@@ -80,5 +80,38 @@ namespace WebStore.Controllers
             #endregion
             return View();
         }
+
+        #region WebApi
+
+        public IActionResult ApiGetCartView()
+        {
+            return ViewComponent("Cart");
+        }
+
+        public IActionResult ApiAdd(int id)
+        {
+            _cartService.Add(id);
+            return Json(new {id, message = "Этот товар был успешно увеличен на еденицу либо добавлен"});
+        }
+
+        public IActionResult ApiSubtract(int id)
+        {
+            _cartService.Subtract(id);
+            return Json(new {id, message = "Этот товар был успешно уменьшен на еденицу"});
+        }
+
+        public IActionResult ApiRemove(int id)
+        {
+            _cartService.Remove(id);
+            return Json(new {id, message = "Этот товар был успешно удален из корзины"});
+        }
+
+        public IActionResult ApiClear()
+        {
+            _cartService.Clear();
+            return Ok(new {message = "Корзина успешно очищена"});
+        }
+
+        #endregion
     }
 }
