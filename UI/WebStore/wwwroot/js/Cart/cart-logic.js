@@ -5,7 +5,7 @@ Cart = {
         addToCartLink: "",
         subtractFromCartLink: "",
         removeItemFromCartLink: "",
-        clearCartLink: ""
+        clearItemsInCartLink: ""
     },
 
     init: function(properties) {
@@ -15,6 +15,7 @@ Cart = {
         $(".cart_quantity_up").click(Cart.addItemInCart);
         $(".cart_quantity_down").click(Cart.subtractItemFromCart);
         $(".cart_quantity_delete").click(Cart.removeItemFromCart);
+        $(".cart_items_clear").click(Cart.clearItemsInCart);
     },
 
     addToCart: function(event) {
@@ -92,6 +93,22 @@ Cart = {
                 Cart.showToolTip(button, text.message);
             }).fail(function () {
                 console.log("removeItemFromCart fail");
+            });
+    },
+
+    clearItemsInCart: function (event) {
+        event.preventDefault();
+
+        $.get(Cart._properties.clearItemsInCartLink)
+            .done(function (text) {
+                $(".cart_total_price").closest("tr").each(function () {
+                    this.remove();
+                });
+                Cart.refreshTotalPrice();
+                Cart.refreshCartView();
+                Cart.showToolTip(button, text.message);
+            }).fail(function () {
+                console.log("clearItemsInCart fail");
             });
     },
 
