@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using WebStore.Controllers;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.WebModels;
@@ -296,6 +297,112 @@ namespace WebStore.Tests.Controllers
                 .AreEqual(expectedOrderId, resultView.ViewData["OrderId"]);
             Assert
                 .AreEqual(expectedName, resultView.ViewData["Name"]);
+        }
+
+        #endregion
+
+        #region Тестирование секции WebApi
+
+        [TestMethod]
+        public void ApiGetCartView_SendRequest_ShouldViewComponent()
+        {
+            var cartServiceStub = Mock
+                .Of<ICartService>();
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceStub, orderServiceStub, loggerStub);
+
+            var result = controller.ApiGetCartView();
+
+            Assert
+                .IsInstanceOfType(result, typeof(ViewComponentResult));
+            var viewComponent = (ViewComponentResult) result;
+            Assert.AreEqual("Cart", viewComponent.ViewComponentName);
+        }
+
+        [TestMethod]
+        public void ApiAdd_Send1Request_ShouldJson()
+        {
+            const int expectedId = 1;
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(_ => _.Add(It.IsAny<int>()));
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.ApiAdd(expectedId);
+
+            Assert
+                .IsInstanceOfType(result, typeof(JsonResult));
+            cartServiceMock.Verify(_ => _.Add(expectedId), Times.Once);
+            cartServiceMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void ApiSubtract_Send1Request_ShouldJson()
+        {
+            const int expectedId = 1;
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(_ => _.Subtract(It.IsAny<int>()));
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.ApiSubtract(expectedId);
+
+            Assert
+                .IsInstanceOfType(result, typeof(JsonResult));
+            cartServiceMock.Verify(_ => _.Subtract(expectedId), Times.Once);
+            cartServiceMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void ApiRemove_Send1Request_ShouldJson()
+        {
+            const int expectedId = 1;
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(_ => _.Remove(It.IsAny<int>()));
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.ApiRemove(expectedId);
+
+            Assert
+                .IsInstanceOfType(result, typeof(JsonResult));
+            cartServiceMock.Verify(_ => _.Remove(expectedId), Times.Once);
+            cartServiceMock.VerifyNoOtherCalls();
+        }
+
+        [TestMethod]
+        public void ApiClear_Send1Request_ShouldOk()
+        {
+            var cartServiceMock = new Mock<ICartService>();
+            cartServiceMock
+                .Setup(_ => _.Clear());
+            var orderServiceStub = Mock
+                .Of<IOrderService>();
+            var loggerStub = Mock
+                .Of<ILogger<CartController>>();
+            var controller = new CartController(cartServiceMock.Object, orderServiceStub, loggerStub);
+
+            var result = controller.ApiClear();
+
+            Assert
+                .IsInstanceOfType(result, typeof(OkObjectResult));
+            cartServiceMock.Verify(_ => _.Clear(), Times.Once);
+            cartServiceMock.VerifyNoOtherCalls();
         }
 
         #endregion
