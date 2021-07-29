@@ -27,6 +27,12 @@ namespace WebStore.Controllers
             var products = _mapperProductToWeb
                 .Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Take(6));
             ViewBag.Products = products;
+            ViewBag.CatagoryProducts = new[]
+            {
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(4).Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(2).Take(4)),
+            };
             return View();
         }
         public IActionResult ProductDetails()

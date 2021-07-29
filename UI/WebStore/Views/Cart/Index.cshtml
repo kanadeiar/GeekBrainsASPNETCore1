@@ -27,7 +27,7 @@
                     <tr>
                         <td class="cart_product">
                             <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">
-                                <img src="~/images/shop/@product.ImageUrl" alt="@product.Name">
+                                <img src="~/images/shop/@product.ImageUrl" alt="@product.Name" height="100">
                             </a>
                         </td>
                         <td class="cart_description">
@@ -85,7 +85,7 @@
     <div class="container">
         <div class="heading">
             <h3>Что мы сделаем с этим дальше?</h3>
-            <p>Выберите, есть ли у вас код скидки или бонусные баллы, которые вы хотите использовать или хотите сделать скуидку на доставку.</p>
+            <p>Выберите, есть ли у вас код скидки или бонусные баллы, которые вы хотите использовать или хотите сделать скидку на доставку.</p>
         </div>
         <partial name="Partial/_CkeckOutPartial"
                  model="Model.Order"
