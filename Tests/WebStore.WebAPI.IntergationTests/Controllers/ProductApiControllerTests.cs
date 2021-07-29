@@ -35,7 +35,7 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
                         services.Remove(descriptor);
                         services.AddDbContext<WebStoreContext>(options =>
                         {
-                            options.UseInMemoryDatabase(nameof(WebStoreContext));
+                            options.UseInMemoryDatabase(nameof(GetProduct_SendRequest_ReplaceContext_ShouldOk));
                         });
                         var descriptorInitializer =
                             services.SingleOrDefault(_ => _.ServiceType == typeof(IWebStoreDataInit));
@@ -78,7 +78,7 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
                         services.Remove(descriptor);
                         services.AddDbContext<WebStoreContext>(options =>
                         {
-                            options.UseInMemoryDatabase(nameof(WebStoreContext));
+                            options.UseInMemoryDatabase(nameof(GetProducts_SendRequest_ReplaceContext_ShouldOk));
                         });
                         var descriptorInitializer =
                             services.SingleOrDefault(_ => _.ServiceType == typeof(IWebStoreDataInit));
@@ -103,9 +103,9 @@ namespace WebStore.WebAPI.IntegrationTests.Controllers
             var response = await httpClient.PostAsJsonAsync("Api/Product", filter);
 
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            var result = await response.Content.ReadFromJsonAsync<IEnumerable<Product>>();
-            //Assert.AreEqual(expectedCount, result.Count()); TODO: как-то странно здесь работает тест
-            Assert.AreEqual(expectedId, result.FirstOrDefault().Id);
+            var result = await response.Content.ReadFromJsonAsync<ProductPage>();
+            Assert.AreEqual(expectedCount, result.Products.Count()); 
+            Assert.AreEqual(expectedId, result.Products.FirstOrDefault().Id);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace WebStore.Tests.Controllers
             const string expectedNameFirst = "Товар 1";
             const decimal expectedPriceFirst = 100;
             const int expectedSection = 1;
+            const int expectedPage = 1;
+            const int expectedTotalPages = 0;
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
@@ -62,9 +64,9 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsInstanceOfType(catalogWebModel.PageWebModel, typeof(PageWebModel));
             Assert
-                .AreEqual(1, catalogWebModel.PageWebModel.Page);
+                .AreEqual(expectedPage, catalogWebModel.PageWebModel.Page);
             Assert
-                .AreEqual(1, catalogWebModel.PageWebModel.TotalPages);
+                .AreEqual(expectedTotalPages, catalogWebModel.PageWebModel.TotalPages);
             Assert
                 .AreEqual(expectedCountProducts, catalogWebModel.Products.Count());
             var firstWebModel = catalogWebModel.Products.First();

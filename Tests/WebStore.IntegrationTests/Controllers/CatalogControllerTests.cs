@@ -85,13 +85,23 @@ namespace WebStore.IntegrationTests.Controllers
                         var mockMessageHandler = new Mock<HttpMessageHandler>();
                         mockMessageHandler.Protected()
                             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                            .ReturnsAsync(() =>
+                            .ReturnsAsync((HttpRequestMessage mes, CancellationToken c)  =>
                             {
-                                var filter = new ProductFilter();
-                                return productDataDriver.GetProducts(filter).Result;
+                                if (string.Equals(mes.RequestUri.AbsolutePath, "/Api/Product/Section", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return productDataDriver.GetSections().Result;
+                                }
+                                else if (string.Equals(mes.RequestUri.AbsolutePath, "/Api/Product/Brand", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return productDataDriver.GetBrands().Result;
+                                }
+                                else
+                                {
+                                    var filter = new ProductFilter();
+                                    return productDataDriver.GetProducts(filter).Result;
+                                }
                             });
                         var client = new ProductApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
-
                         services.AddTransient<IProductData>(_ => client);
                     });
                 });

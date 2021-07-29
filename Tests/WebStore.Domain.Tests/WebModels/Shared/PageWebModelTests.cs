@@ -167,7 +167,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             const int pageSize = 9;
             const int expectedPageNumber = 1;
             const int expectedStartNumber = 1;
-            const int expectedPageCount = 1;
+            const int expectedPageCount = 0;
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 

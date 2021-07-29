@@ -216,12 +216,12 @@ namespace WebStore.WebAPI.Tests.Controllers
                 .IsInstanceOfType(result, typeof(OkObjectResult));
             var viewResult = (OkObjectResult) result;
             Assert
-                .IsInstanceOfType(viewResult.Value, typeof(IEnumerable<ProductDTO>));
-            var products = (IEnumerable<ProductDTO>)viewResult.Value;
+                .IsInstanceOfType(viewResult.Value, typeof(ProductPageDTO));
+            var products = (ProductPageDTO)viewResult.Value;
             Assert
-                .AreEqual(expectedId, products.FirstOrDefault().Id);
+                .AreEqual(expectedId, products.Products.FirstOrDefault().Id);
             Assert
-                .AreEqual(expectedName, products.FirstOrDefault().Name);
+                .AreEqual(expectedName, products.Products.FirstOrDefault().Name);
             productDataMock
                 .Verify(_ => _.GetProducts(filter, true), Times.Once);
             productDataMock
