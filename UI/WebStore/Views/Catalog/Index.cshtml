@@ -21,7 +21,8 @@
                 <page-link page-model="Model.PageWebModel"
                            page-action="Index"
                            page-url-sectionId="Model.SectionId"
-                           page-url-brandId="Model.BrandId"></page-link>
+                           page-url-brandId="Model.BrandId"
+                           page-url-pageSize="@Context.Request.Query["PageSize"]"></page-link>
             </div>
         </div>
     </div>

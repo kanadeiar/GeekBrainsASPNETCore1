@@ -69,7 +69,7 @@ namespace WebStore.Areas.Admin.Controllers
                 ProductSortState.BrandDesc => products.OrderByDescending(p => p.Brand.Name),
                 _ => products.OrderBy(p => p.Name),
             };
-            var webModel = new ProductIndexWebModel
+            var webModel = new ProductPageWebModel
             {
                 Filter = new ProductFilterWebModel(name),
                 Sort = new ProductSortWebModel(sortOrder),

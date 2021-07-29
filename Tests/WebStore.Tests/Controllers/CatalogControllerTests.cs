@@ -54,7 +54,7 @@ namespace WebStore.Tests.Controllers
             Assert
                 .IsInstanceOfType(catalogWebModel.PageWebModel, typeof(PageWebModel));
             Assert
-                .AreEqual(1, catalogWebModel.PageWebModel.PageNumber);
+                .AreEqual(1, catalogWebModel.PageWebModel.Page);
             Assert
                 .AreEqual(1, catalogWebModel.PageWebModel.TotalPages);
             Assert
