@@ -2,7 +2,10 @@
 Cart = {
     _properties: {
         getCartViewLink: "",
-        addToCartLink: ""
+        addToCartLink: "",
+        subtractFromCartLink: "",
+        removeItemFromCartLink: "",
+        clearCartLink: ""
     },
 
     init: function(properties) {
@@ -10,6 +13,8 @@ Cart = {
 
         $(".add-to-cart").click(Cart.addToCart);
         $(".cart_quantity_up").click(Cart.addItemInCart);
+        $(".cart_quantity_down").click(Cart.subtractItemFromCart);
+        $(".cart_quantity_delete").click(Cart.removeItemFromCart);
     },
 
     addToCart: function(event) {
@@ -44,6 +49,49 @@ Cart = {
                 Cart.showToolTip(button, text.message);
             }).fail(function () {
                 console.log("addItemInCart fail");
+            });
+    },
+
+    subtractItemFromCart: function (event) {
+        event.preventDefault();
+
+        let button = $(this);
+        let id = button.data("id");
+
+        let tr = button.closest("tr");
+
+        $.get(Cart._properties.subtractFromCartLink + "/" + id)
+            .done(function (text) {
+                let count = parseInt($(".cart_quantity_input", tr).val());
+                if (count > 0) {
+                    $(".cart_quantity_input", tr).val(count - 1);
+                    Cart.refreshPrice(tr);
+                } else {
+                    tr.remove();
+                    Cart.refreshTotalPrice();
+                }
+                Cart.showToolTip(button, text.message);
+            }).fail(function () {
+                console.log("subtractItemFromCart fail");
+            });
+    },
+
+    removeItemFromCart: function (event) {
+        event.preventDefault();
+
+        let button = $(this);
+        let id = button.data("id");
+
+        let tr = button.closest("tr");
+
+        $.get(Cart._properties.removeItemFromCartLink + "/" + id)
+            .done(function (text) {
+                tr.remove();
+                Cart.refreshTotalPrice();
+                Cart.refreshCartView();
+                Cart.showToolTip(button, text.message);
+            }).fail(function () {
+                console.log("removeItemFromCart fail");
             });
     },
 

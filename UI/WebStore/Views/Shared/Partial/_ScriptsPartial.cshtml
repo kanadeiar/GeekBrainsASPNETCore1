@@ -18,7 +18,10 @@
     $(function() {
         Cart.init({
             getCartViewLink: "@Url.Action("ApiGetCartView","Cart")",
-            addToCartLink: "@Url.Action("ApiAdd", "Cart")"
+            addToCartLink: "@Url.Action("ApiAdd", "Cart")",
+            subtractFromCartLink: "@Url.Action("ApiSubtract", "Cart")",
+            removeItemFromCartLink: "@Url.Action("ApiRemove", "Cart")",
+            clearCartLink: "@Url.Action("ApiClear", "Cart")"
         });
     });
 </script>
