@@ -64,7 +64,7 @@ Cart = {
         $.get(Cart._properties.subtractFromCartLink + "/" + id)
             .done(function (text) {
                 let count = parseInt($(".cart_quantity_input", tr).val());
-                if (count > 0) {
+                if (count > 1) {
                     $(".cart_quantity_input", tr).val(count - 1);
                     Cart.refreshPrice(tr);
                 } else {
