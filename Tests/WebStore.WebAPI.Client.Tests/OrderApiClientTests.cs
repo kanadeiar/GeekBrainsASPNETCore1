@@ -120,7 +120,7 @@ namespace WebStore.WebAPI.Client.Tests
             var client = new OrderApiClient(new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localost/") });
             var cart = new CartWebModel
             {
-                Items = Enumerable.Range(1, 1).Select(i => ( new ProductWebModel { Id = i, Name = $"TestName{i}" }, i, 1.5m )),
+                Items = Enumerable.Range(1, 1).Select(i => ( new ProductWebModel { Id = i, Name = $"TestName{i}" }, i )),
             };
             var order = new CreateOrderWebModel()
             {

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.Dal.Context;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
 using WebStore.Domain.Models.Interfaces;
 using WebStore.Interfaces.Services;
 
@@ -36,13 +37,14 @@ namespace WebStore.Services.Services
                 .Include(b => b.Products).FirstOrDefaultAsync(b => b.Id == id).ConfigureAwait(false);
         }
         
-        public async Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false)
+        public async Task<ProductPage> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
-            IQueryable<Product> query = (includes) 
+            IQueryable<Product> query = includes
                 ? _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Section) 
+                    .Include(p => p.Brand)
+                    .Include(p => p.Section)
                 : _context.Products;
+
             if (productFilter?.Ids?.Length > 0)
             {
                 query = query.Where(p => productFilter.Ids.Contains(p.Id));
@@ -56,8 +58,23 @@ namespace WebStore.Services.Services
                 if (productFilter?.BrandId is { } brandId)
                     query = query.Where(q => q.BrandId == brandId);
             }
+
+            var productsCount = await query.CountAsync().ConfigureAwait(false);
+
             _logger.LogInformation($"Запрос SQL: {query.ToQueryString()}");
-            return await query.ToArrayAsync().ConfigureAwait(false);
+
+            if (productFilter is {PageSize: > 0 and var pageSize, Page: > 0 and var page})
+            {
+                query = query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize);
+            }
+
+            return new ProductPage()
+            {
+                Products = query.AsEnumerable(),
+                TotalCount = productsCount,
+            };
         }
 
         public async Task<Product> GetProductById(int id) => await _context.Products

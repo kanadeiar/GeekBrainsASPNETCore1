@@ -179,16 +179,20 @@ namespace WebStore.WebAPI.Client.Tests
             const string expectedName = "TestProduct";
             const int expectedCount = 3;
             var jsonResponse = JsonConvert.SerializeObject(
-                Enumerable.Range(1, expectedCount).Select(
-                    id => new ProductDTO()
-                    {
-                        Id = id,
-                        Name = expectedName,
-                        SectionId = 1,
-                        Section = new SectionDTO { Id = 1 },
-                        BrandId = 1,
-                        Brand = new BrandDTO { Id = 1 },
-                    }));
+                new ProductPageDTO
+                {
+                    Products = Enumerable.Range(1, expectedCount).Select(
+                        id => new ProductDTO()
+                        {
+                            Id = id,
+                            Name = expectedName,
+                            SectionId = 1,
+                            Section = new SectionDTO { Id = 1 },
+                            BrandId = 1,
+                            Brand = new BrandDTO { Id = 1 },
+                        }),
+                    TotalCount = expectedCount,
+                });
             var filter = new ProductFilter
             {
                 Ids = new[] { 1, 2, 3 },
@@ -206,13 +210,13 @@ namespace WebStore.WebAPI.Client.Tests
             var actual = client.GetProducts(filter).Result;
 
             Assert
-                .IsInstanceOfType(actual, typeof(IEnumerable<Product>));
+                .IsInstanceOfType(actual, typeof(ProductPage));
             Assert
-                .AreEqual(expectedCount, actual.Count());
+                .AreEqual(expectedCount, actual.Products.Count());
             Assert
-                .AreEqual(expectedId, actual.FirstOrDefault().Id);
+                .AreEqual(expectedId, actual.Products.FirstOrDefault().Id);
             Assert
-                .AreEqual(expectedName, actual.FirstOrDefault().Name);
+                .AreEqual(expectedName, actual.Products.FirstOrDefault().Name);
             mockMessageHandler.Protected()
                 .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
             mockMessageHandler

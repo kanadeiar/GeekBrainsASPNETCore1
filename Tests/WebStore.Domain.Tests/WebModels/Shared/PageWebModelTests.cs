@@ -21,7 +21,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             Assert
                 .IsInstanceOfType(model, typeof(PageWebModel));
             Assert
-                .AreEqual(expectedPageNumber, model.PageNumber);
+                .AreEqual(expectedPageNumber, model.Page);
             Assert
                 .AreEqual(expectedStartNumber, model.StartNumber);
             Assert
@@ -54,7 +54,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             Assert
                 .IsInstanceOfType(model, typeof(PageWebModel));
             Assert
-                .AreEqual(expectedPageNumber, model.PageNumber);
+                .AreEqual(expectedPageNumber, model.Page);
             Assert
                 .AreEqual(expectedStartNumber, model.StartNumber);
             Assert
@@ -87,7 +87,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             Assert
                 .IsInstanceOfType(model, typeof(PageWebModel));
             Assert
-                .AreEqual(expectedPageNumber, model.PageNumber);
+                .AreEqual(expectedPageNumber, model.Page);
             Assert
                 .AreEqual(expectedStartNumber, model.StartNumber);
             Assert
@@ -108,7 +108,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             Assert
                 .IsInstanceOfType(model, typeof(PageWebModel));
             Assert
-                .AreEqual(expectedPageNumber, model.PageNumber);
+                .AreEqual(expectedPageNumber, model.Page);
             Assert
                 .AreEqual(expectedStartNumber, model.StartNumber);
             Assert
@@ -141,7 +141,7 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             Assert
                 .IsInstanceOfType(model, typeof(PageWebModel));
             Assert
-                .AreEqual(expectedPageNumber, model.PageNumber);
+                .AreEqual(expectedPageNumber, model.Page);
             Assert
                 .AreEqual(expectedStartNumber, model.StartNumber);
             Assert
@@ -167,14 +167,14 @@ namespace WebStore.Domain.Tests.WebModels.Shared
             const int pageSize = 9;
             const int expectedPageNumber = 1;
             const int expectedStartNumber = 1;
-            const int expectedPageCount = 1;
+            const int expectedPageCount = 0;
 
             var model = new PageWebModel(count, expectedPageNumber, pageSize);
 
             Assert
                 .IsInstanceOfType(model, typeof(PageWebModel));
             Assert
-                .AreEqual(expectedPageNumber, model.PageNumber);
+                .AreEqual(expectedPageNumber, model.Page);
             Assert
                 .AreEqual(expectedStartNumber, model.StartNumber);
             Assert

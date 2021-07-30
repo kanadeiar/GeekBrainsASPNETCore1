@@ -35,11 +35,11 @@ namespace WebStore.TagHelpers
             var tag = new TagBuilder("ul");
             tag.AddCssClass("pagination");
 
-            var currentItem = CreateTag(PageModel.PageNumber, urlHelper);
+            var currentItem = CreateTag(PageModel.Page, urlHelper);
 
             if (PageModel.HasPreviousPage)
             {
-                var prevItem = CreatePrevious(PageModel.PageNumber - 1, urlHelper);
+                var prevItem = CreatePrevious(PageModel.Page - 1, urlHelper);
                 tag.InnerHtml.AppendHtml(prevItem);
             }
             if (PageModel.HasFirstPage)
@@ -49,23 +49,23 @@ namespace WebStore.TagHelpers
             }
             if (PageModel.HasPrevPreviousPage)
             {
-                var prevPrevItem = CreateTag(PageModel.PageNumber - 2, urlHelper);
+                var prevPrevItem = CreateTag(PageModel.Page - 2, urlHelper);
                 tag.InnerHtml.AppendHtml(prevPrevItem);
             }
             if (PageModel.HasPreviousPage)
             {
-                var prevItem = CreateTag(PageModel.PageNumber - 1, urlHelper);
+                var prevItem = CreateTag(PageModel.Page - 1, urlHelper);
                 tag.InnerHtml.AppendHtml(prevItem);
             }
             tag.InnerHtml.AppendHtml(currentItem);
             if (PageModel.HasNextPage)
             {
-                var nextItem = CreateTag(PageModel.PageNumber + 1, urlHelper);
+                var nextItem = CreateTag(PageModel.Page + 1, urlHelper);
                 tag.InnerHtml.AppendHtml(nextItem);
             }
             if (PageModel.HasNextNextPage)
             {
-                var nextNextItem = CreateTag(PageModel.PageNumber + 2, urlHelper);
+                var nextNextItem = CreateTag(PageModel.Page + 2, urlHelper);
                 tag.InnerHtml.AppendHtml(nextNextItem);
             }
             if (PageModel.HasLastPage)
@@ -75,7 +75,7 @@ namespace WebStore.TagHelpers
             }
             if (PageModel.HasNextPage)
             {
-                var nextItem = CreateNext(PageModel.PageNumber + 1, urlHelper);
+                var nextItem = CreateNext(PageModel.Page + 1, urlHelper);
                 tag.InnerHtml.AppendHtml(nextItem);
             }
 
@@ -86,7 +86,7 @@ namespace WebStore.TagHelpers
         {
             var item = new TagBuilder("li");
             var link = new TagBuilder("a");
-            if (pageNumber == this.PageModel.PageNumber)
+            if (pageNumber == PageModel.Page)
             {
                 item.AddCssClass("active");
             }

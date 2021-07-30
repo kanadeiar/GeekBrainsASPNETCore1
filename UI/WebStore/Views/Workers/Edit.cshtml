@@ -6,6 +6,8 @@
 
 <div class="container">
 
+    <vc:bread-crumbs />
+
     <h1>@ViewBag.Title</h1>
     <hr />
     <a asp-controller="Home" asp-action="Index">Главная страница</a> / <a asp-controller="Workers" asp-action="Index">Все сотрудники магазина</a>
@@ -29,7 +31,7 @@
                     <input asp-for="FirstName" class="form-control" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
-                
+
                 <div class="form-group">
                     <label asp-for="Patronymic" class="control-label"></label>
                     <input asp-for="Patronymic" class="form-control" />

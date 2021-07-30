@@ -1,8 +1,8 @@
 ﻿<div class="left-sidebar">
     
-    <vc:sections/>
+    <vc:sections section-id="@Context.Request.Query["sectionId"]"/>
 
-    <vc:brands/>
+    <vc:brands brand-id="@Context.Request.Query["brandId"]"/>
 
     <div class="price-range">
         <!--price-range-->

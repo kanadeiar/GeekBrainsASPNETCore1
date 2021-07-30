@@ -16,8 +16,8 @@ namespace WebStore.Controllers
     {
         private readonly Mapper _mapperOrderToView = 
             new (new MapperConfiguration(c => c.CreateMap<Order, UserOrderWebModel>()
-                .ForMember("PriceSum", o => o.MapFrom(u => u.Items.Sum(i => i.Price)))
-                .ForMember("Count", o => o.MapFrom(u => u.Items.Count))));
+                .ForMember("PriceSum", o => o.MapFrom(u => u.Items.Sum(i => i.Price * i.Quantity)))
+                .ForMember("Count", o => o.MapFrom(u => u.Items.Sum(i => i.Quantity)))));
         /// <summary> Конструктор </summary>
         public UserProfileController()
         {

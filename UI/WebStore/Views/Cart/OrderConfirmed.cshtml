@@ -3,7 +3,10 @@
 }
 
 <div class="container">
-    <h2>@ViewBag.Title</h2>
+    
+    <vc:bread-crumbs />
+
+    <h1>@ViewBag.Title</h1>
     <div class="alert alert-success">
         <p>Заказ с номером @ViewBag.OrderId и названием @ViewBag.Name успешно сформирован и в скором времени будет обработан.</p>
     </div>

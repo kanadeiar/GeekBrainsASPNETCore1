@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
 using WebStore.Domain.Models.Interfaces;
 
 namespace WebStore.Interfaces.Services
@@ -17,8 +18,8 @@ namespace WebStore.Interfaces.Services
         /// <summary> Один бренд </summary>
         /// <param name="id">Идентификатор</param>
         Task<Brand> GetBrand(int id);
-        /// <summary> Все товары с фильтрацией по категориям и/или брендам и/или названию или либо с определенными идентификаторами </summary>
-        Task<IEnumerable<Product>> GetProducts(IProductFilter productFilter = null, bool includes = false);
+        /// <summary> Отобранные товары с фильтрацией по категориям и/или брендам и/или названию или либо с определенными идентификаторами </summary>
+        Task<ProductPage> GetProducts(IProductFilter productFilter = null, bool includes = false);
         /// <summary> Получение одного товара по ид </summary>
         Task<Product> GetProductById(int id);
         /// <summary> Добавить товар </summary>

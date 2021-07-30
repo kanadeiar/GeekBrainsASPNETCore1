@@ -26,7 +26,7 @@ namespace WebStore.Tests.Controllers
             var productDataMock = new Mock<IProductData>();
             productDataMock
                 .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
-                .Returns(Enumerable.Empty<Product>());
+                .Returns(new ProductPage{Products = Enumerable.Empty<Product>(), TotalCount = 0 });
             var controller = new HomeController(configurationStub);
 
             var result = controller.Index(productDataMock.Object);
@@ -36,6 +36,10 @@ namespace WebStore.Tests.Controllers
             var viewResult = (ViewResult) result.Result;
             Assert
                 .IsInstanceOfType(viewResult.ViewData["Products"], typeof(IEnumerable<ProductWebModel>));
+            Assert
+                .IsInstanceOfType(viewResult.ViewData["CatagoryProducts"], typeof(IEnumerable<IEnumerable<ProductWebModel>>));
+            Assert
+                .IsInstanceOfType(viewResult.ViewData["RecommendedProducts"], typeof(IEnumerable<IEnumerable<ProductWebModel>>));
             productDataMock.Verify(_ => _.GetProducts(It.IsAny<ProductFilter>(), false), Times.Once);
             productDataMock.VerifyNoOtherCalls();
         }

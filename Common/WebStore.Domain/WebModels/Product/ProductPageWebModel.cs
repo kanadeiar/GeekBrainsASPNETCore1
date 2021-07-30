@@ -4,7 +4,7 @@ using WebStore.Domain.WebModels.Shared;
 namespace WebStore.Domain.WebModels.Product
 {
     /// <summary> Общая вебмодель для отображения отфильтрованных продуктов </summary>
-    public class ProductIndexWebModel
+    public class ProductPageWebModel
     {
         /// <summary> Фильтр товаров </summary>
         public ProductFilterWebModel Filter { get; set; }

@@ -13,9 +13,16 @@
                         <img src="~/images/shop/@product.ImageUrl" alt="@product.Name" />
                         <h2>@product.Price.ToString("C")</h2>
                         <p>
-                            <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">@product.Name</a>
+                            <a asp-controller="Catalog" asp-action="Details"
+                               asp-route-SectionId="@Context.Request.Query["SectionId"]"
+                               asp-route-BrandId="@Context.Request.Query["BrandId"]"
+                               asp-route-id="@product.Id">
+                                @product.Name
+                            </a>
                         </p>
-                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-default add-to-cart">
+                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" 
+                           data-id="@product.Id"
+                           class="btn btn-default add-to-cart">
                             <i class="fa fa-shopping-cart"></i>В корзину
                         </a>
                     </div>
@@ -23,9 +30,16 @@
                         <div class="overlay-content">
                             <h2>@product.Price.ToString("C")</h2>
                             <p>
-                                <a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">@product.Name</a>
+                                <a asp-controller="Catalog" asp-action="Details" 
+                                   asp-route-SectionId="@Context.Request.Query["SectionId"]"
+                                   asp-route-BrandId="@Context.Request.Query["BrandId"]"
+                                   asp-route-id="@product.Id">
+                                    @product.Name
+                                </a>
                             </p>
-                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-default add-to-cart">
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" 
+                               data-id="@product.Id"
+                               class="btn btn-default add-to-cart">
                                 <i class="fa fa-shopping-cart"></i>В корзину
                             </a>
                         </div>

@@ -32,18 +32,22 @@ namespace WebStore.Services.Tests.Services
             _productDataMock = new Mock<IProductData>();
             _productDataMock
                 .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
-                .Returns(Enumerable.Range(1, 5).Select(i => new Product
+                .Returns(new ProductPage
                 {
-                    Id = i,
-                    Name = $"Product {i}",
-                    Price = 1.1m * i,
-                    Order = i,
-                    ImageUrl = $"image_{i}.jpg",
-                    BrandId = i,
-                    Brand = new Brand{Id = i, Name = $"Тестовый бренд {i}", Order = i},
-                    SectionId = i,
-                    Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
-                }));
+                    Products = Enumerable.Range(1, 5).Select(i => new Product
+                    {
+                        Id = i,
+                        Name = $"Product {i}",
+                        Price = 1.1m * i,
+                        Order = i,
+                        ImageUrl = $"image_{i}.jpg",
+                        BrandId = i,
+                        Brand = new Brand{Id = i, Name = $"Тестовый бренд {i}", Order = i},
+                        SectionId = i,
+                        Section = new Section{Id = i, Name = $"Категория {i}", Order = i},
+                    }),
+                    TotalCount = 5,
+                });
             _cartStoreMock = new Mock<ICartStore>();
             _cartStoreMock
                 .Setup(_ => _.Cart)

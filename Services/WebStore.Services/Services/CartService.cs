@@ -87,10 +87,10 @@ namespace WebStore.Services.Services
 
         public async Task<CartWebModel> GetWebModel()
         {
-            var products = await _productData.GetProducts(new ProductFilter
+            var products = (await _productData.GetProducts(new ProductFilter
             {
                 Ids = _cartStore.Cart.Items.Select(i => i.ProductId).ToArray()
-            });
+            }))?.Products;
             var productViews = _mapperProductToView
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
 
@@ -98,7 +98,7 @@ namespace WebStore.Services.Services
             {
                 Items = _cartStore.Cart.Items
                     .Where(p => productViews.ContainsKey(p.ProductId))
-                    .Select(p => (productViews[p.ProductId], p.Quantity, productViews[p.ProductId].Price * p.Quantity))
+                    .Select(p => (productViews[p.ProductId], p.Quantity ))
             };
         }
     }
