@@ -61,5 +61,31 @@ namespace WebStore.Controllers
             return View(_mapperProductToWeb
                 .Map<ProductWebModel>(product));
         }
+
+        #region WebApi
+
+        public async Task<IActionResult> ApiGetProductPartialView(int? BrandId, int? SectionId, int Page = 1)
+        {
+            return PartialView("Partial/_ProductsPartial", await GetProducts(BrandId, SectionId, Page));
+        }
+
+        #endregion
+
+        #region Вспомогательные
+
+        private async Task<IEnumerable<ProductWebModel>> GetProducts(int? BrandId, int? SectionId, int Page)
+        {
+            var filter = new ProductFilter
+            {
+                BrandId = BrandId,
+                SectionId = SectionId,
+                Page = Page,
+                PageSize = _configuration.GetValue("CatalogPageSize", 6),
+            };
+            var result = (await _productData.GetProducts(filter)).Products.OrderBy(p => p.Order);
+            return _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(result);
+        }
+
+        #endregion
     }
 }
