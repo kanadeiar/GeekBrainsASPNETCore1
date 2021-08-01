@@ -26,11 +26,11 @@ namespace WebStore.Tests.Controllers
             const decimal expectedPriceFirst = 100;
             const int expectedSection = 1;
             const int expectedPage = 1;
-            const int expectedTotalPages = 0;
+            const int expectedTotalPages = 1;
             var productDataMock = new Mock<IProductData>();
             productDataMock
-                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false).Result)
-                .Returns<ProductFilter, bool>((_, _) => 
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), false))
+                .ReturnsAsync((ProductFilter _, bool _) => 
                     new ProductPage
                     {
                         Products = Enumerable.Range(1, expectedCountProducts)
@@ -49,11 +49,11 @@ namespace WebStore.Tests.Controllers
                 .Of<IConfiguration>();
             var controller = new CatalogController(productDataMock.Object, configurationStub);
 
-            var result = controller.Index(null, 1);
+            var result = controller.Index(null, 1).Result;
 
             Assert
-                .IsInstanceOfType(result.Result, typeof(ViewResult));
-            var viewResult =  (ViewResult) result.Result;
+                .IsInstanceOfType(result, typeof(ViewResult));
+            var viewResult =  (ViewResult) result;
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(CatalogWebModel));
             var catalogWebModel = (CatalogWebModel) viewResult.Model;

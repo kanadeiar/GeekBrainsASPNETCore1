@@ -92,12 +92,13 @@ namespace WebStore.Controllers
 
         private ProductFilter GetProductFilter(int? BrandId, int? SectionId, int Page)
         {
+            var pageSize = (int.TryParse(_configuration["CatalogPageSize"], out var value) ? value : 6);
             var filter = new ProductFilter
             {
                 BrandId = BrandId,
                 SectionId = SectionId,
                 Page = Page,
-                PageSize = _configuration.GetValue("CatalogPageSize", 6),
+                PageSize = pageSize,
             };
             return filter;
         }
