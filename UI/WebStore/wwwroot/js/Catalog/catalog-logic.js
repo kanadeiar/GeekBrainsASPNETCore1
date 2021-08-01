@@ -42,16 +42,16 @@ Catalog = {
                     container.LoadingOverlay("hide");
 
                     $.get(Catalog._properties.getCatalogPaginationPartialViewLink + "?" + query)
-                        .done(function (paginationHtml) {
+                        .done( paginationHtml => {
                             let pagination = $("#catalog-pagination-container");
                             pagination.html(paginationHtml);
                             $(".pagination li a").click(Catalog.clickOnPagination);
-                        }).fail(function () {
+                        }).fail( () => {
                             console.log("getCatalogPagination fail");
                         });
 
                 })
-                .fail(() => {
+                .fail( () => {
                     container.LoadingOverlay("hide");
                     console.log("clickOnPagination fail");
                 });
