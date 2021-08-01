@@ -1,7 +1,8 @@
 ﻿
 Catalog = {
     _properties: {
-        getProductPartialView: ""
+        getProductPartialViewLink: "",
+        getCatalogPaginationPartialViewLink: ""
     },
     
     init: properties => {
@@ -10,19 +11,35 @@ Catalog = {
         $(".pagination li a").click(Catalog.clickOnPagination);
     },
 
-    clickOnPagination: e => {
+    clickOnPagination: function(e) {
         e.preventDefault();
 
-        let button = this;
-        Catalog.showToolTip(button, "123");
+        let button = $(this);
 
-        alert("1");
-    },
-    
-    showToolTip: function(button, message) {
-        button.tooltip({ title: message }).tooltip("show");
-        setTimeout(function() {
-            button.tooltip("destroy");
-        }, 1000);
-    },
+        if (button.prop("href").length > 0) {
+            let container = $("#catalog-items-container");
+            let data = button.data;
+            let query = "";
+
+            container.LoadingOverlay("show", { fade: [300, 200] });
+
+            for (let key in data) {
+                if (data.hasOwnProperty(key))
+                    query += `${key}=${data[key]}&`;
+            }
+
+            $.get(Catalog._properties.getProductPartialViewLink + "?" + query)
+                .done(catalogHtml => {
+                    container.html(catalogHtml);
+                    container.LoadingOverlay("hide");
+
+
+                })
+                .fail(() => {
+                    container.LoadingOverlay("hide");
+                    console.log("clickOnPagination fail");
+                });
+
+        }
+    }
 }

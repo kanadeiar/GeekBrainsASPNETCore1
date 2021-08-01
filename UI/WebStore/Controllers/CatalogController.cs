@@ -47,13 +47,20 @@ namespace WebStore.Controllers
 
         #region WebApi
 
-        /// <summary> Представление с отфильтрованными и пагинованными товарами </summary>
+        /// <summary> Частичное представление с отфильтрованными и пагинованными товарами </summary>
         public async Task<IActionResult> ApiGetProductPartialView(int? BrandId, int? SectionId, int Page = 1)
         {
             var products = await GetProducts(BrandId, SectionId, Page);
             return PartialView("Partial/_ProductsPartial", products);
         }
 
+        /// <summary> Частичное представление с пагинацией по товарам </summary>
+        public IActionResult GetCatalogPaginationPartialView(int? BrandId, int? SectionId, int Page = 1)
+        {
+            var model = GetCatalogWebModel(BrandId, SectionId, Page);
+            return PartialView("Partial/_CatalogPaginationPartial", model);
+        }
+        
         #endregion
 
         #region Вспомогательные
