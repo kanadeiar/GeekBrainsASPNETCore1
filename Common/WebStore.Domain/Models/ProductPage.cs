@@ -12,5 +12,11 @@ namespace WebStore.Domain.Models
         public IEnumerable<Product> Products { get; set; }
         /// <summary> Всего товаров вообще </summary>
         public int TotalCount { get; set; }
+
+        public void Deconstruct(out IEnumerable<Product> products, out int productCount)
+        {
+            products = Products;
+            productCount = TotalCount;
+        }
     }
 }
