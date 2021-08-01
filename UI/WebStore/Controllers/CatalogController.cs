@@ -55,9 +55,9 @@ namespace WebStore.Controllers
         }
 
         /// <summary> Частичное представление с пагинацией по товарам </summary>
-        public IActionResult GetCatalogPaginationPartialView(int? BrandId, int? SectionId, int Page = 1)
+        public async Task<IActionResult> GetCatalogPaginationPartialView(int? BrandId, int? SectionId, int Page = 1)
         {
-            var model = GetCatalogWebModel(BrandId, SectionId, Page);
+            var model = await GetCatalogWebModel(BrandId, SectionId, Page);
             return PartialView("Partial/_CatalogPaginationPartial", model);
         }
         
