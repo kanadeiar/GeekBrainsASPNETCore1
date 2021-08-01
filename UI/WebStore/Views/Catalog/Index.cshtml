@@ -29,3 +29,15 @@
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+    <script src="~/js/Catalog/catalog-logic.js"></script>
+    <script>
+        $(function () {
+            Catalog.init({
+                getProductPartialView: "@Url.Action("ApiGetProductPartialView","Catalog")"
+            });
+        })
+    </script>
+}
