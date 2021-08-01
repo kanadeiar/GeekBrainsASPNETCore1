@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebStore.Domain.WebModels.Account
 {
@@ -8,6 +9,7 @@ namespace WebStore.Domain.WebModels.Account
         /// <summary> Имя пользователя </summary>
         [Required]
         [Display(Name = "Имя пользователя")]
+        [Remote("IsNameFree","Account")]
         public string UserName { get; set; }
         /// <summary> Пароль </summary>
         [Required]
