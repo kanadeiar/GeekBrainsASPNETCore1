@@ -127,7 +127,7 @@ namespace WebStore.Controllers
 
         #endregion
 
-        #region WebAPI
+        #region Тестирование WebAPI
 
         [AllowAnonymous]
         public async Task<IActionResult> IsNameFree(string UserName)

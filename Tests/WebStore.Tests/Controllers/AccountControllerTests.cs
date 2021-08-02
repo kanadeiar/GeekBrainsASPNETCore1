@@ -399,8 +399,35 @@ namespace WebStore.Tests.Controllers
         }
 
         #endregion
+
+        #region Тестирование WebAPI
+
+        [TestMethod]
+        public void IsNameFree_SendRequest_ShouldView()
+        {
+            var expectedName = "TestName";
+            var loggerStub = Mock
+                .Of<ILogger<AccountController>>();
+            var userManagerMock = new Mock<UserManagerMock>();
+            userManagerMock
+                .Setup(_ => _.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync((User)null);
+            var controller = new AccountController(userManagerMock.Object, new SignInManagerMock(), loggerStub);
+
+            var result = controller.IsNameFree(expectedName).Result;
+
+            Assert
+                .IsInstanceOfType(result, typeof(JsonResult));
+            var json = (JsonResult)result;
+            userManagerMock
+                .Verify(_ => _.FindByNameAsync(expectedName), Times.Once);
+            userManagerMock
+                .Verify();
+        }
+
+        #endregion
     }
-    
+
     #region Моки подмены настоящих классов
 
     public class UserManagerMock : UserManager<User>
