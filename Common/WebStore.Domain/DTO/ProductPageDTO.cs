@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace WebStore.Domain.DTO
 {
+    /// <summary> Дтошка для пагинатора товаров </summary>
     public class ProductPageDTO
     {
         /// <summary> Отобранные товары </summary>
