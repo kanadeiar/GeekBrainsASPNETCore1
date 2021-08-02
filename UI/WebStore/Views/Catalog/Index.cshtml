@@ -16,14 +16,31 @@
             </div>
 
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturedItemsPartial" model="Model.Products"/>
-
-                <page-link page-model="Model.PageWebModel"
+                <div id="catalog-items-container">
+                    <partial name="Partial/_ProductsPartial" model="Model.Products"/>
+                </div>
+                
+                <div id="catalog-pagination-container">
+                    <partial name="Partial/_CatalogPaginationPartial" model="Model" />
+                </div>
+                @*<page-link page-model="Model.PageWebModel"
                            page-action="Index"
                            page-url-sectionId="Model.SectionId"
-                           page-url-brandId="Model.BrandId"
-                           page-url-pageSize="@Context.Request.Query["PageSize"]"></page-link>
+                           page-url-brandId="Model.BrandId"></page-link>*@
             </div>
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+    <script src="~/js/Catalog/catalog-logic.js"></script>
+    <script>
+        $(function () {
+            Catalog.init({
+                getProductPartialViewLink: "@Url.Action("ApiGetProductPartialView","Catalog")",
+                getCatalogPaginationPartialViewLink: "@Url.Action("ApiGetCatalogPaginationPartialView", "Catalog")"
+            });
+        })
+    </script>
+}

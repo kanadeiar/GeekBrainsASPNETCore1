@@ -127,6 +127,18 @@ namespace WebStore.Controllers
 
         #endregion
 
+        #region Тестирование WebAPI
+
+        [AllowAnonymous]
+        public async Task<IActionResult> IsNameFree(string UserName)
+        {
+            await Task.Delay(1000);
+            var user = await _userManager.FindByNameAsync(UserName);
+            return Json(user is null ? "true" : "Пользователь с таким имененем уже существует");
+        }
+
+        #endregion
+
         [AllowAnonymous]
         public IActionResult AccessDenied()
         {

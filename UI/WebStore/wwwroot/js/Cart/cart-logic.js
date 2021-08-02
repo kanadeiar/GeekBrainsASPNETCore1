@@ -25,10 +25,10 @@ Cart = {
         let id = button.data("id");
 
         $.get(Cart._properties.addToCartLink + "/" + id)
-            .done(function(text) {
+            .done( text => {
                 Cart.refreshCartView();
                 Cart.showToolTip(button, text.message);
-            }).fail(function() {
+            }).fail(() => {
                 console.log("addToCart fail");
             });
     },
@@ -42,13 +42,13 @@ Cart = {
         let tr = button.closest("tr");
 
         $.get(Cart._properties.addToCartLink + "/" + id)
-            .done(function (text) {
+            .done( text => {
                 let count = parseInt($(".cart_quantity_input", tr).val());
                 $(".cart_quantity_input", tr).val(count + 1);
                 Cart.refreshPrice(tr);
                 Cart.refreshCartView();
                 Cart.showToolTip(button, text.message);
-            }).fail(function () {
+            }).fail( () => {
                 console.log("addItemInCart fail");
             });
     },
@@ -62,7 +62,7 @@ Cart = {
         let tr = button.closest("tr");
 
         $.get(Cart._properties.subtractFromCartLink + "/" + id)
-            .done(function (text) {
+            .done( text => {
                 let count = parseInt($(".cart_quantity_input", tr).val());
                 if (count > 1) {
                     $(".cart_quantity_input", tr).val(count - 1);
@@ -72,7 +72,7 @@ Cart = {
                     Cart.refreshTotalPrice();
                 }
                 Cart.showToolTip(button, text.message);
-            }).fail(function () {
+            }).fail( () => {
                 console.log("subtractItemFromCart fail");
             });
     },
@@ -86,12 +86,12 @@ Cart = {
         let tr = button.closest("tr");
 
         $.get(Cart._properties.removeItemFromCartLink + "/" + id)
-            .done(function (text) {
+            .done( text => {
                 tr.remove();
                 Cart.refreshTotalPrice();
                 Cart.refreshCartView();
                 Cart.showToolTip(button, text.message);
-            }).fail(function () {
+            }).fail( () => {
                 console.log("removeItemFromCart fail");
             });
     },
@@ -100,21 +100,21 @@ Cart = {
         event.preventDefault();
 
         $.get(Cart._properties.clearItemsInCartLink)
-            .done(function (text) {
+            .done( text => {
                 $(".cart_total_price").closest("tr").each(function () {
                     this.remove();
                 });
                 Cart.refreshTotalPrice();
                 Cart.refreshCartView();
                 Cart.showToolTip(button, text.message);
-            }).fail(function () {
+            }).fail( () => {
                 console.log("clearItemsInCart fail");
             });
     },
 
     showToolTip: function(button, message) {
         button.tooltip({ title: message }).tooltip("show");
-        setTimeout(function() {
+        setTimeout(() => {
             button.tooltip("destroy");
         }, 1000);
     },
@@ -122,9 +122,9 @@ Cart = {
     refreshCartView: function() {
         let container = $("#cart-container");
         $.get(Cart._properties.getCartViewLink)
-            .done(function(cartHtml) {
+            .done( cartHtml => {
                 container.html(cartHtml);
-            }).fail(function() {
+            }).fail( () => {
                 console.log("refreshCartView fail");
             });
     },

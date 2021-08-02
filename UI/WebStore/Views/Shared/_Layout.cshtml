@@ -6,7 +6,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@ViewBag.Title | E-Shopper</title>
+
     <partial name="Partial/_StylesPartial" />
+    
+    @await RenderSectionAsync("Styles", false);
+
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="~/favicon.png" sizes="500x500">
@@ -19,7 +23,9 @@
 
     <partial name="Partial/_FooterPartial"/>
 
-<partial name="Partial/_ScriptsPartial"/>
+    <partial name="Partial/_ScriptsPartial"/>
+
+    @await RenderSectionAsync("Scripts", false);
 </body>
 </html>
 

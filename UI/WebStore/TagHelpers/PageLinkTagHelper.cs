@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -95,8 +96,12 @@ namespace WebStore.TagHelpers
                 PageUrlValues["page"] = pageNumber;
                 link.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
             }
+
+            foreach (var (key, value) in PageUrlValues.Where(v => v.Value is not null))
+                link.MergeAttribute($"data-{key}", value.ToString());
+
             item.AddCssClass("page-item");
-            item.AddCssClass("page-link");
+            link.AddCssClass("page-link");
             link.InnerHtml.Append(pageNumber.ToString());
             item.InnerHtml.AppendHtml(link);
             return item;
@@ -108,8 +113,12 @@ namespace WebStore.TagHelpers
             var link = new TagBuilder("a");
             PageUrlValues["page"] = pageNumber;
             link.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+
+            foreach (var (key, value) in PageUrlValues.Where(v => v.Value is not null))
+                link.MergeAttribute($"data-{key}", value.ToString());
+
             item.AddCssClass("page-item");
-            item.AddCssClass("page-link");
+            link.AddCssClass("page-link");
             var icon = new TagBuilder("i");
             icon.AddCssClass("glyphicon");
             icon.AddCssClass("glyphicon-chevron-left");
@@ -124,8 +133,12 @@ namespace WebStore.TagHelpers
             var link = new TagBuilder("a");
             PageUrlValues["page"] = pageNumber;
             link.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+
+            foreach (var (key, value) in PageUrlValues.Where(v => v.Value is not null))
+                link.MergeAttribute($"data-{key}", value.ToString());
+
             item.AddCssClass("page-item");
-            item.AddCssClass("page-link");
+            link.AddCssClass("page-link");
             link.InnerHtml.Append("Вперед ");
             var icon = new TagBuilder("i");
             icon.AddCssClass("glyphicon");

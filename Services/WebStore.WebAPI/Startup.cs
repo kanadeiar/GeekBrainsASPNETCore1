@@ -22,15 +22,14 @@ namespace WebStore.WebAPI
     /// <summary> Конфигурация приложения </summary>
     public class Startup
     {
+        /// <summary> Конфигурация </summary>
+        public IConfiguration Configuration { get; }
         /// <summary> Конструктор </summary>
         /// <param name="configuration">Конфигурация</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        /// <summary> Конфигурация </summary>
-        public IConfiguration Configuration { get; }
-
         /// <summary> Конфигурация сервисов приложения </summary>
         /// <param name="services">Сервисы</param>
         public void ConfigureServices(IServiceCollection services)

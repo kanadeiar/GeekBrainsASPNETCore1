@@ -21,7 +21,13 @@
         <li><a my-active-route asp-controller="Home" asp-action="Error">404</a></li>
         <li><a my-active-route asp-controller="Workers" asp-action="Index">Сотрудники</a></li>
         <li><a my-active-route asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
-        <li><a asp-controller="WebAPI" asp-action="Index" class="@IsActive("WebAPI")">WebAPI</a></li>
+        <li class="dropdown">
+            <a href="#">Дополнительное<i class="fa fa-angle-down"></i></a>
+            <ul role="menu" class="sub-menu">
+                <li><a asp-controller="WebAPI" asp-action="Index" class="@IsActive("WebAPI")">WebAPI</a></li>
+                <li><a my-active-route asp-controller="Ajax" asp-action="Index">Тестирование ajax</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
 
