@@ -26,13 +26,17 @@
         <div class="col-md-3">
             <h4>Рендеринг на стороне клиента</h4>
 
-            <a class="btn btn-default">Загрузить</a>
+            <a class="btn btn-default"
+               data-ajax="true"
+               data-ajax-url="@Url.Action("GetJson", "Ajax", new { id = 11, message = "Привет мир", delay = 1000 })"
+               data-ajax-loading="#spinner-client"
+               data-ajax-success="OnJSONLoaded">Загрузить</a>
 
             <span id="spinner-client" style="display: none">
                 <i class="fa fa-spinner fa-spin"></i>
             </span>
 
-            <div class="panel-client"></div>
+            <div id="panel-client"></div>
         </div>
         
         <div class="col-md-3">
@@ -52,3 +56,16 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{ 
+    <script>
+        OnJSONLoaded = data => {
+            const panel = $("#panel-client");
+            panel.empty();
+            panel.append("<h5>Представление AJAX на клиенте</h5>");
+            panel.append("<p>msg: " + data.message + "</p>");
+            panel.append("<p>Server time: " + data.serverTime + "</p>");
+        }
+    </script>
+}
