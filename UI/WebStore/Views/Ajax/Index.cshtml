@@ -10,13 +10,17 @@
         <div class="col-md-3">
             <h4>Рендеринг на стороне сервера</h4>
 
-            <a class="btn btn-default">Загрузить</a>
+            <a class="btn btn-default"
+               data-ajax="true"
+               data-ajax-url="@Url.Action("GetHtml", "Ajax", new { id = 11, message = "Привет мир", delay = 1000 })"
+               data-ajax-loading="#spinner-server"
+               data-ajax-update="#panel-server">Загрузить</a>
             
             <span id="spinner-server" style="display: none">
                 <i class="fa fa-spinner fa-spin"></i>
             </span>
 
-            <div class="panel-server"></div>
+            <div id="panel-server"></div>
         </div>
         
         <div class="col-md-3">

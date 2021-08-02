@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Domain.WebModels.Ajax;
 
 namespace WebStore.Controllers
 {
@@ -11,6 +9,18 @@ namespace WebStore.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> GetHtml(int? id, string message, int Delay = 1000)
+        {
+            await Task.Delay(Delay);
+
+            return PartialView("Partial/_AjaxDataViewPartial", 
+                new AjaxDataWebModel
+                {
+                    Id = id ?? 1,
+                    Message = message,
+                });
         }
     }
 }
