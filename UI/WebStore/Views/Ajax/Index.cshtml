@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Тестирование ajax";
+}
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+    <hr/>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Рендеринг на стороне сервера</h4>
+
+            <a class="btn btn-default">Загрузить</a>
+            
+            <span id="spinner-server" style="display: none">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+
+            <div class="panel-server"></div>
+        </div>
+        
+        <div>
+            <h4>Рендеринг на стороне клиента</h4>
+
+            <a class="btn btn-default">Загрузить</a>
+
+            <span id="spinner-client" style="display: none">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
+
+            <div class="panel-client"></div>
+        </div>
+        
+        <div>
+            <h4>Ручное формирование разметки</h4>
+            
+            <a class="btn btn-default">Загрузить</a>
+            
+            <div class="panel-js"></div>
+        </div>
+    </div>
+</div>
