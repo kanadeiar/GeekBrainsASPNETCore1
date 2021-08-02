@@ -418,7 +418,6 @@ namespace WebStore.Tests.Controllers
 
             Assert
                 .IsInstanceOfType(result, typeof(JsonResult));
-            var json = (JsonResult)result;
             userManagerMock
                 .Verify(_ => _.FindByNameAsync(expectedName), Times.Once);
             userManagerMock
