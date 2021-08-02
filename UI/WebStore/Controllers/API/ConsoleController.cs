@@ -7,13 +7,13 @@ namespace WebStore.Controllers.API
     [ApiController]
     public class ConsoleController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("clear")]
         public void Clear()
         {
             Console.Clear();
         }
 
-        [HttpGet]
+        [HttpGet("writeline")]
         public void WriteLine(string text)
         {
             Console.WriteLine(text);
