@@ -34,6 +34,14 @@
     {
       "library": "jquery-ajax-unobtrusive@3.2.6",
       "destination": "wwwroot/lib/jquery-ajax-unobtrusive/"
+    },
+    {
+      "library": "vue@3.1.5",
+      "destination": "wwwroot/lib/vue/",
+      "files": [
+        "vue.cjs.js",
+        "vue.global.js"
+      ]
     }
   ]
 }

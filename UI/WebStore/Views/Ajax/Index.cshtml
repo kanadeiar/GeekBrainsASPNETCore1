@@ -4,8 +4,8 @@
 
 <div class="container">
     <h1>@ViewBag.Title</h1>
-    <hr/>
-    
+    <hr />
+
     <div class="row">
         <div class="col-md-3">
             <h4>Рендеринг на стороне сервера</h4>
@@ -15,14 +15,14 @@
                data-ajax-url="@Url.Action("GetHtml", "Ajax", new { id = 11, message = "Привет мир!", delay = 1000 })"
                data-ajax-loading="#spinner-server"
                data-ajax-update="#panel-server">Загрузить</a>
-            
+
             <span id="spinner-server" style="display: none">
                 <i class="fa fa-spinner fa-spin"></i>
             </span>
 
             <div id="panel-server"></div>
         </div>
-        
+
         <div class="col-md-3">
             <h4>Рендеринг на стороне клиента</h4>
 
@@ -38,7 +38,7 @@
 
             <div id="panel-client"></div>
         </div>
-        
+
         <div class="col-md-3">
             <h4>Ручной рендеринг</h4>
 
@@ -50,19 +50,27 @@
 
             <div id="manual-ajax-panel"></div>
         </div>
-        
-        <div class="col-md-3">
-            <h4>Использование vue.js</h4>
+
+        <div class="col-md-3" id="vue-app">
+            <h4>Использование фреймворка vue.js</h4>
+
+            <a v-on:click="loadAjaxMessage" class="btn btn-default">Загрузить</a>
             
-            <a class="btn btn-default">Загрузить</a>
+            <span v-if="wait">
+                <i class="fa fa-spinner fa-spin"></i>
+            </span>
             
-            <div class="panel-vue"></div>
+            <div v-if="seen">
+                <h5>Представление Frontend фреймворка</h5>
+                <p>Сообщение: {{ message }} </p>
+                <p>Время на сервере: {{ serverTime }}</p>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts
-{ 
+{
     <script>
         OnJSONLoaded = data => {
             let panel = $("#panel-client");
@@ -78,7 +86,7 @@
             let spinner = $("#manual-ajax-spinner");
             spinner.removeAttr("style");
 
-            $.get("@Url.Action("GetJson", "Ajax")", { id: 12, msg: "Привет мир!", delay: "1000" })
+            $.get("@Url.Action("GetJson", "Ajax")", { id: 12, message: "Привет мир!", delay: "1000" })
                 .done(data => {
                     let panel = $("#manual-ajax-panel");
                     panel.empty();
@@ -93,4 +101,37 @@
                 });
         });
     </script>
+
+    <!-- development version vuejs, includes helpful console warnings -->
+    <script src="~/lib/vue/vue.global.js"></script>
+
+    <script>
+
+        let AjaxTestVueApp = {
+            data() {
+                return {
+                    message: 'Привет Vue!',
+                    serverTime: '',
+                    seen: false,
+                    wait: false
+                }
+            },
+            methods: {
+                loadAjaxMessage() {
+                    this.wait = true;
+                    $.get("@Url.Action("GetJson", "Ajax")", { id: 13, message: "Привет мир!", delay: "1000" })
+                        .done(data => {
+                            this.message = data.message;
+                            this.serverTime = data.serverTime;
+                            this.wait = false;
+                            this.seen = true;
+                        }).fail(() => {
+                            console.log("loadTestMessage fail");
+                        });
+                }
+            }
+        };
+        let vm = Vue.createApp(AjaxTestVueApp).mount('#vue-app');
+    </script>
+
 }
