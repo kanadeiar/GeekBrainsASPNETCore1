@@ -18,7 +18,7 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="~/images/shop/@Model.ImageUrl" alt="@Model.Name"/>
+                            <img src="~/images/shop/@Model.ImageUrl" alt="@Model.Name" />
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -58,11 +58,11 @@
                             <!--/product-information-->
                             <h2>@Model.Name</h2>
                             <p>Артикул: @Model.Id.ToString("00000000")</p>
-                            <img src="~/images/product-details/rating.png" alt=""/>
+                            <img src="~/images/product-details/rating.png" alt="" />
                             <span>
                                 <span>@Model.Price.ToString("C")</span>
                                 <label>Количество:</label>
-                                <input type="text" value="1"/>
+                                <input type="text" value="1" />
                                 <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id"
                                    data-id="@Model.Id"
                                    class="btn btn-default add-to-cart">
@@ -74,14 +74,14 @@
                             <p><b>Состояние:</b> Новое</p>
                             <p><b>Категория:</b> @Model.Section</p>
                             <p><b>Бренд:</b> @Model.Brand</p>
-                            <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt=""/></a>
+                            <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
 
-                <partial name="Partial/_CategoryTabPartial"/>
+                <partial name="Partial/_CategoryTabPartial" model="@ViewBag.CatagoryProducts" />
 
-                <partial name="Partial/_RecommendedItemsPartial"/>
+                <partial name="Partial/_RecommendedItemsPartial" model="@ViewBag.RecommendedProducts" />
 
             </div>
         </div>
