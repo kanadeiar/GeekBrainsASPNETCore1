@@ -1,0 +1,11 @@
+﻿@using WebStore.Blazor
+@{
+    ViewBag.Title = "Тестирование Blazor Server";
+}
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+
+    <component type="typeof(CounterComponent)" render-mode="Server"/>
+
+</div>

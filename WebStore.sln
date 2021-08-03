@@ -39,9 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.WebAPI.Tests", "Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.WebAPI.Client.Tests", "Tests\WebStore.WebAPI.Client.Tests\WebStore.WebAPI.Client.Tests.csproj", "{60DB60C7-22EC-4263-B636-8AD6840DF03E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.WebAPI.IntegrationTests", "Tests\WebStore.WebAPI.IntergationTests\WebStore.WebAPI.IntegrationTests.csproj", "{01BBC62C-8FF6-42FB-A489-7CC2EC59BB56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.WebAPI.IntegrationTests", "Tests\WebStore.WebAPI.IntergationTests\WebStore.WebAPI.IntegrationTests.csproj", "{01BBC62C-8FF6-42FB-A489-7CC2EC59BB56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.IntegrationTests", "Tests\WebStore.IntegrationTests\WebStore.IntegrationTests.csproj", "{D282B004-3231-4726-9ACA-1D44B11596E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.IntegrationTests", "Tests\WebStore.IntegrationTests\WebStore.IntegrationTests.csproj", "{D282B004-3231-4726-9ACA-1D44B11596E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

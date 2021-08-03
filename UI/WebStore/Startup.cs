@@ -78,6 +78,8 @@ namespace WebStore
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddSignalR();
+
+            services.AddServerSideBlazor();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
         {
@@ -106,7 +108,10 @@ namespace WebStore
                     name : "areas",
                     pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
+                
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapBlazorHub();
             });
         }
     }
