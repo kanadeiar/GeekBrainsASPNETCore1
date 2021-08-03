@@ -26,6 +26,8 @@ namespace WebStore.Domain.Entities
         /// <summary> Стоимость </summary>
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        /// <summary> Товар удален в корзину </summary>
+        public bool IsDelete { get; set; }
         /// <summary> Элементы заказа </summary>
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }

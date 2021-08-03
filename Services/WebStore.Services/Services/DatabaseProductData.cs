@@ -43,6 +43,7 @@ namespace WebStore.Services.Services
                 ? _context.Products
                     .Include(p => p.Brand)
                     .Include(p => p.Section)
+                    .Where(p => !p.IsDelete)
                 : _context.Products;
 
             if (productFilter?.Ids?.Length > 0)
@@ -119,14 +120,10 @@ namespace WebStore.Services.Services
 
         public async Task<bool> DeleteProduct(int id)
         {
-            if (await GetProductById(id).ConfigureAwait(false) is not { } product)
-            {
-                #region Лог
-                _logger.LogError($"Товар с идентификатором {id} не удалось удалить из базы данных");
-                #endregion
+            if (await GetProductById(id).ConfigureAwait(false) is { } product)
+                product.IsDelete = true;
+            else
                 return false;
-            }                
-            _context.Remove(product);
             await _context.SaveChangesAsync();
             #region Лог
             _logger.LogInformation($"Товар {id} {product.Name} успешно удален из базы данных");
