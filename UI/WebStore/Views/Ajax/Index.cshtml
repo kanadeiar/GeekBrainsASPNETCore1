@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebStore.Blazor
+@{
     ViewBag.Title = "Тестирование ajax";
 }
 
@@ -7,7 +8,7 @@
     <hr />
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h4>Рендеринг на стороне сервера</h4>
 
             <a class="btn btn-default"
@@ -23,7 +24,7 @@
             <div id="panel-server"></div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h4>Рендеринг на стороне клиента</h4>
 
             <a class="btn btn-default"
@@ -39,7 +40,7 @@
             <div id="panel-client"></div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h4>Ручной рендеринг</h4>
 
             <a class="btn btn-default" id="manual-ajax-button">Загрузить</a>
@@ -51,7 +52,7 @@
             <div id="manual-ajax-panel"></div>
         </div>
 
-        <div class="col-md-3" id="vue-app">
+        <div class="col-md-4" id="vue-app">
             <h4>Использование фреймворка vue.js</h4>
 
             <a v-on:click="loadAjaxMessage" class="btn btn-default">Загрузить</a>
@@ -65,6 +66,12 @@
                 <p>Сообщение: {{ message }} </p>
                 <p>Время на сервере: {{ serverTime }}</p>
             </div>
+        </div>
+        
+        <div class="col-md-4">
+            <h4>Использование Blazor Server</h4>
+            
+            <component type="typeof(AjaxTestComponent)" render-mode="Server"/>
         </div>
     </div>
     
