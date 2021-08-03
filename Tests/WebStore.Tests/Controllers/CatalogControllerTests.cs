@@ -111,15 +111,33 @@ namespace WebStore.Tests.Controllers
                     SectionId = 1,
                     Section = new Section { Id = 1, Name = "Категория 1", Order = 1 }
                 });
+            productDataMock
+                .Setup(_ => _.GetProducts(It.IsAny<ProductFilter>(), It.IsAny<bool>()))
+                .ReturnsAsync((ProductFilter _, bool _) =>
+                {
+                    return new ProductPage
+                    {
+                        Products = Enumerable.Range(1, 3)
+                            .Select(id => new Product
+                            {
+                                Id = id,
+                                Name = $"Товар {id}",
+                                Order = id,
+                                Price = 100,
+                                ImageUrl = $"Image_{id}.jpg",
+                            }),
+                        TotalCount = 3,
+                    };
+                });
             var configurationStub = Mock
                 .Of<IConfiguration>();
             var controller = new CatalogController(productDataMock.Object, configurationStub);
 
-            var result = controller.Details(expectedId);
+            var result = controller.Details(expectedId).Result;
             
             Assert
-                .IsInstanceOfType(result.Result, typeof(ViewResult));
-            var viewResult = (ViewResult) result.Result;
+                .IsInstanceOfType(result, typeof(ViewResult));
+            var viewResult = (ViewResult) result;
             Assert
                 .IsInstanceOfType(viewResult.Model, typeof(ProductWebModel));
             var webModel = (ProductWebModel) viewResult.Model;
@@ -132,7 +150,7 @@ namespace WebStore.Tests.Controllers
             productDataMock
                 .Verify(_ => _.GetProductById(It.IsAny<int>()), Times.Once);
             productDataMock
-                .VerifyNoOtherCalls();
+                .Verify();
         }
 
         [TestMethod]
