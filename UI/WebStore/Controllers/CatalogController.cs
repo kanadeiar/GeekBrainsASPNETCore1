@@ -19,7 +19,9 @@ namespace WebStore.Controllers
 
         private readonly Mapper _mapperProductToWeb = new(new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
                 .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
-                .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
+                .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))
+                .ForMember("Tags", o => o.MapFrom(p => p.Tags.Select(k => k.Text)))
+        ));
 
         public CatalogController(IProductData productData, IConfiguration configuration)
         {
@@ -37,20 +39,20 @@ namespace WebStore.Controllers
         /// <summary> Детальные данные по каждому товару </summary>
         public async Task<IActionResult> Details(int id)
         {
-            var gettedProducts = await _productData.GetProducts();
+            var (products, _) = await _productData.GetProducts();
             var product = await _productData.GetProductById(id);
             if (product is null)
                 return NotFound();
             ViewBag.CatagoryProducts = new[]
             {
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Take(4)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(4).Take(4)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(2).Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Skip(4).Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Skip(2).Take(4)),
             };
             ViewBag.RecommendedProducts = new[]
             {
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Take(3)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(gettedProducts.Products.Skip(3).Take(3)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Take(3)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Skip(3).Take(3)),
             };
 
             return View(_mapperProductToWeb

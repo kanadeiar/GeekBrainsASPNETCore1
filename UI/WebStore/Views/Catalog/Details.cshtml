@@ -5,12 +5,12 @@
 
 <section>
     <div class="container">
-        
-        <vc:bread-crumbs/>
+
+        <vc:bread-crumbs />
 
         <div class="row">
             <div class="col-sm-3">
-                <partial name="Partial/_LeftSidebarPartial"/>
+                <partial name="Partial/_LeftSidebarPartial" />
             </div>
 
             <div class="col-sm-9 padding-right">
@@ -74,6 +74,20 @@
                             <p><b>Состояние:</b> Новое</p>
                             <p><b>Категория:</b> @Model.Section</p>
                             <p><b>Бренд:</b> @Model.Brand</p>
+                            <p>
+                                <b>Ключевые слова:</b>
+                                @if (@Model.Tags is { Count: > 0 } tags)
+                                {
+                                    foreach (var tag in tags)
+                                    {
+                                        <span> @tag </span> 
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Отсутствуют</p>
+                                }
+                            </p>
                             <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div><!--/product-information-->
                     </div>
