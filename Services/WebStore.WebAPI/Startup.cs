@@ -19,19 +19,19 @@ using WebStore.WebAPI.Infrastructure.Middleware;
 
 namespace WebStore.WebAPI
 {
-    /// <summary> Конфигурация приложения </summary>
+    /// <summary> РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ РїСЂРёР»РѕР¶РµРЅРёСЏ </summary>
     public class Startup
     {
-        /// <summary> Конфигурация </summary>
+        /// <summary> РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ </summary>
         public IConfiguration Configuration { get; }
-        /// <summary> Конструктор </summary>
-        /// <param name="configuration">Конфигурация</param>
+        /// <summary> РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ </summary>
+        /// <param name="configuration">РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        /// <summary> Конфигурация сервисов приложения </summary>
-        /// <param name="services">Сервисы</param>
+        /// <summary> РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ СЃРµСЂРІРёСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ </summary>
+        /// <param name="services">РЎРµСЂРІРёСЃС‹</param>
         public void ConfigureServices(IServiceCollection services)
         {
             var databaseName = Configuration["Database"];
@@ -114,10 +114,10 @@ namespace WebStore.WebAPI
             });
         }
 
-        /// <summary> Конфигурация конвейера </summary>
-        /// <param name="app">Строитель приложения</param>
-        /// <param name="env">Среда</param>
-        /// <param name="service">Сервисы</param>
+        /// <summary> РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ РєРѕРЅРІРµР№РµСЂР° </summary>
+        /// <param name="app">РЎС‚СЂРѕРёС‚РµР»СЊ РїСЂРёР»РѕР¶РµРЅРёСЏ</param>
+        /// <param name="env">РЎСЂРµРґР°</param>
+        /// <param name="service">РЎРµСЂРІРёСЃС‹</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider service)
         {
             using (var scope = service.CreateScope())
