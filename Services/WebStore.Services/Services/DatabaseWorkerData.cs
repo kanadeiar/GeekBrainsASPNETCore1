@@ -32,7 +32,7 @@ namespace WebStore.Services.Services
             _context.Workers.Add(worker);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
-            _logger.LogInformation($"Пользователь {worker.LastName} {worker.FirstName} {worker.Patronymic} успешно добавлен в базу данных");
+            _logger.LogInformation("Пользователь {0} {1} {2} успешно добавлен в базу данных", worker.LastName, worker.FirstName, worker.Patronymic);
             #endregion
             return worker.Id;
         }
@@ -57,7 +57,7 @@ namespace WebStore.Services.Services
                 _context.Entry(worker).State = EntityState.Modified;
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
-            _logger.LogInformation($"Пользователь {worker.LastName} {worker.FirstName} {worker.Patronymic} успешно обновлен в базе данных");
+            _logger.LogInformation("Пользователь {0} {1} {2} успешно обновлен в базе данных", worker.LastName, worker.FirstName, worker.Patronymic);
             #endregion
         }
 
@@ -68,7 +68,7 @@ namespace WebStore.Services.Services
             _context.Workers.Remove(item);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
-            _logger.LogInformation($"Пользователь {item.LastName} {item.FirstName} {item.Patronymic} успешно удален из базы данных");
+            _logger.LogInformation("Пользователь {0} {1} {2} успешно удален из базы данных", item.LastName, item.FirstName, item.Patronymic);
             #endregion
             return true;
         }

@@ -90,7 +90,7 @@ namespace WebStore.Services.Services
             _context.Add(product);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
-            _logger.LogInformation($"Товар {product.Id} {product.Name} успешно добавлен в базу данных");
+            _logger.LogInformation("Товар {0} {1} успешно добавлен в базу данных", product.Id, product.Name);
             #endregion
             return product.Id;
         }
@@ -114,7 +114,7 @@ namespace WebStore.Services.Services
             }
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог
-            _logger.LogInformation($"Товар {product.Id} {product.Name} успешно обновлен в базе данных");
+            _logger.LogInformation("Товар {0} {1} успешно обновлен в базе данных", product.Id, product.Name);
             #endregion
         }
 
@@ -126,7 +126,7 @@ namespace WebStore.Services.Services
                 return false;
             await _context.SaveChangesAsync();
             #region Лог
-            _logger.LogInformation($"Товар {id} {product.Name} успешно удален из базы данных");
+            _logger.LogInformation("Товар {0} {1} успешно удален из базы данных", id, product.Name);
             #endregion
             return true;
         }

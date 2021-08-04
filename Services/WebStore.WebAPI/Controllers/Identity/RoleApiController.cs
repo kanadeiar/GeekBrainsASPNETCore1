@@ -40,7 +40,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             var result = await _roleStore.CreateAsync(role);
             #region Лог
             if (!result.Succeeded) 
-                _logger.LogError($"Ошибка создания роли пользователей {role.Name}");
+                _logger.LogError("Ошибка создания роли пользователей {0}", role.Name);
             #endregion
             return result.Succeeded;
         }
@@ -54,7 +54,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             var result = await _roleStore.UpdateAsync(role);
             #region Лог
             if (!result.Succeeded) 
-                _logger.LogError($"Ошибка обновления роли пользователей {role.Name}");
+                _logger.LogError("Ошибка обновления роли пользователей {0}", role.Name);
             #endregion
             return result.Succeeded;
         }
@@ -69,7 +69,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             var result = await _roleStore.DeleteAsync(role);
             #region Лог
             if (!result.Succeeded) 
-                _logger.LogError($"Ошибка удаления роли пользователей {role.Name}");
+                _logger.LogError("Ошибка удаления роли пользователей {0}", role.Name);
             #endregion
             return result.Succeeded;
         }
@@ -103,7 +103,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _roleStore.UpdateAsync(role);
             #region Лог
             if (!string.Equals(role.Name, name))
-                _logger.LogError($"Ошибка при изменении имени роли с {role.Name} на {name}");
+                _logger.LogError("Ошибка при изменении имени роли с {0} на {1}", role.Name, name);
             #endregion
             return role.Name;
         }
@@ -128,7 +128,7 @@ namespace WebStore.WebAPI.Controllers.Identity
             await _roleStore.UpdateAsync(role);
             #region Лог
             if (!string.Equals(role.NormalizedName, name))
-                _logger.LogError($"Ошибка при изменении нормализованного имени роли с {role.NormalizedName} на {name}");
+                _logger.LogError("Ошибка при изменении нормализованного имени роли с {0} на {1}", role.NormalizedName, name);
             #endregion
             return role.NormalizedName;
         }

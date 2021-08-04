@@ -35,7 +35,7 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             #region Лог
-            _logger.LogInformation($"Регистрация нового пользователя {model.UserName}");
+            _logger.LogInformation("Регистрация нового пользователя {0}", model.UserName);
             #endregion
             var user = new User
             {
@@ -45,15 +45,15 @@ namespace WebStore.Controllers
             if (result.Succeeded)
             {
                 #region Лог
-                _logger.LogInformation($"Пользователь {user.UserName} успешно зарегистрирован");
+                _logger.LogInformation("Пользователь {0} успешно зарегистрирован", user.UserName);
                 #endregion
                 await _userManager.AddToRoleAsync(user, Role.Users);
                 #region Лог
-                _logger.LogInformation($"Пользователю {user.UserName} автоматически назначена роль {Role.Users}");
+                _logger.LogInformation("Пользователю {0} автоматически назначена роль {1}", user.UserName, Role.Users);
                 #endregion
                 await _signInManager.SignInAsync(user, false);
                 #region Лог
-                _logger.LogInformation($"Пользователь {user.UserName} автоматически вошел в систему после регистрации");
+                _logger.LogInformation("Пользователь {0} автоматически вошел в систему после регистрации", user.UserName);
                 #endregion
                 return RedirectToAction("Index", "Home");
             }
@@ -65,8 +65,7 @@ namespace WebStore.Controllers
             }
 
             #region Лог
-            _logger.LogError($"{DateTime.Now} Ошибки при регистрации пользователя {user.UserName} в систему: " +
-                             $"{string.Join(",", errors)}");
+            _logger.LogError("{0} Ошибки при регистрации пользователя {1} в систему: {2}", DateTime.Now, user.UserName, string.Join(",", errors));
             #endregion
             return View(model);
         }
@@ -98,14 +97,14 @@ namespace WebStore.Controllers
             if (result.Succeeded)
             {
                 #region Лог
-                _logger.LogInformation($"Успешный вход в ситему Identity пользователя {model.UserName}");
+                _logger.LogInformation("Успешный вход в ситему Identity пользователя {0}", model.UserName);
                 #endregion
                 return LocalRedirect(model.ReturnUrl ?? "/");
             }
 
             ModelState.AddModelError("", "Ошибка в имени пользователя, либо в пароле при входе в систему Identity");
             #region Лог
-            _logger.LogError($"Ошибка при входе пользователя {model.UserName}, либо в пароле при входе в систему Identity");
+            _logger.LogError("Ошибка при входе пользователя {0}, либо в пароле при входе в систему Identity", model.UserName);
             #endregion
 
             return View();
@@ -120,7 +119,7 @@ namespace WebStore.Controllers
             var username = User.Identity!.Name;
             await _signInManager.SignOutAsync();
             #region Лог
-            _logger.LogInformation($"Выход пользователя {username} из системы Identity");
+            _logger.LogInformation("Выход пользователя {0} из системы Identity", username);
             #endregion
             return LocalRedirect(returnUrl ?? "/");
         }
@@ -143,7 +142,7 @@ namespace WebStore.Controllers
         public IActionResult AccessDenied()
         {
             #region Лог
-            _logger.LogError($"В доступе оказано");
+            _logger.LogError("В доступе оказано");
             #endregion
             return View();
         }

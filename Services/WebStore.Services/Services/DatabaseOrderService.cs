@@ -47,7 +47,7 @@ namespace WebStore.Services.Services
             if (user is null)
             {
                 #region Лог
-                _logger.LogError($"Пользователь {userName} отсутствует в базе данных");
+                _logger.LogError("Пользователь {0} отсутствует в базе данных", userName);
                 #endregion
                 throw new InvalidOperationException(nameof(user) + " этот пользователь отсутствует в базе данных");
             }

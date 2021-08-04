@@ -37,7 +37,7 @@ namespace WebStore.Services.Services
             else
                 cart.Items.Add(new CartItem{ ProductId = id });
             #region Лог
-            _logger.LogInformation($"Успешно добавлен в корзину товар c идентификатором {id}");
+            _logger.LogInformation("Успешно добавлен в корзину товар c идентификатором {0}", id);
             #endregion
             _cartStore.Cart = cart;
         }
@@ -55,7 +55,7 @@ namespace WebStore.Services.Services
             if (item.Quantity <= 0)
                 cart.Items.Remove(item);
             #region Лог
-            _logger.LogInformation($"Товар с идентификатором {id} успешно убавлен на еденицу в корзине");
+            _logger.LogInformation("Товар с идентификатором {0} успешно убавлен на еденицу в корзине", id);
             #endregion
             _cartStore.Cart = cart;
         }
@@ -69,7 +69,7 @@ namespace WebStore.Services.Services
 
             cart.Items.Remove(item);
             #region Лог
-            _logger.LogInformation($"Товар с идентификатором {id} успешно удален из корзины");
+            _logger.LogInformation("Товар с идентификатором {0} успешно удален из корзины", id);
             #endregion
             _cartStore.Cart = cart;
         }

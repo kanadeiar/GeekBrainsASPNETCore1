@@ -71,7 +71,7 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(model);
             #region Лог
-            _logger.LogInformation($"Начало редактирования сотрудника id={model.Id}");
+            _logger.LogInformation("Начало редактирования сотрудника id={0}", model.Id);
             #endregion
             var worker = _mapperWorkerFromWeb.Map<Worker>(model);
 
@@ -80,7 +80,7 @@ namespace WebStore.Controllers
             else
                 await _Workers.Update(worker);
             #region Лог
-            _logger.LogInformation($"Редактирование сотрудника id={model.Id} завершено");
+            _logger.LogInformation("Редактирование сотрудника id={0} завершено", model.Id);
             #endregion
             return RedirectToAction("Index");
         }
@@ -104,12 +104,12 @@ namespace WebStore.Controllers
             if (id < 0) 
                 return BadRequest();
             #region Лог
-            _logger.LogDebug($"Начало удаления сотрудника id={id}");
+            _logger.LogDebug("Начало удаления сотрудника id={0}", id);
             #endregion
             if (!await _Workers.Delete(id))
                 return BadRequest();
             #region Лог
-            _logger.LogDebug($"Окончание успешного удаления сотрудника id={id}");
+            _logger.LogDebug("Окончание успешного удаления сотрудника id={0}", id);
             #endregion
             return RedirectToAction("Index");
         }

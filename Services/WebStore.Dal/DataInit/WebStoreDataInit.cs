@@ -37,9 +37,9 @@ namespace WebStore.Dal.DataInit
         public IWebStoreDataInit RecreateDatabase()
         {
             _context.Database.EnsureDeleted();
-            _logger.LogInformation($"{DateTime.Now} Удаление БД выполнено");
+            _logger.LogInformation("{0} Удаление БД выполнено", DateTime.Now);
             _context.Database.Migrate();
-            _logger.LogInformation($"{DateTime.Now} Миграция БД выполнена");
+            _logger.LogInformation("{0} Миграция БД выполнена", DateTime.Now);
             return this;
         }
         /// <summary> Заполнение начальными данными </summary>
@@ -51,11 +51,11 @@ namespace WebStore.Dal.DataInit
             if (_context.Database.GetPendingMigrations().Any())
             {
                 _context.Database.Migrate();
-                _logger.LogInformation($"{DateTime.Now} Миграция БД выполнена, время: {timer.Elapsed.TotalSeconds} сек.");
+                _logger.LogInformation("{0} Миграция БД выполнена, время: {1} сек.", DateTime.Now, timer.Elapsed.TotalSeconds);
             }
             else
             {
-                _logger.LogInformation($"{DateTime.Now} Миграция БД не требуется");
+                _logger.LogInformation("{0} Миграция БД не требуется", DateTime.Now);
             }
 
             try
@@ -64,7 +64,7 @@ namespace WebStore.Dal.DataInit
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации данных базы данных");
+                _logger.LogError(e, "{0} Ошибка при инициализации данных базы данных", DateTime.Now);
                 throw;
             }
 
@@ -74,7 +74,7 @@ namespace WebStore.Dal.DataInit
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"{DateTime.Now} Ошибка при инициализации БД системы Identity");
+                _logger.LogError(e, "{0} Ошибка при инициализации БД системы Identity", DateTime.Now);
                 throw;
             }
 
@@ -84,10 +84,10 @@ namespace WebStore.Dal.DataInit
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"{DateTime.Now} Ошибка инициализации начальных данных работников");
+                _logger.LogError(e, "{0} Ошибка инициализации начальных данных работников", DateTime.Now);
                 throw;
             }
-            _logger.LogInformation($"{DateTime.Now} Инициализация БД выполнена, время: {timer.Elapsed.TotalSeconds} сек.");
+            _logger.LogInformation("{0} Инициализация БД выполнена, время: {1} сек.", DateTime.Now, timer.Elapsed.TotalSeconds);
             return this;
         }
 
@@ -97,7 +97,7 @@ namespace WebStore.Dal.DataInit
         {
             if (_context.Products.Any())
             {
-                _logger.LogInformation($"{DateTime.Now} Инициализация продуктов, категорий и брендов нет требуется");
+                _logger.LogInformation("{0} Инициализация продуктов, категорий и брендов нет требуется", DateTime.Now);
                 return;
             }
             foreach (var section in _getSections.Where(s => s.ParentId is null))
@@ -141,7 +141,7 @@ namespace WebStore.Dal.DataInit
             });
             context.Products.AddRange(products);
             context.SaveChanges();
-            _logger.LogInformation($"{DateTime.Now} Инициализация продуктов, категорий и брендов выполнена успешно");
+            _logger.LogInformation("{0} Инициализация продуктов, категорий и брендов выполнена успешно", DateTime.Now);
         }
 
         #endregion
@@ -165,7 +165,7 @@ namespace WebStore.Dal.DataInit
 
             if (await _userManager.FindByNameAsync(User.Administrator) is null)
             {
-                _logger.LogInformation($"Пользователь {User.Administrator} отсутствует, создаю ...");
+                _logger.LogInformation("Пользователь {0} отсутствует, создаю ...", User.Administrator);
                 var admin = new User
                 {
                     UserName = User.Administrator,
@@ -175,7 +175,7 @@ namespace WebStore.Dal.DataInit
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(admin, Role.Administrators);
-                    _logger.LogInformation($"{DateTime.Now} Пользователь {admin.UserName} успешно создан и наделен ролью {Role.Administrators}");
+                    _logger.LogInformation("{0} Пользователь {1} успешно создан и наделен ролью {2}", DateTime.Now, admin.UserName, Role.Administrators);
                 }
                 else
                 {
@@ -184,7 +184,7 @@ namespace WebStore.Dal.DataInit
                         string.Join(",", errors));
                     throw new InvalidOperationException($"Ошибка при создании пользователя {admin.UserName}, список ошибок: {string.Join(",", errors)}");
                 }
-                _logger.LogInformation($"{DateTime.Now} Инициализация системы Identity в базе данных выполнено успешно");
+                _logger.LogInformation("{0} Инициализация системы Identity в базе данных выполнено успешно", DateTime.Now);
             }
         }
 
@@ -196,7 +196,7 @@ namespace WebStore.Dal.DataInit
         {
             if (context.Workers.Any())
             {
-                _logger.LogInformation($"{DateTime.Now} Инициализация работников, начальных данных работников не требуется");
+                _logger.LogInformation("{0} Инициализация работников, начальных данных работников не требуется", DateTime.Now);
                 return;
             }
             var workers = GetTestWorkers.Select(w => new Worker
@@ -217,7 +217,7 @@ namespace WebStore.Dal.DataInit
                 _context.SaveChanges();
                 _context.Database.CommitTransaction();
 
-                _logger.LogInformation($"{DateTime.Now} Инициализация работников, начальных данных работников прошла успешно");
+                _logger.LogInformation("{0} Инициализация работников, начальных данных работников прошла успешно", DateTime.Now);
             }
         }
 

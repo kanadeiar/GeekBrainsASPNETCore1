@@ -151,7 +151,7 @@ namespace WebStore.Areas.Admin.Controllers
                 return BadRequest();
             var result = await _productData.DeleteProduct(id);
             if (!result)
-                _logger.LogError($"Не удалось удалить товар с id={id}");
+                _logger.LogError("Не удалось удалить товар с id={0}", id);
 
             return RedirectToAction("Index", "Product");
         }
