@@ -28,6 +28,8 @@ namespace WebStore.Domain.Entities
         public decimal Price { get; set; }
         /// <summary> Товар удален в корзину </summary>
         public bool IsDelete { get; set; }
+        /// <summary> Ключевые слова этого товара </summary>
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
         /// <summary> Элементы заказа </summary>
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }

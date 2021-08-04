@@ -81,6 +81,7 @@ namespace WebStore.Services.Services
         public async Task<Product> GetProductById(int id) => await _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Section)
+                .Include(p => p.Tags)
                 .SingleOrDefaultAsync(p => p.Id == id).ConfigureAwait(false);
 
         public async Task<int> AddProduct(Product product)

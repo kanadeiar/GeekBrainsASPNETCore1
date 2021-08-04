@@ -68,6 +68,8 @@ namespace WebStore.Dal.DataInit
                 throw;
             }
 
+
+
             try
             {
                 InitializeIdentityAsync().GetAwaiter().GetResult();
@@ -97,7 +99,7 @@ namespace WebStore.Dal.DataInit
         {
             if (_context.Products.Any())
             {
-                _logger.LogInformation("{0} Инициализация продуктов, категорий и брендов нет требуется", DateTime.Now);
+                _logger.LogInformation("{0} Инициализация продуктов, категорий и брендов и ключевых слов нет требуется", DateTime.Now);
                 return;
             }
             foreach (var section in _getSections.Where(s => s.ParentId is null))
@@ -129,7 +131,6 @@ namespace WebStore.Dal.DataInit
 
             var tmpSections = context.Sections.ToArray();
             var tmpBrands = context.Brands.ToArray();
-
             var products = _getProducts.Select(p => new Product
             {
                 Name = p.Name,
@@ -141,7 +142,25 @@ namespace WebStore.Dal.DataInit
             });
             context.Products.AddRange(products);
             context.SaveChanges();
-            _logger.LogInformation("{0} Инициализация продуктов, категорий и брендов выполнена успешно", DateTime.Now);
+
+            var tmpProducts = context.Products.ToArray();
+            var tags = _getTags.Select(t => new Tag
+            {
+                Text = t.Text,
+            });
+            context.Tags.AddRange(tags);
+            context.SaveChanges();
+
+            foreach (var tag in context.Tags)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    tag.Products.Add(tmpProducts[_rnd.Next(tmpProducts.Length)]);
+                }
+            }
+            context.SaveChanges();
+
+            _logger.LogInformation("{0} Инициализация продуктов, категорий и брендов и ключевых слов выполнена успешно", DateTime.Now);
         }
 
         #endregion
@@ -351,6 +370,15 @@ namespace WebStore.Dal.DataInit
             new Product { Id = 79, Name = "Красное китайское платье", Price = 1025, ImageUrl = "product9.jpg", Order = 8, SectionId = 25, BrandId = 1 },
             new Product { Id = 80, Name = "Женские джинсы", Price = 1025, ImageUrl = "product10.jpg", Order = 9, SectionId = 25, BrandId = 3 },
 
+        };
+
+        private IEnumerable<Tag> _getTags = new[]
+        {
+            new Tag{Id = 1, Text = "платья"},
+            new Tag{Id = 2, Text = "стиль"},
+            new Tag{Id = 3, Text = "молодежное"},
+            new Tag{Id = 4, Text = "костюмы"},
+            new Tag{Id = 5, Text = "мода"},
         };
 
         private static IEnumerable<Worker> GetTestWorkers => Enumerable.Range(1, 10).Select(p => new Worker

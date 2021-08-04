@@ -20,6 +20,8 @@ namespace WebStore.Dal.Context
         public DbSet<Worker> Workers { get; set; }
         /// <summary> Заказы </summary>
         public DbSet<Order> Orders { get; set; }
+        /// <summary> Ключевые слова для товаров </summary>
+        public DbSet<Tag> Tags { get; set; }
         /// <summary> Элементы заказов </summary>
         public DbSet<OrderItem> OrderItems { get; set; }
 
