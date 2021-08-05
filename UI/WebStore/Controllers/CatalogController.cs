@@ -39,20 +39,20 @@ namespace WebStore.Controllers
         /// <summary> Детальные данные по каждому товару </summary>
         public async Task<IActionResult> Details(int id)
         {
-            var (products, _) = await _productData.GetProducts();
+            var productPage = await _productData.GetProducts();
             var product = await _productData.GetProductById(id);
             if (product is null)
                 return NotFound();
             ViewBag.CatagoryProducts = new[]
             {
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Take(4)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Skip(4).Take(4)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Skip(2).Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Skip(4).Take(4)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Skip(2).Take(4)),
             };
             ViewBag.RecommendedProducts = new[]
             {
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Take(3)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(products.Skip(3).Take(3)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Take(3)),
+                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Skip(3).Take(3)),
             };
 
             return View(_mapperProductToWeb
