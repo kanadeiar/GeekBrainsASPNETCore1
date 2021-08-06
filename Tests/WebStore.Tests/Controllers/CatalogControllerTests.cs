@@ -7,6 +7,7 @@ using WebStore.Controllers;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Domain.WebModels.Shared;
 using WebStore.Interfaces.Services;
 
@@ -39,6 +40,10 @@ namespace WebStore.Tests.Controllers
                                 Id = id,
                                 Name = $"Товар {id}",
                                 Order = id,
+                                SectionId = id,
+                                Section = new Section{Id = id},
+                                BrandId = id,
+                                Brand = new Brand{Id = id},
                                 Price = expectedPriceFirst,
                                 ImageUrl = $"Image_{id}.jpg",
                             }),

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebStore.Domain.WebModels
+namespace WebStore.Domain.WebModels.Product
 {
     /// <summary> Веб модель товара </summary>
     public class ProductWebModel
@@ -18,6 +18,6 @@ namespace WebStore.Domain.WebModels
         /// <summary> Стоимость </summary>
         public decimal Price { get; set; }
         /// <summary> Ключевые слова этого товара </summary>
-        public ICollection<string> Tags { get; set; }
+        public ICollection<TagWebModel> Tags { get; set; }
     }
 }

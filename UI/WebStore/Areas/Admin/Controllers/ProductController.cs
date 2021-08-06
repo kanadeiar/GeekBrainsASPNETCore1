@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Identity;
 using WebStore.Domain.Models;
+using WebStore.Domain.WebModels.Mappers;
 using WebStore.Domain.WebModels.Product;
 using WebStore.Domain.WebModels.Shared;
 using WebStore.Interfaces.Services;
@@ -95,7 +96,7 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
-                return View(_mapperProductToWeb.Map<EditProductWebModel>(product));
+                return View(product.ToEditWeb());
             }
             return NotFound();
         }

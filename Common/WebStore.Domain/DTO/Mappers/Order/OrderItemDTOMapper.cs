@@ -5,6 +5,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
+using WebStore.Domain.WebModels.Product;
 
 namespace WebStore.Domain.DTO.Mappers.Order
 {

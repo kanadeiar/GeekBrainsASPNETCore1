@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebStore.Domain.Entities;
 using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers

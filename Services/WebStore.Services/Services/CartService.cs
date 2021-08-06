@@ -7,6 +7,7 @@ using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Services
@@ -16,7 +17,7 @@ namespace WebStore.Services.Services
         private readonly ICartStore _cartStore;
         private readonly IProductData _productData;
         private readonly ILogger<CartService> _logger;
-        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
+        private readonly Mapper _mapperProductToWeb = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
 
@@ -91,7 +92,7 @@ namespace WebStore.Services.Services
             {
                 Ids = _cartStore.Cart.Items.Select(i => i.ProductId).ToArray()
             }))?.Products;
-            var productViews = _mapperProductToView
+            var productViews = _mapperProductToWeb
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
 
             return new CartWebModel

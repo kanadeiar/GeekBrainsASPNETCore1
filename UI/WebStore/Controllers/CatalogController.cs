@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.Mappers;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Domain.WebModels.Shared;
 using WebStore.Interfaces.Services;
 
@@ -16,12 +16,6 @@ namespace WebStore.Controllers
     {
         private readonly IProductData _productData;
         private readonly IConfiguration _configuration;
-
-        private readonly Mapper _mapperProductToWeb = new(new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
-                .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
-                .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))
-                .ForMember("Tags", o => o.MapFrom(p => p.Tags.Select(k => k.Text)))
-        ));
 
         public CatalogController(IProductData productData, IConfiguration configuration)
         {
@@ -43,20 +37,20 @@ namespace WebStore.Controllers
             var product = await _productData.GetProductById(id);
             if (product is null)
                 return NotFound();
+            var products = productPage.Products.ToWeb();
             ViewBag.CatagoryProducts = new[]
             {
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Take(4)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Skip(4).Take(4)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Skip(2).Take(4)),
+                products.Take(4),
+                products.Skip(4).Take(4),
+                products.Skip(2).Take(4),
             };
             ViewBag.RecommendedProducts = new[]
             {
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Take(3)),
-                _mapperProductToWeb.Map<IEnumerable<ProductWebModel>>(productPage.Products.Skip(3).Take(3)),
+                products.Take(3),
+                products.Skip(3).Take(3),
             };
 
-            return View(_mapperProductToWeb
-                .Map<ProductWebModel>(product));
+            return View(product.ToWeb());
         }
 
         #region WebApi
@@ -89,8 +83,7 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 SectionId = SectionId,
                 PageWebModel = new PageWebModel(productCount, Page, filter.PageSize ?? 6),
-                Products = _mapperProductToWeb
-                    .Map<IEnumerable<ProductWebModel>>(products.OrderBy(p => p.Order)),
+                Products = products.OrderBy(p => p.Order).ToWeb(),
             };
             return model;
         }
@@ -100,8 +93,7 @@ namespace WebStore.Controllers
             var filter = GetProductFilter(BrandId, SectionId, Page);
             var result = (await _productData.GetProducts(filter)).Products.OrderBy(p => p.Order);
 
-            return _mapperProductToWeb
-                .Map<IEnumerable<ProductWebModel>>(result);
+            return result.ToWeb();
         }
 
         private ProductFilter GetProductFilter(int? BrandId, int? SectionId, int Page)

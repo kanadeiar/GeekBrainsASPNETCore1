@@ -44,21 +44,39 @@
 
                 <div class="form-group">
                     <label asp-for="ImageUrl" class="control-label"></label>
-                    <input type="file" name="uploadedFile" />
+                    <input type="file" name="uploadedFile" class="form-control" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     <img src="~/images/shop/@Model.ImageUrl" alt="@Model.ImageUrl" height="200" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="SectionId" class="control-label"></label>
-                    <select asp-for="SectionId" asp-items="ViewBag.Sections"></select>
+                    <select asp-for="SectionId" asp-items="ViewBag.Sections" class="form-control"></select>
                     <span asp-validation-for="SectionId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="BrandId" class="control-label"></label>
-                    <select asp-for="BrandId" asp-items="ViewBag.Brands"></select>
+                    <select asp-for="BrandId" asp-items="ViewBag.Brands" class="form-control"></select>
                     <span asp-validation-for="BrandId" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="Tags" class="control-label"></label>
+                    <div>
+                        @if (@Model.Tags is { Count: > 0 } tags)
+                        {
+                            foreach (var tag in tags)
+                            {
+                                <p><span class="label label-primary"> @tag.Text </span></p>
+                            }
+                        }
+                        else
+                        {
+                            <span class="label label-default"> Отсутствуют </span>
+                        }
+                    </div>
+                    <span asp-validation-for="Tags" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">

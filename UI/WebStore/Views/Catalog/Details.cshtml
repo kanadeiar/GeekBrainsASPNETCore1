@@ -1,4 +1,4 @@
-﻿@model WebStore.Domain.WebModels.ProductWebModel
+﻿@model WebStore.Domain.WebModels.Product.ProductWebModel
 @{
     ViewBag.Title = "Детально о товаре";
 }
@@ -80,12 +80,12 @@
                                 {
                                     foreach (var tag in tags)
                                     {
-                                        <span> @tag </span> 
+                                        <span class="label label-primary"> @tag.Text </span>
                                     }
                                 }
                                 else
                                 {
-                                    <p>Отсутствуют</p>
+                                    <span class="label label-default"> Отсутствуют </span>
                                 }
                             </p>
                             <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
