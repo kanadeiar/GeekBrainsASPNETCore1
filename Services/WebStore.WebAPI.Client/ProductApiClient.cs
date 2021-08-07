@@ -40,6 +40,16 @@ namespace WebStore.WebAPI.Client
             return (await GetAsync<BrandDTO>($"{Address}/brand/{id}").ConfigureAwait(false)).FromDTO();
         }
 
+        public async Task<IEnumerable<Tag>> GetTags()
+        {
+            return (await GetAsync<IEnumerable<TagDTO>>($"{Address}/tag").ConfigureAwait(false)).FromDto();
+        }
+
+        public async Task<Tag> GetTag(int id)
+        {
+            return (await GetAsync<TagDTO>($"{Address}/tag/{id}").ConfigureAwait(false)).FromDto();
+        }
+
         public async Task<ProductPage> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             var response = await PostAsync(Address, productFilter ?? new ProductFilter {Ids = Array.Empty<int>()}).ConfigureAwait(false);

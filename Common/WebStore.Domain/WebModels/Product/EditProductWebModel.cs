@@ -40,8 +40,8 @@ namespace WebStore.Domain.WebModels.Product
         [Range(0.0, 90000.0, ErrorMessage = "Стоимость может колебаться от 0 до 90000")]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
-        /// <summary> Ключевые слова этого товара </summary>
+        /// <summary> Выбранные ключевые слова </summary>
         [Display(Name = "Ключевые слова")]
-        public ICollection<TagWebModel> Tags { get; set; }
+        public int[] TagsIds { get; set; }
     }
 }

@@ -36,7 +36,15 @@ namespace WebStore.Services.Services
             return await _context.Brands
                 .Include(b => b.Products).FirstOrDefaultAsync(b => b.Id == id).ConfigureAwait(false);
         }
-        
+
+        public async Task<IEnumerable<Tag>> GetTags() => await _context.Tags.ToArrayAsync().ConfigureAwait(false);
+
+        public async Task<Tag> GetTag(int id)
+        {
+            return await _context.Tags
+                .Include(t => t.Products).FirstOrDefaultAsync(t => t.Id == id).ConfigureAwait(false);
+        }
+
         public async Task<ProductPage> GetProducts(IProductFilter productFilter = null, bool includes = false)
         {
             IQueryable<Product> query = includes
@@ -111,7 +119,9 @@ namespace WebStore.Services.Services
                 origin.BrandId = product.BrandId;
                 origin.Price = product.Price;
                 origin.ImageUrl = product.ImageUrl;
-                _context.Update(origin);
+                //origin.Tags = product.Tags.Select(t => _context.Tags.Find(t.Id)).ToList();
+                //_context.Update(origin);
+                _context.Entry(origin).State = EntityState.Modified;
             }
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог

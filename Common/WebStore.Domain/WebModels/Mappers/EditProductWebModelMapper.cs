@@ -20,10 +20,11 @@ namespace WebStore.Domain.WebModels.Mappers
                     BrandId = product.BrandId,
                     ImageUrl = product.ImageUrl,
                     Price = product.Price,
-                    Tags = product.Tags.Select(p => new TagWebModel{ Id = p.Id, Text = p.Text }).ToList(),
+                    TagsIds = product.Tags.Select(p => p.Id).ToArray(),
                 };
         }
         /// <summary> В вебмодель </summary>
         public static IEnumerable<EditProductWebModel> ToEditWeb(this IEnumerable<Entities.Product> products) => products.Select(ToEditWeb);
+
     }
 }

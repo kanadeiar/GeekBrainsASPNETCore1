@@ -53,6 +53,22 @@ namespace WebStore.WebAPI.Controllers
             return Ok((await _productData.GetBrand(id)).ToDTO());
         }
 
+        /// <summary> Получить ключевые слова </summary>
+        /// <returns>Ключевые слова</returns>
+        [HttpGet("Tag")]
+        public async Task<IActionResult> GetTags()
+        {
+            return Ok((await _productData.GetTags()).ToDto());
+        }
+
+        /// <summary> Получить ключевое слово по идентификатору </summary>
+        /// <param name="id">Ключевое слово</param>
+        [HttpGet("Tag/{id:int}")]
+        public async Task<IActionResult> GetTagById(int id)
+        {
+            return Ok((await _productData.GetTag(id)).ToDto());
+        }
+
         /// <summary> Получить товары используя фильтр </summary>
         /// <param name="filter">Фильтр</param>
         /// <returns>Товары</returns>

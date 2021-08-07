@@ -40,7 +40,8 @@ namespace WebStore.Areas.Admin.Controllers
 
             _mapperProductFromWeb = new(new MapperConfiguration(c => c.CreateMap<EditProductWebModel, Product>()
                 .ForMember("Section", o => o.MapFrom(p => _productData.GetSection((int) p.SectionId).Result))
-                .ForMember("Brand", o => o.MapFrom(p => _productData.GetBrand((int) p.BrandId).Result))));
+                .ForMember("Brand", o => o.MapFrom(p => _productData.GetBrand((int) p.BrandId).Result))
+            ));
         }
 
         /// <summary> Обзор всех товаров в админке </summary>
@@ -96,6 +97,8 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
+                //ViewBag.Tags = await _productData.GetTags();
+                ViewBag.Tags = new MultiSelectList(await _productData.GetTags(), "Id", "Text");
                 return View(product.ToEditWeb());
             }
             return NotFound();
@@ -111,10 +114,12 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
+                ViewBag.Tags = new MultiSelectList(await _productData.GetTags(), "Id", "Text");
                 return View(model);
             }
 
             var product = _mapperProductFromWeb.Map<Product>(model);
+            product.Tags = model.TagsIds.Select(t => _productData.GetTag(t).Result).ToList();
 
             if (uploadedFile is not null)
             {
