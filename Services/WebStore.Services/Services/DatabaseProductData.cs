@@ -91,6 +91,7 @@ namespace WebStore.Services.Services
                 .Include(p => p.Brand)
                 .Include(p => p.Section)
                 .Include(p => p.Tags)
+                .Include(p => p.ImageUrls)
                 .SingleOrDefaultAsync(p => p.Id == id).ConfigureAwait(false);
 
         public async Task<int> AddProduct(Product product)

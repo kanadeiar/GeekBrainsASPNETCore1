@@ -15,6 +15,8 @@ namespace WebStore.Domain.WebModels.Product
         public string Brand { get; set; }
         /// <summary> Путь к картинке </summary>
         public string ImageUrl { get; set; }
+        /// <summary> Второстепенные картинки </summary>
+        public ICollection<string> ImageUrls { get; set; }
         /// <summary> Стоимость </summary>
         public decimal Price { get; set; }
         /// <summary> Ключевые слова этого товара </summary>

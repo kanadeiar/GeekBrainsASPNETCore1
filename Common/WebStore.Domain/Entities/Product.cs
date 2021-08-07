@@ -23,6 +23,8 @@ namespace WebStore.Domain.Entities
         public Brand Brand { get; set; }
         /// <summary> Изображение </summary>
         public string ImageUrl { get; set; }
+        /// <summary> Второстепенные изображения </summary>
+        public IList<ImageUrl> ImageUrls { get; set; } = new List<ImageUrl>();
         /// <summary> Стоимость </summary>
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }

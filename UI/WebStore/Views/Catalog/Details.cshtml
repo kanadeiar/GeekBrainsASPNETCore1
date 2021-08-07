@@ -22,27 +22,16 @@
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
-
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
-                                <div class="item active">
-                                    <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
-                                </div>
-
+                                @{ var i = 1; }
+                                @foreach (var image in @Model.ImageUrls)
+                                {
+                                    <div class="item @((i++ == 1)? "active" : null)">
+                                        <a><img src="~/images/shop/@image" alt="@image" width="150" height="150" style="margin-left: 100px"/></a>
+                                    </div>
+                                }
                             </div>
-
                             <!-- Controls -->
                             <a class="left item-control" href="#similar-product" data-slide="prev">
                                 <i class="fa fa-angle-left"></i>

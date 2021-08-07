@@ -19,6 +19,7 @@ namespace WebStore.Domain.WebModels.Mappers
                     Section = product.Section.Name,
                     Brand = product.Brand.Name,
                     ImageUrl = product.ImageUrl,
+                    ImageUrls = product.ImageUrls.Select(p => p.Url).ToList(),
                     Price = product.Price,
                     Tags = product.Tags.Select(p => new TagWebModel{ Id = p.Id, Text = p.Text }).ToList(),
                 };

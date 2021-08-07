@@ -22,6 +22,8 @@ namespace WebStore.Dal.Context
         public DbSet<Order> Orders { get; set; }
         /// <summary> Ключевые слова для товаров </summary>
         public DbSet<Tag> Tags { get; set; }
+        /// <summary> Изображения </summary>
+        public DbSet<ImageUrl> ImageUrls { get; set; }
         /// <summary> Элементы заказов </summary>
         public DbSet<OrderItem> OrderItems { get; set; }
 

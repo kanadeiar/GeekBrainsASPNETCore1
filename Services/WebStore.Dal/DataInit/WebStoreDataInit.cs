@@ -67,9 +67,7 @@ namespace WebStore.Dal.DataInit
                 _logger.LogError(e, "{0} Ошибка при инициализации данных базы данных", DateTime.Now);
                 throw;
             }
-
-
-
+            
             try
             {
                 InitializeIdentityAsync().GetAwaiter().GetResult();
@@ -142,7 +140,7 @@ namespace WebStore.Dal.DataInit
             });
             context.Products.AddRange(products);
             context.SaveChanges();
-
+            
             var tmpProducts = context.Products.ToArray();
             var tags = _getTags.Select(t => new Tag
             {
@@ -150,13 +148,23 @@ namespace WebStore.Dal.DataInit
             });
             context.Tags.AddRange(tags);
             context.SaveChanges();
-
             foreach (var tag in context.Tags)
             {
-                for (int i = 0; i < 20; i++)
-                {
+                for (int i = 0; i < 20; i++) 
                     tag.Products.Add(tmpProducts[_rnd.Next(tmpProducts.Length)]);
-                }
+            }
+            context.SaveChanges();
+
+            var imagesUrls = Enumerable.Range(1, 12).Select(i => new ImageUrl
+            {
+                Url = $"product{i}.jpg",
+            });
+            context.ImageUrls.AddRange(imagesUrls);
+            context.SaveChanges();
+            foreach (var image in context.ImageUrls)
+            {
+                for (int i = 0; i < 40; i++) 
+                    image.Products.Add(tmpProducts[_rnd.Next(tmpProducts.Length)]);
             }
             context.SaveChanges();
 
