@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -108,20 +109,29 @@ namespace WebStore.Services.Services
         {
             if (product is null)
                 throw new ArgumentNullException(nameof(product));
-            if (_context.Products.Local.Any(e => e == product)) 
+            if (_context.Products.Local.Any(e => e == product))
+            {
                 _context.Update(product);
+                
+            }
             else
             {
-                var origin = await _context.Products.FindAsync(product.Id).ConfigureAwait(false);
+                var origin = await _context.Products
+                    .Include(p => p.Tags)
+                    .SingleOrDefaultAsync(p => p.Id == product.Id)
+                    .ConfigureAwait(false);
                 origin.Name = product.Name;
                 origin.Order = product.Order;
                 origin.SectionId = product.SectionId;
                 origin.BrandId = product.BrandId;
                 origin.Price = product.Price;
                 origin.ImageUrl = product.ImageUrl;
-                //origin.Tags = product.Tags.Select(t => _context.Tags.Find(t.Id)).ToList();
-                //_context.Update(origin);
-                _context.Entry(origin).State = EntityState.Modified;
+                var ids = product.Tags.Select(t => t.Id);
+                var tags = _context.Tags.Where(p => ids.Contains(p.Id));
+                origin.Tags.Clear();
+                foreach (var tag in tags) 
+                    origin.Tags.Add(tag);
+                _context.Update(origin);
             }
             await _context.SaveChangesAsync().ConfigureAwait(false);
             #region Лог

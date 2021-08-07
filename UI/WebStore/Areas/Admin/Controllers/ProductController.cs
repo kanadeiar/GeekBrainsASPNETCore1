@@ -97,7 +97,6 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 ViewBag.Sections = new SelectList(await _productData.GetSections(), "Id", "Name");
                 ViewBag.Brands = new SelectList(await _productData.GetBrands(), "Id", "Name");
-                //ViewBag.Tags = await _productData.GetTags();
                 ViewBag.Tags = new MultiSelectList(await _productData.GetTags(), "Id", "Text");
                 return View(product.ToEditWeb());
             }
