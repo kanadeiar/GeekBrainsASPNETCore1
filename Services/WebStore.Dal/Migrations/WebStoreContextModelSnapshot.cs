@@ -312,8 +312,8 @@ namespace WebStore.Dal.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

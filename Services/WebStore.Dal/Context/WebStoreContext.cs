@@ -42,7 +42,9 @@ namespace WebStore.Dal.Context
                 .HasMany(u => u.Orders)
                 .WithOne(o => o.User)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            builder.Entity<Product>()
+                .Property(p => p.IsDelete)
+                .IsRequired();
         }
     }
 }

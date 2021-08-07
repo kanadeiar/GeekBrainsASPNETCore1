@@ -52,7 +52,7 @@ namespace WebStore.Services.Services
                 ? _context.Products
                     .Include(p => p.Brand)
                     .Include(p => p.Section)
-                    .Where(p => !p.IsDelete)
+                    //.Where(p => p.StateDelete != "1")
                 : _context.Products;
 
             if (productFilter?.Ids?.Length > 0)
@@ -143,12 +143,12 @@ namespace WebStore.Services.Services
         public async Task<bool> DeleteProduct(int id)
         {
             if (await GetProductById(id).ConfigureAwait(false) is { } product)
-                product.IsDelete = true;
-            else
+            //    //product.StateDelete = "1";
+            //else
                 return false;
             await _context.SaveChangesAsync();
             #region Лог
-            _logger.LogInformation("Товар {0} {1} успешно удален из базы данных", id, product.Name);
+            //_logger.LogInformation("Товар {0} {1} успешно удален из базы данных", id, product.Name);
             #endregion
             return true;
         }
