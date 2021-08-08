@@ -1,10 +1,15 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.Identity;
 using WebStore.Domain.WebModels;
+using WebStore.Domain.WebModels.UserProfile;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Services;
 
@@ -13,6 +18,10 @@ namespace WebStore.Areas.Admin.Controllers
     [Area("Admin"), Authorize(Roles = Role.Administrators)]
     public class HomeController : Controller
     {
+        private readonly Mapper _mapperOrderToView = 
+            new (new MapperConfiguration(c => c.CreateMap<Order, UserOrderWebModel>()
+                .ForMember("PriceSum", o => o.MapFrom(u => u.Items.Sum(i => i.Price * i.Quantity)))
+                .ForMember("Count", o => o.MapFrom(u => u.Items.Sum(i => i.Quantity)))));
         public HomeController()
         {
         }
@@ -55,6 +64,12 @@ namespace WebStore.Areas.Admin.Controllers
                 Body = "Тестовое Email сообщение пользователю",
             };
             return View(newModel);
+        }
+
+        public async Task<IActionResult> Orders([FromServices] IOrderService orderService)
+        {
+            var orders = await orderService.GetAllOrders();
+            return View(_mapperOrderToView.Map<IEnumerable<UserOrderWebModel>>(orders));
         }
     }
 }

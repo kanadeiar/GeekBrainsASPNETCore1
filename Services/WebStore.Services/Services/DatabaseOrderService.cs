@@ -33,6 +33,13 @@ namespace WebStore.Services.Services
                 .ThenInclude(i => i.Product)
                 .Where(o => o.User.UserName == userName).ToArrayAsync();
         }
+        public async Task<IEnumerable<Order>> GetAllOrders()
+        {
+            return await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product).ToArrayAsync();
+        }
         public async Task<Order> GetOrderById(int id)
         {
             return await _context.Orders

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WebStore.Domain.WebModels.UserProfile.UserOrderWebModel>
+@{
+    ViewBag.Title = "Все заказы всех-всех пользователей";
+}
+<div id="page-inner">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+
+    <hr />
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Имя</th>
+            <th>Адрес</th>
+            <th>Телефон</th>
+            <th>Количество</th>
+            <th>Сумма</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{ var i = 1; }
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@order.Name</td>
+                <td>@order.Address</td>
+                <td>@order.Phone</td>
+                <td>@order.Count</td>
+                <td>@order.PriceSum</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
