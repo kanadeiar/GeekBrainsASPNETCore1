@@ -62,6 +62,20 @@ namespace WebStore.Dal.Sqlite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ImageUrls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    Timestamp = table.Column<byte[]>(type: "BLOB", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImageUrls", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sections",
                 columns: table => new
                 {
@@ -81,6 +95,20 @@ namespace WebStore.Dal.Sqlite.Migrations
                         principalTable: "Sections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Text = table.Column<string>(type: "TEXT", nullable: true),
+                    Timestamp = table.Column<byte[]>(type: "BLOB", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -244,6 +272,7 @@ namespace WebStore.Dal.Sqlite.Migrations
                     BrandId = table.Column<int>(type: "INTEGER", nullable: true),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDelete = table.Column<int>(type: "INTEGER", nullable: false),
                     Timestamp = table.Column<byte[]>(type: "BLOB", rowVersion: true, nullable: true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
@@ -260,6 +289,30 @@ namespace WebStore.Dal.Sqlite.Migrations
                         name: "FK_Products_Sections_SectionId",
                         column: x => x.SectionId,
                         principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ImageUrlProduct",
+                columns: table => new
+                {
+                    ImageUrlsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProductsId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImageUrlProduct", x => new { x.ImageUrlsId, x.ProductsId });
+                    table.ForeignKey(
+                        name: "FK_ImageUrlProduct_ImageUrls_ImageUrlsId",
+                        column: x => x.ImageUrlsId,
+                        principalTable: "ImageUrls",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ImageUrlProduct_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -289,6 +342,30 @@ namespace WebStore.Dal.Sqlite.Migrations
                         name: "FK_OrderItems_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductTag",
+                columns: table => new
+                {
+                    ProductsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TagsId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductTag", x => new { x.ProductsId, x.TagsId });
+                    table.ForeignKey(
+                        name: "FK_ProductTag_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductTag_Tags_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -331,6 +408,11 @@ namespace WebStore.Dal.Sqlite.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ImageUrlProduct_ProductsId",
+                table: "ImageUrlProduct",
+                column: "ProductsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
@@ -356,6 +438,11 @@ namespace WebStore.Dal.Sqlite.Migrations
                 column: "SectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductTag_TagsId",
+                table: "ProductTag",
+                column: "TagsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sections_ParentId",
                 table: "Sections",
                 column: "ParentId");
@@ -379,7 +466,13 @@ namespace WebStore.Dal.Sqlite.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ImageUrlProduct");
+
+            migrationBuilder.DropTable(
                 name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "ProductTag");
 
             migrationBuilder.DropTable(
                 name: "Workers");
@@ -388,10 +481,16 @@ namespace WebStore.Dal.Sqlite.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "ImageUrls");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

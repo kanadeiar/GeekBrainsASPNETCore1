@@ -9,7 +9,7 @@ using WebStore.Dal.Context;
 namespace WebStore.Dal.Sqlite.Migrations
 {
     [DbContext(typeof(WebStoreContext))]
-    [Migration("20210620041809_init")]
+    [Migration("20210808094645_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,47 @@ namespace WebStore.Dal.Sqlite.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.7");
+
+            modelBuilder.Entity("ImageUrlProduct", b =>
+                {
+                    b.Property<int>("ImageUrlsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ImageUrlsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("ImageUrlProduct");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -120,6 +161,21 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ProductTag", b =>
+                {
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ProductsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("ProductTag");
+                });
+
             modelBuilder.Entity("WebStore.Domain.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -142,6 +198,25 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("WebStore.Domain.Entities.ImageUrl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageUrls");
                 });
 
             modelBuilder.Entity("WebStore.Domain.Entities.Orders.Order", b =>
@@ -228,6 +303,9 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -285,6 +363,25 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.ToTable("Sections");
                 });
 
+            modelBuilder.Entity("WebStore.Domain.Entities.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("WebStore.Domain.Entities.Worker", b =>
                 {
                     b.Property<int>("Id")
@@ -326,32 +423,6 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Workers");
-                });
-
-            modelBuilder.Entity("WebStore.Domain.Identity.Role", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("WebStore.Domain.Identity.User", b =>
@@ -418,9 +489,24 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ImageUrlProduct", b =>
+                {
+                    b.HasOne("WebStore.Domain.Entities.ImageUrl", null)
+                        .WithMany()
+                        .HasForeignKey("ImageUrlsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebStore.Domain.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("WebStore.Domain.Identity.Role", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -447,7 +533,7 @@ namespace WebStore.Dal.Sqlite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("WebStore.Domain.Identity.Role", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -465,6 +551,21 @@ namespace WebStore.Dal.Sqlite.Migrations
                     b.HasOne("WebStore.Domain.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductTag", b =>
+                {
+                    b.HasOne("WebStore.Domain.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebStore.Domain.Entities.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
