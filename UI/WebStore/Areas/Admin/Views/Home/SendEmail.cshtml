@@ -1,0 +1,92 @@
+﻿@model WebStore.Domain.WebModels.SendEmailMessageWebModel
+@{
+    ViewBag.Title = "Отправка Email сообщений пользователям";
+}
+<div id="page-inner">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+    
+    @if (ViewBag.Success == true)
+    {
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div class="alert alert-success">
+                    Сообщение успешно отправлено на указанный вами адрес электронной почты
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div class="row">
+        <form asp-controller="Home" asp-antiforgery="true" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="NameFrom" class="control-label"></label>
+                <input asp-for="NameFrom" class="form-control" />
+                <span asp-validation-for="NameFrom" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="MailFrom" class="control-label"></label>
+                <input asp-for="MailFrom" class="form-control" />
+                <span asp-validation-for="MailFrom" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Port" class="control-label"></label>
+                <input asp-for="Port" class="form-control" />
+                <span asp-validation-for="Port" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Login" class="control-label"></label>
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="NameTo" class="control-label"></label>
+                <input asp-for="NameTo" class="form-control" />
+                <span asp-validation-for="NameTo" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="MailTo" class="control-label"></label>
+                <input asp-for="MailTo" class="form-control" />
+                <span asp-validation-for="MailTo" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Body" class="control-label"></label>
+                <textarea asp-for="Body" class="form-control" rows="5" cols="40"></textarea>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button asp-action="SendEmail" class="btn btn-primary">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>
