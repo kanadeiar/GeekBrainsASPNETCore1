@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
 
 namespace WebStore.Domain.Tests.Entities
 {

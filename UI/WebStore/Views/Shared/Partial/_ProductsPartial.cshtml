@@ -40,14 +40,18 @@
                             <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" 
                                data-id="@product.Id"
                                class="btn btn-default add-to-cart">
-                                <i class="fa fa-shopping-cart"></i>В корзину
+                                <i class="fa fa-shopping-cart"></i>
+                                В корзину
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
-                        <li><a href="#"><i class="fa fa-plus-square"></i>Добавить в желания</a></li>
+                        <li><a asp-controller="UserProfile" asp-action="WantedAdd" asp-route-id="@product.Id">
+                            <i class="fa fa-plus-square"></i>
+                            Добавить в желания
+                        </a></li>
                         <li><a href="#"><i class="fa fa-plus-square"></i>Добавить к сравнению</a></li>
                     </ul>
                 </div>

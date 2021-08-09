@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.InCookies
 {
+    /// <summary> Хранение в куках корзины товаров </summary>
     public class InCookiesCartStore : ICartStore
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly string _cartName;
-
+        /// <summary> Корзина товаров </summary>
         public Cart Cart
         {
             get

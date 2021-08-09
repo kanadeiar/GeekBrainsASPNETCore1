@@ -33,5 +33,35 @@ namespace WebStore.Controllers
             var orders = await orderService.GetUserOrders(User.Identity!.Name);
             return View(_mapperOrderToView.Map<IEnumerable<UserOrderWebModel>>(orders));
         }
+
+        [AllowAnonymous]
+        /// <summary> Желаемые товары пользователя </summary>
+        public async Task<IActionResult> Wanteds([FromServices] IWantedService wantedService)
+        {
+            var model = await wantedService.GetWebModel();
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        /// <summary> Добавить в список желаемых товаров </summary>
+        public IActionResult WantedAdd(int id, [FromServices] IWantedService wantedService)
+        {
+            wantedService.Add(id);
+            return RedirectToAction("Wanteds");
+        }
+
+        [AllowAnonymous]
+        public IActionResult WantedRemove(int id, [FromServices] IWantedService wantedService)
+        {
+            wantedService.Remove(id);
+            return RedirectToAction("Wanteds");
+        }
+
+        [AllowAnonymous]
+        public IActionResult WantedClear([FromServices] IWantedService wantedService)
+        {
+            wantedService.Clear();
+            return RedirectToAction("Wanteds");
+        }
     }
 }
