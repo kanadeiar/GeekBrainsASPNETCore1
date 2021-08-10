@@ -3,6 +3,7 @@ using WebStore.Domain.Entities.Base;
 
 namespace WebStore.Domain.Entities
 {
+    /// <summary> Изображение товара дополнительное </summary>
     public class ImageUrl : Entity
     {
         /// <summary> Изображение </summary>

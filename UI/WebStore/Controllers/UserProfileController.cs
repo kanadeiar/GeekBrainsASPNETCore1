@@ -49,23 +49,23 @@ namespace WebStore.Controllers
             wantedService.Add(id);
             return RedirectToAction("Wanteds");
         }
-
+        /// <summary> Удаление из списка желаемого товара </summary>
         [AllowAnonymous]
         public IActionResult WantedRemove(int id, [FromServices] IWantedService wantedService)
         {
             wantedService.Remove(id);
             return RedirectToAction("Wanteds");
         }
-
+        /// <summary> Очистка списка желаемых товаров </summary>
         [AllowAnonymous]
         public IActionResult WantedClear([FromServices] IWantedService wantedService)
         {
             wantedService.Clear();
             return RedirectToAction("Wanteds");
         }
-
+        /// <summary> Добавление товара к сравнению </summary>
         [AllowAnonymous]
-        public async Task<IActionResult> CompareAdd(int id, string returnUrl, [FromServices] ICompareService compareService)
+        public IActionResult CompareAdd(int id, string returnUrl, [FromServices] ICompareService compareService)
         {
             var (result, model) = compareService.AddAndGetWebModel(id);
             if (result)

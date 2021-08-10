@@ -35,7 +35,7 @@ namespace WebStore.Services.Services
 
             _compareStore.Compare = compare;
 
-            return compare.ProductsIds.Count();
+            return compare.ProductsIds.Count;
         }
 
         public (bool, CompareWebModel) AddAndGetWebModel(int id)
