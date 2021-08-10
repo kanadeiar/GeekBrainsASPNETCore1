@@ -5,38 +5,39 @@ using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.InCookies
 {
-    /// <summary> Хранение в куках списка желаемых товаров </summary>
-    public class InCookiesWantedStore : IWantedStore
+    /// <summary> Хранение в куках списка сравниваемых товаров </summary>
+    public class InCookiesCompareStore : ICompareStore
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly string _storageName;
 
-        /// <summary> Желаемые товары </summary>
-        public Wanted Wanted
+        /// <summary> Сравниваемые товары </summary>
+        public Compare Compare
         {
             get
             {
                 var context = _contextAccessor.HttpContext;
                 if (!context.Request.Cookies.ContainsKey(_storageName))
                 {
-                    var wanted = new Wanted();
-                    context.Response.Cookies.Append(_storageName, JsonConvert.SerializeObject(wanted));
-                    return wanted;
+                    var compare = new Compare();
+                    context.Response.Cookies.Append(_storageName, JsonConvert.SerializeObject(compare));
+                    return compare;
                 }
-                return JsonConvert.DeserializeObject<Wanted>(context.Request.Cookies[_storageName]);
+                return JsonConvert.DeserializeObject<Compare>(context.Request.Cookies[_storageName]);
             }
             set => _contextAccessor.HttpContext!.Response.Cookies.Append(_storageName,
                 JsonConvert.SerializeObject(value));
         }
 
-        public InCookiesWantedStore(IHttpContextAccessor contextAccessor)
+        public InCookiesCompareStore(IHttpContextAccessor contextAccessor)
         {
+            _contextAccessor = contextAccessor;
             _contextAccessor = contextAccessor;
 
             var user = _contextAccessor.HttpContext!.User;
             var userName = user.Identity!.IsAuthenticated ? $"-{user.Identity.Name}" : null;
 
-            _storageName = $"KanadeiarWebStore.Wanted{userName}";
+            _storageName = $"KanadeiarWebStore.Compare{userName}";
         }
     }
 }

@@ -63,5 +63,20 @@ namespace WebStore.Controllers
             wantedService.Clear();
             return RedirectToAction("Wanteds");
         }
+
+        public async Task<IActionResult> CompareAdd(int id, string returnUrl, [FromServices] ICompareService compareService)
+        {
+            compareService.Add(id);
+            if (compareService.IsMoreOne)
+            {
+                var model = await compareService.GetWebModel();
+                compareService.Clear();
+                return View(model);
+            }
+            else
+            {
+                return LocalRedirect(returnUrl ?? "/");
+            }
+        }
     }
 }
