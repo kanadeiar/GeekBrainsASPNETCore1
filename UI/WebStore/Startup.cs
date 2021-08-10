@@ -72,6 +72,9 @@ namespace WebStore
             services.AddScoped<IWantedStore, InCookiesWantedStore>();
             services.AddScoped<IWantedService, WantedService>();
 
+            services.AddScoped<ICompareStore, InCookiesCompareStore>();
+            services.AddScoped<ICompareService, CompareService>();
+
             services.AddHttpClient("WebStoreAPI", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
                 .AddTypedClient<IValuesService, ValuesClient>()
                 .AddTypedClient<IWorkerData, WorkerApiClient>()

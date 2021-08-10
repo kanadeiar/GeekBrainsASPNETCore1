@@ -64,6 +64,7 @@ namespace WebStore.Controllers
             return RedirectToAction("Wanteds");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> CompareAdd(int id, string returnUrl, [FromServices] ICompareService compareService)
         {
             compareService.Add(id);

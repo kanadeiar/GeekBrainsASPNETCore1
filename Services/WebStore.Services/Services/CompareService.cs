@@ -20,7 +20,7 @@ namespace WebStore.Services.Services
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
 
-        public bool IsMoreOne => _compareStore.Compare.ProductsIds.Count >= 2;
+        public bool IsMoreOne => _compareStore.Compare.ProductsIds.Count > 1;
 
         public CompareService(ICompareStore compareStore, IProductData productData)
         {
