@@ -20,15 +20,13 @@ namespace WebStore.Services.Services
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
 
-        public bool IsMoreOne => _compareStore.Compare.ProductsIds.Count > 1;
-
         public CompareService(ICompareStore compareStore, IProductData productData)
         {
             _compareStore = compareStore;
             _productData = productData;
         }
 
-        public void Add(int id)
+        public int Add(int id)
         {
             var compare = _compareStore.Compare;
 
@@ -36,6 +34,43 @@ namespace WebStore.Services.Services
                 compare.ProductsIds.Add(id);
 
             _compareStore.Compare = compare;
+
+            return compare.ProductsIds.Count();
+        }
+
+        public (bool, CompareWebModel) AddAndGetWebModel(int id)
+        {
+            var compare = _compareStore.Compare;
+
+            if (!compare.ProductsIds.Contains(id))
+                compare.ProductsIds.Add(id);
+
+            _compareStore.Compare = compare;
+
+            if (compare.ProductsIds.Count >= 2)
+            {
+                CompareWebModel model = GetWebModelFromIds(compare.ProductsIds.ToArray());
+                return (true, model);
+            }
+            else
+                return (false, null);
+        }
+
+        private CompareWebModel GetWebModelFromIds(int[] ids)
+        {
+            var products = (_productData.GetProducts(new ProductFilter
+            {
+                Ids = ids,
+            })).Result?.Products;
+
+            var productWebs = _mapperProductToWeb
+                .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
+
+            var model = new CompareWebModel
+            {
+                Items = ids.Select(p => productWebs[p])
+            };
+            return model;
         }
 
         public void Clear()
@@ -53,6 +88,7 @@ namespace WebStore.Services.Services
             {
                 Ids = _compareStore.Compare.ProductsIds.ToArray(),
             }))?.Products;
+
             var productWebs = _mapperProductToWeb
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
 

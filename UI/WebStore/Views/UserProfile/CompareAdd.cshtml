@@ -7,3 +7,80 @@
 <div class="row form-group">
     <h2>@ViewBag.Title</h2>
 </div>
+
+@if (Model.Items.FirstOrDefault() is { } first)
+{
+    var one = Model.Items.FirstOrDefault();
+    var two = Model.Items.Skip(1).FirstOrDefault();
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>Название</p>
+        </div>
+        <div class="col-md-4">
+            <p>@one.Name</p>
+        </div>
+        <div class="col-md-4">
+            <p>@two.Name</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>Изображение</p>
+        </div>
+        <div class="col-md-4">
+            <p><img src="~/images/shop/@one.ImageUrl" width="200" alt="@one.Name" /></p>
+        </div>
+        <div class="col-md-4">
+            <p><img src="~/images/shop/@two.ImageUrl" width="200" alt="@two.Name" /></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>Бренд</p>
+        </div>
+        <div class="col-md-4">
+            <p>@one.Brand</p>
+        </div>
+        <div class="col-md-4">
+            <p>@two.Brand</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>Категория</p>
+        </div>
+        <div class="col-md-4">
+            <p>@one.Section</p>
+        </div>
+        <div class="col-md-4">
+            <p>@two.Section</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <p>Стоимость</p>
+        </div>
+        <div class="col-md-4">
+            <p>@one.Price.ToString("C")</p>
+        </div>
+        <div class="col-md-4">
+            <p>@two.Price.ToString("C")</p>
+        </div>
+    </div>
+}
+else
+{
+    <hr />
+    <div class="row">
+        <div class="col-lg-12 ">
+            <div class="alert alert-danger">
+                Нет товаров для сравнения
+            </div>
+        </div>
+    </div>
+}

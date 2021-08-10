@@ -5,8 +5,8 @@ namespace WebStore.Interfaces.Services
 {
     public interface ICompareService
     {
-        bool IsMoreOne { get; }
-        void Add(int id);
+        int Add(int id);
+        (bool, CompareWebModel) AddAndGetWebModel(int id);
         void Clear();
         Task<CompareWebModel> GetWebModel();
     }

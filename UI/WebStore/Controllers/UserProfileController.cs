@@ -67,10 +67,9 @@ namespace WebStore.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CompareAdd(int id, string returnUrl, [FromServices] ICompareService compareService)
         {
-            compareService.Add(id);
-            if (compareService.IsMoreOne)
+            var (result, model) = compareService.AddAndGetWebModel(id);
+            if (result)
             {
-                var model = await compareService.GetWebModel();
                 compareService.Clear();
                 return View(model);
             }
