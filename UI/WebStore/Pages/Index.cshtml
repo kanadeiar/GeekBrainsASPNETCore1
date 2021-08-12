@@ -1,0 +1,99 @@
+﻿@page "/Pages"
+@model WebStore.Pages.IndexModel
+@{
+    ViewBag.Title = "Все новости магазина";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <partial name="Partial/_LeftSidebarPartial"/>
+        </div>
+        
+        <div class="col-sm-9 padding-right">
+            <h2 class="text-center">@ViewBag.Title</h2>
+            
+            <div class="single-blog-post">
+                <a asp-page="FirstNews">
+                    <h3>Первая новость новостного блога</h3>
+                </a>
+                <div class="post-meta">
+                    <ul>
+                        <li><i class="fa fa-user"></i> Mac Doe</li>
+                        <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
+                        <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
+                    </ul>
+                    <span>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                    </span>
+                </div>
+                <a asp-page="FirstNews">
+                    <img src="~/images/blog/blog-one.jpg" alt="">
+                </a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <a asp-page="FirstNews" class="btn btn-primary">Читать подробнее</a>
+            </div>
+            
+            <div class="single-blog-post">
+                <a asp-page="SecondNews">
+                    <h3>Вторая новость новостного блога</h3>
+                </a>
+                <div class="post-meta">
+                    <ul>
+                        <li><i class="fa fa-user"></i> Mac Doe</li>
+                        <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
+                        <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
+                    </ul>
+                    <span>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                    </span>
+                </div>
+                <a asp-page="SecondNews">
+                    <img src="~/images/blog/blog-two.jpg" alt="">
+                </a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <a asp-page="SecondNews" class="btn btn-primary">Читать подробнее</a>
+            </div>
+            
+            <div class="single-blog-post">
+                <a asp-page="ThirdNews">
+                    <h3>Третья новость новостного блога</h3>
+                </a>
+                <div class="post-meta">
+                    <ul>
+                        <li><i class="fa fa-user"></i> Mac Doe</li>
+                        <li><i class="fa fa-clock-o"></i> 1:33 pm</li>
+                        <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
+                    </ul>
+                    <span>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                    </span>
+                </div>
+                <a asp-page="ThirdNews">
+                    <img src="~/images/blog/blog-three.jpg" alt="">
+                </a>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <a asp-page="ThirdNews" class="btn btn-primary">Читать подробнее</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@functions
+{
+    public class IndexModel : PageModel
+    { }
+}

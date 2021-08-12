@@ -83,6 +83,8 @@ namespace WebStore
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
+            services.AddRazorPages();
+
             services.AddSignalR();
 
             services.AddServerSideBlazor();
@@ -116,6 +118,8 @@ namespace WebStore
                 );
                 
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapRazorPages();
 
                 endpoints.MapBlazorHub();
             });
