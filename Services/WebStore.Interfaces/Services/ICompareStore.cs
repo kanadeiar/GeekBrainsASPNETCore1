@@ -2,6 +2,7 @@
 
 namespace WebStore.Interfaces.Services
 {
+    /// <summary> Хранилище товаров для сравнения </summary>
     public interface ICompareStore
     {
         /// <summary> Сравниваемые товары </summary>
