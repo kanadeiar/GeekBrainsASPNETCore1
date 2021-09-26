@@ -1,4 +1,6 @@
-﻿namespace WebStore.Domain.WebModels
+﻿using System.Collections.Generic;
+
+namespace WebStore.Domain.WebModels.Product
 {
     /// <summary> Веб модель товара </summary>
     public class ProductWebModel
@@ -13,7 +15,11 @@
         public string Brand { get; set; }
         /// <summary> Путь к картинке </summary>
         public string ImageUrl { get; set; }
+        /// <summary> Второстепенные картинки </summary>
+        public ICollection<string> ImageUrls { get; set; }
         /// <summary> Стоимость </summary>
         public decimal Price { get; set; }
+        /// <summary> Ключевые слова этого товара </summary>
+        public ICollection<TagWebModel> Tags { get; set; }
     }
 }

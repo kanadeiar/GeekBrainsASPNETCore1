@@ -18,6 +18,11 @@ namespace WebStore.Interfaces.Services
         /// <summary> Один бренд </summary>
         /// <param name="id">Идентификатор</param>
         Task<Brand> GetBrand(int id);
+        /// <summary> Все ключевые слова </summary>
+        Task<IEnumerable<Tag>> GetTags();
+        /// <summary> Одно ключевое слово </summary>
+        /// <param name="id">Идентификатор</param>
+        Task<Tag> GetTag(int id);
         /// <summary> Отобранные товары с фильтрацией по категориям и/или брендам и/или названию или либо с определенными идентификаторами </summary>
         Task<ProductPage> GetProducts(IProductFilter productFilter = null, bool includes = false);
         /// <summary> Получение одного товара по ид </summary>

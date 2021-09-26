@@ -11,6 +11,7 @@ using WebStore.Controllers;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Tests.Controllers

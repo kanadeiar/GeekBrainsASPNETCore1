@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title | Новостной блог магазина E-Shopper</title>
+
+    <partial name="Partial/_StylesPartial" />
+
+    @await RenderSectionAsync("Styles", false);
+
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="~/favicon.png" sizes="500x500">
+</head>
+
+<body>
+    <partial name="Partial/_HeaderPartial" />
+
+    <h1 class="text-center">Новостной блог магазина на основе Razor Pages</h1>
+
+    @RenderBody()
+
+    <partial name="Partial/_FooterPartial" />
+
+    <partial name="Partial/_ScriptsPartial" />
+
+    @await RenderSectionAsync("Scripts", false);
+</body>
+</html>
+

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace WebStore.Domain.Entities
+namespace WebStore.Domain.Models
 {
     /// <summary> Корзина покупки </summary>
     public class Cart

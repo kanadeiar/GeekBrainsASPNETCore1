@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
+using WebStore.Domain.WebModels.Product;
 
 namespace WebStore.Domain.Tests.WebModels
 {

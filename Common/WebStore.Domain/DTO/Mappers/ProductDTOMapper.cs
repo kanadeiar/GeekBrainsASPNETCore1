@@ -22,7 +22,9 @@ namespace WebStore.Domain.DTO.Mappers
                     SectionId = product.SectionId,
                     Section = product.Section.ToDTO(),
                     ImageUrl = product.ImageUrl,
+                    ImageUrls = product.ImageUrls.ToDTO().ToList(),
                     Price = product.Price,
+                    TagsIds = product.Tags.ToDto().ToList(),
                     Timestamp = product.Timestamp,
                 };
         }
@@ -41,7 +43,9 @@ namespace WebStore.Domain.DTO.Mappers
                     SectionId = product.SectionId,
                     Section = product.Section.FromDTO(),
                     ImageUrl = product.ImageUrl,
+                    ImageUrls = product.ImageUrls.FromDTO().ToList(),
                     Price = product.Price,
+                    Tags = product.TagsIds.FromDto().ToList(),
                     Timestamp = product.Timestamp,
                 };
         }

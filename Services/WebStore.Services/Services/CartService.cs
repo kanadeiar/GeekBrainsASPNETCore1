@@ -5,8 +5,8 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
-using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Services
@@ -16,7 +16,7 @@ namespace WebStore.Services.Services
         private readonly ICartStore _cartStore;
         private readonly IProductData _productData;
         private readonly ILogger<CartService> _logger;
-        private readonly Mapper _mapperProductToView = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
+        private readonly Mapper _mapperProductToWeb = new (new MapperConfiguration(c => c.CreateMap<Product, ProductWebModel>()
             .ForMember("Section", o => o.MapFrom(p => p.Section.Name))
             .ForMember("Brand", o => o.MapFrom(p => p.Brand.Name))));
 
@@ -37,7 +37,7 @@ namespace WebStore.Services.Services
             else
                 cart.Items.Add(new CartItem{ ProductId = id });
             #region Лог
-            _logger.LogInformation($"Успешно добавлен в корзину товар c идентификатором {id}");
+            _logger.LogInformation("Успешно добавлен в корзину товар c идентификатором {0}", id);
             #endregion
             _cartStore.Cart = cart;
         }
@@ -55,7 +55,7 @@ namespace WebStore.Services.Services
             if (item.Quantity <= 0)
                 cart.Items.Remove(item);
             #region Лог
-            _logger.LogInformation($"Товар с идентификатором {id} успешно убавлен на еденицу в корзине");
+            _logger.LogInformation("Товар с идентификатором {0} успешно убавлен на еденицу в корзине", id);
             #endregion
             _cartStore.Cart = cart;
         }
@@ -69,7 +69,7 @@ namespace WebStore.Services.Services
 
             cart.Items.Remove(item);
             #region Лог
-            _logger.LogInformation($"Товар с идентификатором {id} успешно удален из корзины");
+            _logger.LogInformation("Товар с идентификатором {0} успешно удален из корзины", id);
             #endregion
             _cartStore.Cart = cart;
         }
@@ -91,7 +91,7 @@ namespace WebStore.Services.Services
             {
                 Ids = _cartStore.Cart.Items.Select(i => i.ProductId).ToArray()
             }))?.Products;
-            var productViews = _mapperProductToView
+            var productViews = _mapperProductToWeb
                 .Map<IEnumerable<ProductWebModel>>(products).ToDictionary(p => p.Id);
 
             return new CartWebModel

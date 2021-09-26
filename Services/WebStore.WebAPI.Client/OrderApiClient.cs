@@ -22,6 +22,12 @@ namespace WebStore.WebAPI.Client
             return orders.FromDTO();
         }
 
+        public async Task<IEnumerable<Order>> GetAllOrders()
+        {
+            var orders = await GetAsync<IEnumerable<OrderDTO>>($"{Address}/user").ConfigureAwait(false);
+            return orders.FromDTO();
+        }
+
         public async Task<Order> GetOrderById(int id)
         {
             var order = await GetAsync<OrderDTO>($"{Address}/{id}").ConfigureAwait(false);

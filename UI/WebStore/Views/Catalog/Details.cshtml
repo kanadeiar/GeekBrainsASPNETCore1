@@ -1,16 +1,16 @@
-﻿@model WebStore.Domain.WebModels.ProductWebModel
+﻿@model WebStore.Domain.WebModels.Product.ProductWebModel
 @{
     ViewBag.Title = "Детально о товаре";
 }
 
 <section>
     <div class="container">
-        
-        <vc:bread-crumbs/>
+
+        <vc:bread-crumbs />
 
         <div class="row">
             <div class="col-sm-3">
-                <partial name="Partial/_LeftSidebarPartial"/>
+                <partial name="Partial/_LeftSidebarPartial" />
             </div>
 
             <div class="col-sm-9 padding-right">
@@ -18,31 +18,20 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="~/images/shop/@Model.ImageUrl" alt="@Model.Name"/>
+                            <img src="~/images/shop/@Model.ImageUrl" alt="@Model.Name" />
                             <h3>ZOOM</h3>
                         </div>
                         <div id="similar-product" class="carousel slide" data-ride="carousel">
-
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
-                                <div class="item active">
-                                    <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
-                                </div>
-                                <div class="item">
-                                    <a href=""><img src="~/images/product-details/similar3.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar1.jpg" alt=""></a>
-                                    <a href=""><img src="~/images/product-details/similar2.jpg" alt=""></a>
-                                </div>
-
+                                @{ var i = 1; }
+                                @foreach (var image in @Model.ImageUrls)
+                                {
+                                    <div class="item @((i++ == 1)? "active" : null)">
+                                        <a><img src="~/images/shop/@image" alt="@image" width="150" height="150" style="margin-left: 100px"/></a>
+                                    </div>
+                                }
                             </div>
-
                             <!-- Controls -->
                             <a class="left item-control" href="#similar-product" data-slide="prev">
                                 <i class="fa fa-angle-left"></i>
@@ -58,11 +47,11 @@
                             <!--/product-information-->
                             <h2>@Model.Name</h2>
                             <p>Артикул: @Model.Id.ToString("00000000")</p>
-                            <img src="~/images/product-details/rating.png" alt=""/>
+                            <img src="~/images/product-details/rating.png" alt="" />
                             <span>
                                 <span>@Model.Price.ToString("C")</span>
                                 <label>Количество:</label>
-                                <input type="text" value="1"/>
+                                <input type="text" value="1" />
                                 <a asp-controller="Cart" asp-action="Add" asp-route-id="@Model.Id"
                                    data-id="@Model.Id"
                                    class="btn btn-default add-to-cart">
@@ -74,14 +63,28 @@
                             <p><b>Состояние:</b> Новое</p>
                             <p><b>Категория:</b> @Model.Section</p>
                             <p><b>Бренд:</b> @Model.Brand</p>
-                            <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt=""/></a>
+                            <p>
+                                <b>Ключевые слова:</b>
+                                @if (@Model.Tags is { Count: > 0 } tags)
+                                {
+                                    foreach (var tag in tags)
+                                    {
+                                        <span class="label label-primary"> @tag.Text </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="label label-default"> Отсутствуют </span>
+                                }
+                            </p>
+                            <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
 
-                <partial name="Partial/_CategoryTabPartial"/>
+                <partial name="Partial/_CategoryTabPartial" model="@ViewBag.CatagoryProducts" />
 
-                <partial name="Partial/_RecommendedItemsPartial"/>
+                <partial name="Partial/_RecommendedItemsPartial" model="@ViewBag.RecommendedProducts" />
 
             </div>
         </div>

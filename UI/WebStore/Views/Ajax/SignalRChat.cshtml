@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Titile = "SignalR Чат";
+}
+
+<div class="container">
+    <h1>@ViewBag.Titile</h1>
+    
+    <div>
+        <div id="input-form">
+            <input type="text" id="message" value="Привет" />
+            <input type="button" class="btn btn-default" id="send-message" value="Отправить" />
+        </div>
+        
+        <ul id="information-block"></ul>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/aspnet-signalr/signalr.min.js"></script>
+    <script>
+        let hubUrl = "/chat";
+
+        const connection = new signalR.HubConnectionBuilder().withUrl(hubUrl).build();
+
+        connection.on("MessageFromClient", data => $("#information-block").prepend($("<li></li>").html(data)));
+
+        $("#send-message").click(e => connection.invoke("SendMessage", $("#message").val()));
+
+        connection.start();
+    </script>
+
+}

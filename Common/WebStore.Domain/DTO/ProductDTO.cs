@@ -1,4 +1,6 @@
-﻿namespace WebStore.Domain.DTO
+﻿using System.Collections.Generic;
+
+namespace WebStore.Domain.DTO
 {
     /// <summary> Товар </summary>
     public class ProductDTO
@@ -19,8 +21,12 @@
         public BrandDTO Brand { get; set; }
         /// <summary> Путь к файлу с картинкой </summary>
         public string ImageUrl { get; set; }
+        /// <summary> Второстепенные изображения </summary>
+        public ICollection<ImageUrlDTO> ImageUrls { get; set; } = new List<ImageUrlDTO>();
         /// <summary> Стоимость товара </summary>
         public decimal Price { get; set; }
+        /// <summary> Ключевые слова </summary>
+        public ICollection<TagDTO> TagsIds { get; set; } = new List<TagDTO>();
         /// <summary> Временной штамп </summary>
         public byte[] Timestamp { get; set; }
     }

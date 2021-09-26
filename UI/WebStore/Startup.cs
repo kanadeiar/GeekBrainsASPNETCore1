@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStore.Domain.Identity;
+using WebStore.Hubs;
 using WebStore.Infrastructure.Middleware;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.WebAPI;
@@ -68,6 +69,12 @@ namespace WebStore
             services.AddScoped<ICartStore, InCookiesCartStore>();
             services.AddScoped<ICartService, CartService>();
 
+            services.AddScoped<IWantedStore, InCookiesWantedStore>();
+            services.AddScoped<IWantedService, WantedService>();
+
+            services.AddScoped<ICompareStore, InCookiesCompareStore>();
+            services.AddScoped<ICompareService, CompareService>();
+
             services.AddHttpClient("WebStoreAPI", c => c.BaseAddress = new Uri(Configuration["WebAPI"]))
                 .AddTypedClient<IValuesService, ValuesClient>()
                 .AddTypedClient<IWorkerData, WorkerApiClient>()
@@ -75,6 +82,12 @@ namespace WebStore
                 .AddTypedClient<IOrderService, OrderApiClient>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddRazorPages();
+
+            services.AddSignalR();
+
+            services.AddServerSideBlazor();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider service*/)
         {
@@ -97,11 +110,18 @@ namespace WebStore
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chat");
+
                 endpoints.MapControllerRoute(
                     name : "areas",
                     pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
+                
                 endpoints.MapDefaultControllerRoute();
+
+                endpoints.MapRazorPages();
+
+                endpoints.MapBlazorHub();
             });
         }
     }

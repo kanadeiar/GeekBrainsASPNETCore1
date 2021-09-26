@@ -27,7 +27,7 @@ namespace WebStore.Controllers
         {
             _cartService.Add(id);
             #region Лог
-            _logger.LogInformation($"Успешное добавление товара с идентификатором {id} 1 ед. в корзину покупателя");
+            _logger.LogInformation("Успешное добавление товара с идентификатором {0} 1 ед. в корзину покупателя", id);
             #endregion
             return RedirectToAction("Index", "Cart");
         }
@@ -35,7 +35,7 @@ namespace WebStore.Controllers
         {
             _cartService.Subtract(id);
             #region Лог
-            _logger.LogInformation($"Успешное уменьшение товара с идентификатором {id} на 1 еденицу из корзины покупателя");
+            _logger.LogInformation("Успешное уменьшение товара с идентификатором {0} на 1 еденицу из корзины покупателя", id);
             #endregion
             return RedirectToAction("Index", "Cart");
         }
@@ -43,7 +43,7 @@ namespace WebStore.Controllers
         {
             _cartService.Remove(id);
             #region Лог
-            _logger.LogInformation($"Успешное полное удаление товара с идентификатором {id} из корзины");
+            _logger.LogInformation("Успешное полное удаление товара с идентификатором {0} из корзины", id);
             #endregion
             return RedirectToAction("Index", "Cart");
         }

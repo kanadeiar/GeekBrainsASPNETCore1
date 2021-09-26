@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title</title>
+
     <partial name="Partial/_StylesPartial" />
+    
+    @await RenderSectionAsync("Styles", false);
 
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
@@ -27,6 +30,8 @@
 <partial name="Partial/_FooterPartial" />
 
 <partial name="Partial/_ScriptsPartial" />
+    
+@await RenderSectionAsync("Scripts", false);
 
 </body>
 </html>

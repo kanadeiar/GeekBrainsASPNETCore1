@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebStore.Domain.Entities.Base;
 using WebStore.Domain.Entities.Base.Interfaces;
@@ -23,9 +24,15 @@ namespace WebStore.Domain.Entities
         public Brand Brand { get; set; }
         /// <summary> Изображение </summary>
         public string ImageUrl { get; set; }
+        /// <summary> Второстепенные изображения </summary>
+        public IList<ImageUrl> ImageUrls { get; set; } = new List<ImageUrl>();
         /// <summary> Стоимость </summary>
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        /// <summary> Товар удален в корзину </summary>
+        public int IsDelete { get; set; }
+        /// <summary> Ключевые слова этого товара </summary>
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
         /// <summary> Элементы заказа </summary>
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }

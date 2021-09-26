@@ -1,4 +1,4 @@
-﻿namespace WebStore.Domain.Entities
+﻿namespace WebStore.Domain.Models
 {
     /// <summary> Элемент корзины </summary>
     public class CartItem

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WebStore.Domain.WebModels.Product;
 using WebStore.Domain.WebModels.Shared;
 
 namespace WebStore.Domain.WebModels

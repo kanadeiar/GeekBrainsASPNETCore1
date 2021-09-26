@@ -37,7 +37,7 @@ namespace WebStore.WebAPI.Infrastructure.Middleware
 
         private void HandleException(Exception exception, HttpContext context)
         {
-            _logger.LogError(exception, $"Ошибка при обработке запроса {context.Request.Path}");
+            _logger.LogError(exception, "Ошибка при обработке запроса {0}", context.Request.Path);
         }
 
     }

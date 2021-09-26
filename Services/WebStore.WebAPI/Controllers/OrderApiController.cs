@@ -31,6 +31,16 @@ namespace WebStore.WebAPI.Controllers
             return Ok(orders.ToDTO());
         }
 
+        /// <summary> Все заказы всех пользователей </summary>
+        /// <returns>Список заказов</returns>
+        [HttpGet("user")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OrderDTO>))]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderService.GetAllOrders();
+            return Ok(orders.ToDTO());
+        }
+
         /// <summary> Получение заказа по идентификатору </summary>
         /// <param name="id">Идентификатор</param>
         /// <returns>Один заказ</returns>

@@ -12,6 +12,10 @@ namespace WebStore.Interfaces.Services
         /// <returns>Заказы пользователя</returns>
         Task<IEnumerable<Order>> GetUserOrders(string userName);
 
+        /// <summary> Получить все заказы всех пользователей </summary>
+        /// <returns></returns>
+        Task<IEnumerable<Order>> GetAllOrders();
+
         /// <summary> Получить заказ по идентификатору </summary>
         /// <param name="id">идентификатор</param>
         /// <returns>Заказ</returns>

@@ -1,0 +1,11 @@
+﻿<h3>Простой счетчик</h3>
+
+<div>
+    <button class="btn btn-default"
+            @onclick="@(_ => Counter++)">Увеличить счетчик</button>
+    <p>Значение счетчика: @Counter</p>
+</div>
+
+@code {
+    public int Counter { get; set; }
+}

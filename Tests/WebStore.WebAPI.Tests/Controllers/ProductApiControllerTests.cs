@@ -244,6 +244,7 @@ namespace WebStore.WebAPI.Tests.Controllers
                         Id = i,
                         Name = expectedName,
                         OrderItems = Array.Empty<OrderItem>(),
+                        Tags = new [] { new Tag{Id = 1, Text = "Tag1"} },
                     };
                 });
             var controller = new ProductApiController(productDataMock.Object);

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using WebStore.Domain.Entities.Orders;
 using WebStore.Domain.WebModels;
 using WebStore.Domain.WebModels.Cart;
+using WebStore.Domain.WebModels.Product;
 
 namespace WebStore.WebAPI.Client.Tests
 {

@@ -33,6 +33,13 @@ namespace WebStore.Services.Services
                 .ThenInclude(i => i.Product)
                 .Where(o => o.User.UserName == userName).ToArrayAsync();
         }
+        public async Task<IEnumerable<Order>> GetAllOrders()
+        {
+            return await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product).ToArrayAsync();
+        }
         public async Task<Order> GetOrderById(int id)
         {
             return await _context.Orders
@@ -47,7 +54,7 @@ namespace WebStore.Services.Services
             if (user is null)
             {
                 #region Лог
-                _logger.LogError($"Пользователь {userName} отсутствует в базе данных");
+                _logger.LogError("Пользователь {0} отсутствует в базе данных", userName);
                 #endregion
                 throw new InvalidOperationException(nameof(user) + " этот пользователь отсутствует в базе данных");
             }

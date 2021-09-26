@@ -1,0 +1,18 @@
+﻿
+<h3>Использование Blazor Server</h3>
+
+<button class="btn btn-default"
+        @onclick="OnLoadTestAjaxData">
+    Загрузить
+</button>
+
+<span style="@StyleSpinner">
+    <i class="fa fa-spinner fa-spin"></i>
+</span>
+    
+<div style="@StyleView">
+    <h5>Представление Blazor Server</h5>
+    <p>Ид: @Id Сообщение: @Message</p>
+    <p>Время на сервере: @DateTime </p>
+</div>
+

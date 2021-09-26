@@ -14,6 +14,8 @@
     <link rel="icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="~/favicon.png" sizes="500x500">
+    
+    <base href="~/" />
 </head><!--/head-->
 
 <body>
@@ -26,6 +28,8 @@
     <partial name="Partial/_ScriptsPartial"/>
 
     @await RenderSectionAsync("Scripts", false);
+
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
 

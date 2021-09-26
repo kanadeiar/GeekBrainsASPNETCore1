@@ -33,5 +33,50 @@ namespace WebStore.Controllers
             var orders = await orderService.GetUserOrders(User.Identity!.Name);
             return View(_mapperOrderToView.Map<IEnumerable<UserOrderWebModel>>(orders));
         }
+
+        [AllowAnonymous]
+        /// <summary> Желаемые товары пользователя </summary>
+        public async Task<IActionResult> Wanteds([FromServices] IWantedService wantedService)
+        {
+            var model = await wantedService.GetWebModel();
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        /// <summary> Добавить в список желаемых товаров </summary>
+        public IActionResult WantedAdd(int id, [FromServices] IWantedService wantedService)
+        {
+            wantedService.Add(id);
+            return RedirectToAction("Wanteds");
+        }
+        /// <summary> Удаление из списка желаемого товара </summary>
+        [AllowAnonymous]
+        public IActionResult WantedRemove(int id, [FromServices] IWantedService wantedService)
+        {
+            wantedService.Remove(id);
+            return RedirectToAction("Wanteds");
+        }
+        /// <summary> Очистка списка желаемых товаров </summary>
+        [AllowAnonymous]
+        public IActionResult WantedClear([FromServices] IWantedService wantedService)
+        {
+            wantedService.Clear();
+            return RedirectToAction("Wanteds");
+        }
+        /// <summary> Добавление товара к сравнению </summary>
+        [AllowAnonymous]
+        public IActionResult CompareAdd(int id, string returnUrl, [FromServices] ICompareService compareService)
+        {
+            var (result, model) = compareService.AddAndGetWebModel(id);
+            if (result)
+            {
+                compareService.Clear();
+                return View(model);
+            }
+            else
+            {
+                return LocalRedirect(returnUrl ?? "/");
+            }
+        }
     }
 }

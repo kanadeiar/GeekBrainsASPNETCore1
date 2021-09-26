@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebStore.Domain.WebModels.Product;
 
 namespace WebStore.Domain.WebModels.Cart
 {
