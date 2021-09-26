@@ -24,7 +24,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("Section")]
         public async Task<IActionResult> GetSections()
         {
-            return Ok((await _productData.GetSections()).ToDTO());
+            var sections = await _productData.GetSections();
+            return Ok(sections.ToDTO());
         }
 
         /// <summary> Получить категорию по идентификатору </summary>
@@ -33,7 +34,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("Section/{id:int}")]
         public async Task<IActionResult> GetSectionById(int id)
         {
-            return Ok((await _productData.GetSection(id)).ToDTO());
+            var section = await _productData.GetSection(id);
+            return Ok(section.ToDTO());
         }
 
         /// <summary> Получить все бренды товаров </summary>
@@ -41,7 +43,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("Brand")]
         public async Task<IActionResult> GetBrands()
         {
-            return Ok((await _productData.GetBrands()).ToDTO());
+            var brands = await _productData.GetBrands();
+            return Ok(brands.ToDTO());
         }
 
         /// <summary> Получить бренд по идентификатору </summary>
@@ -50,7 +53,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("Brand/{id:int}")]
         public async Task<IActionResult> GetBrandById(int id)
         {
-            return Ok((await _productData.GetBrand(id)).ToDTO());
+            var brand = await _productData.GetBrand(id);
+            return Ok(brand.ToDTO());
         }
 
         /// <summary> Получить ключевые слова </summary>
@@ -58,7 +62,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("Tag")]
         public async Task<IActionResult> GetTags()
         {
-            return Ok((await _productData.GetTags()).ToDto());
+            var tags = await _productData.GetTags();
+            return Ok(tags.ToDto());
         }
 
         /// <summary> Получить ключевое слово по идентификатору </summary>
@@ -66,7 +71,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("Tag/{id:int}")]
         public async Task<IActionResult> GetTagById(int id)
         {
-            return Ok((await _productData.GetTag(id)).ToDto());
+            var tag = await _productData.GetTag(id);
+            return Ok(tag.ToDto());
         }
 
         /// <summary> Получить товары используя фильтр </summary>
@@ -75,7 +81,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> GetProducts(ProductFilter filter = null)
         {
-            return Ok((await _productData.GetProducts(filter, true)).ToDTO());
+            var products = await _productData.GetProducts(filter, true);
+            return Ok(products.ToDTO());
         }
 
         /// <summary> Получить товар по идентификатору </summary>
@@ -84,7 +91,8 @@ namespace WebStore.WebAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            return Ok((await _productData.GetProductById(id)).ToDTO());
+            var product = await _productData.GetProductById(id);
+            return Ok(product.ToDTO());
         }
 
         /// <summary> Добавить один товар </summary>
@@ -93,7 +101,6 @@ namespace WebStore.WebAPI.Controllers
         [HttpPost("Product")]
         public async Task<IActionResult> Add(ProductDTO product)
         {
-            //var id = _productData.AddProduct(product.FromDTO());
             var prod = product.FromDTO();
             prod.SectionId = prod.Section.Id;
             prod.Section = null;
@@ -109,7 +116,6 @@ namespace WebStore.WebAPI.Controllers
         [HttpPut("Product")]
         public async Task<IActionResult> Update(ProductDTO product)
         {
-            //_productData.UpdateProduct(product.FromDTO());
             var prod = product.FromDTO();
             prod.SectionId = prod.Section.Id;
             prod.Section = null;
