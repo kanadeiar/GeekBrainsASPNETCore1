@@ -83,7 +83,7 @@ namespace WebStore
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddSignalR();
 
